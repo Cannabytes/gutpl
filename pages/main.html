@@ -1,0 +1,185 @@
+{{define "pages/main"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "main_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "main_block"}}
+	 
+	
+	<div class="row">
+        <div class="col-lg-12">
+           <div class="card">
+              <div class="card-body"> 
+                <ul class="nav nav-tabs nav-tabs-info nav-justified">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#tabe-13"><i class="icon-home"></i> <span class="hidden-xs">Game Update</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tabe-14"><i class="icon-envelope-open"></i> <span class="hidden-xs">F.A.Q.</span></a>
+                  </li> 
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div id="tabe-13" class="container tab-pane active">
+                    <p>Game Update - это бесплатное и лучшее программное обеспечение для обновления игры Lineage 2.</p>
+					<p>GU имеет большие возможности, хорошую скорость работы, удобство и простоту.</p>
+					<p>Постоянное улучшение GU делает ПО более совершенным, и Вы как игрок или администратор сервера, можете его использовать!</p>
+                  </div>
+                  <div id="tabe-14" class="container tab-pane fade">
+					
+		<ul class="list-group">
+		
+              <li class="list-group-item">
+                <div class="media align-items-center">
+                 <div class="media-body ml-3">
+                  <h6 class="mb-0">У меня есть идея по улучшению Game Update, как предложить?</h6>
+                  <p class="mb-0 small-font">Буду рад любым идеям, напишите максимально внятно и кратко свои идеи мне в телеграм <a href="https://t.me/Cannabytes">@Cannabytes</a>.</div>
+                </div>
+              </li>
+             
+			 <li class="list-group-item">
+                <div class="media align-items-center">
+                 <div class="media-body ml-3">
+                  <h6 class="mb-0">Программу Game Update нужно разместить в папку с игрой?</h6>
+                  <p class="mb-0 small-font">Нет! GU можете разметить где угодно.<br>В GU нужно указать папки с игрой и указать какие это хроники игры. Если не указать заранее, то GU предложит Вам указать месторасположение клиента.</p>
+                </div>
+               </div>
+              </li>
+			     
+			 <li class="list-group-item">
+                <div class="media align-items-center">
+                 <div class="media-body ml-3">
+                  <h6 class="mb-0">Когда выйдет новая версия Game Update, как мне обновить?</h6>
+                  <p class="mb-0 small-font">Обновление произойдет при запуске в случае выхода новой версии.<br>Аналогично и обновляться шаблон GU.</p>
+                </div>
+               </div>
+            </li> 
+			
+			 <li class="list-group-item">
+                <div class="media align-items-center">
+                 <div class="media-body ml-3">
+                  <h6 class="mb-0">Я хочу создать патч под свой сервер, как сделать?</h6>
+                  <p class="mb-0 small-font">Создание патча и ссылки на Ваш сервер в GU доступен в настройках.</p>
+                </div>
+               </div>
+            </li>
+			     
+            </ul>
+					
+		</div>
+          
+                </div>
+              </div>
+           </div>
+           </div>
+           </div>
+	
+	
+	
+	 <div class="row">
+        <div class="col-lg-12">
+          <section class="cd-timeline js-cd-timeline">
+            <div class="cd-timeline__container">
+              <div class="cd-timeline__block js-cd-block">
+                <div class="cd-timeline__img cd-timeline__img--picture js-cd-img">
+                  <img src="/template/assets/images/timeline/cd-icon-picture.svg" alt="Picture">
+                </div> <!-- cd-timeline__img -->
+
+                <div class="cd-timeline__content js-cd-content">
+                  <h4>Title of section 1</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>
+                  <a href="javascript:void();" class="cd-timeline__read-more">Read more</a>
+                  <span class="cd-timeline__date">Jan 14</span>
+                </div> <!-- cd-timeline__content -->
+              </div> <!-- cd-timeline__block -->
+
+              <div class="cd-timeline__block js-cd-block">
+                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                  <img src="/template/assets/images/timeline/cd-icon-movie.svg" alt="Movie">
+                </div> <!-- cd-timeline__img -->
+
+                <div class="cd-timeline__content js-cd-content">
+                  <h4>Title of section 2</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde?</p>
+                  <a href="javascript:void();" class="cd-timeline__read-more">Read more</a>
+                  <span class="cd-timeline__date">Jan 18</span>
+                </div> <!-- cd-timeline__content -->
+              </div> <!-- cd-timeline__block -->
+
+              <div class="cd-timeline__block js-cd-block">
+                <div class="cd-timeline__img cd-timeline__img--picture js-cd-img">
+                  <img src="/template/assets/images/timeline/cd-icon-picture.svg" alt="Picture">
+                </div> <!-- cd-timeline__img -->
+
+                <div class="cd-timeline__content js-cd-content">
+                  <h4>Title of section 3</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, obcaecati, quisquam id molestias eaque asperiores voluptatibus cupiditate error assumenda delectus odit similique earum voluptatem doloremque dolorem ipsam quae rerum quis. Odit, itaque, deserunt corporis vero ipsum nisi eius odio natus ullam provident pariatur temporibus quia eos repellat consequuntur perferendis enim amet quae quasi repudiandae sed quod veniam dolore possimus rem voluptatum eveniet eligendi quis fugiat aliquam sunt similique aut adipisci.</p>
+                  <a href="javascript:void();" class="cd-timeline__read-more">Read more</a>
+                  <span class="cd-timeline__date">Jan 24</span>
+                </div> <!-- cd-timeline__content -->
+              </div> <!-- cd-timeline__block -->
+
+              <div class="cd-timeline__block js-cd-block">
+                <div class="cd-timeline__img cd-timeline__img--location js-cd-img">
+                  <img src="/template/assets/images/timeline/cd-icon-location.svg" alt="Location">
+                </div> <!-- cd-timeline__img -->
+
+                <div class="cd-timeline__content js-cd-content">
+                  <h4>Title of section 4</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>
+                  <a href="javascript:void();" class="cd-timeline__read-more">Read more</a>
+                  <span class="cd-timeline__date">Feb 14</span>
+                </div> <!-- cd-timeline__content -->
+              </div> <!-- cd-timeline__block -->
+
+              <div class="cd-timeline__block js-cd-block">
+                <div class="cd-timeline__img cd-timeline__img--location js-cd-img">
+                  <img src="/template/assets/images/timeline/cd-icon-location.svg" alt="Location">
+                </div> <!-- cd-timeline__img -->
+
+                <div class="cd-timeline__content js-cd-content">
+                  <h4>Title of section 5</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum.</p>
+                  <a href="javascript:void();" class="cd-timeline__read-more">Read more</a>
+                  <span class="cd-timeline__date">Feb 18</span>
+                </div> <!-- cd-timeline__content -->
+              </div> <!-- cd-timeline__block -->
+
+              <div class="cd-timeline__block js-cd-block">
+                <div class="cd-timeline__img cd-timeline__img--movie js-cd-img">
+                  <img src="/template/assets/images/timeline/cd-icon-movie.svg" alt="Movie">
+                </div>
+                <div class="cd-timeline__content js-cd-content">
+                  <h4>Первый запуск</h4>
+                  <p>Добро пожаловать в GameUpdate!<br>Теперь у вас мощный инструмент, пользуйтесь!</p>
+                  <span class="cd-timeline__date">14:50 / 02.05.2021</span>
+                </div>
+              </div> <!-- cd-timeline__block -->
+            </div>
+          </section> <!-- cd-timeline -->
+        </div>
+      </div>
+	
+	
+{{end}}
+
+

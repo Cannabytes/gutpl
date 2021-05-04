@@ -1,0 +1,25 @@
+{{define "sidebar"}}   
+ <!--Start sidebar-wrapper-->
+   <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
+   <div class="user-details">
+    <div class="media align-items-center user-pointer collapsed" data-toggle="collapse" data-target="#user-dropdown">
+      <div class="avatar"><a class="aj" href="/"><img class="mr-3 side-user-img" src="/template/assets/images/logo-icon.png" alt="user avatar"></a></div>
+       <div class="media-body">
+       <h6 class="side-user-name">Game Update</h6>
+      </div>
+       </div>
+     <div id="user-dropdown" class="collapse">
+      <ul class="user-setting-menu">
+            <li><a class="aj" href="/settings"><i class="icon-user"></i>  Настройки</a></li>
+            <li><a class="aj" href="/setting/patch/create"><i class="icon-settings"></i> Создать патч</a></li>
+			<li><a class="aj" href="/setting/logs"><i class="icon-power"></i> Логи</a></li>
+      </ul>
+     </div>
+  </div>
+	  
+	  {{ template "navigation" }}
+	  
+   </div>
+   <!--End sidebar-wrapper-->
+
+{{ end }}

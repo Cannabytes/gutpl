@@ -1,0 +1,42 @@
+{{define "navigation"}}   
+<ul class="sidebar-menu">
+	  <li><a class="aj" href="/" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>События</span></a></li>
+
+      <li>
+        <a href="javaScript:void();" class="waves-effect">
+          <i class="zmdi zmdi-share text-info"></i> <span>Сервер</span><i class="fa fa-angle-left pull-right"></i>
+        </a>
+		<ul class="sidebar-submenu">
+		  <!-- <li><a href="/rating" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> l2dash.ru</a></li> -->
+		  <li><a href="/rating" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Рейтинги</a></li>
+		  <li><a href="/anons"  class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Анонсирование</a></li>
+		  <!-- <li><a href="#"  class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Избранное</a></li> -->
+		</ul>
+      </li>
+      <li>
+        <a href="javaScript:void();" class="waves-effect">
+          <i class="zmdi zmdi-layers"></i> <span>Настройки</span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+			<li><a href="/setting/games/set" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Месторасположения</a></li>
+         </ul>
+      </li>
+      <li>
+        <a href="javaScript:void();" class="waves-effect">
+          <i class="zmdi zmdi-card-travel"></i>
+          <span>База Знаний</span>
+          <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="sidebar-submenu">
+          <li><a href="#"><i class="zmdi zmdi-dot-circle-alt"></i> Interlude</a></li>
+          <li><a href="#"><i class="zmdi zmdi-dot-circle-alt"></i> High Five</a></li>
+        </ul>
+      </li>
+            
+      <!-- <li class="sidebar-header">LABELS</li> -->
+      <!-- <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>Important</span></a></li> -->
+      <!-- <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-chart-donut text-success"></i> <span>Warning</span></a></li> -->
+      <!-- <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li> -->
+    </ul>
+   
+  {{ end }}

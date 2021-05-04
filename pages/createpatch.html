@@ -1,0 +1,343 @@
+{{define "pages/createpatch"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "createpatch_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "createpatch_block"}}
+	
+	<div class="row">
+              <div class="col-md-8 grid-margin stretch-card">
+                <div class="card">
+				
+                  <div class="card-body">
+				  
+                 <div class="col-lg-12">
+                  <p class="text-left">Мануал</p>
+                  <p>Перед Вами форма создания патча. Вам следует указать папку с файлами, эти файлы будут добавлены в архив у указанную папку, и создан файл patch.db в котором перечислены файлы, которые мы добавили в архив и их хэш.</p>
+				  <p>Загрузите patch.db и файлы архивов на хостинг!</p>
+                </div>
+	
+				<hr>
+                    <div class="forms-sample">
+                      <div class="form-group">
+					   
+                      <div class="form-group">
+                        <label for="savedirupdate" data-toggle="tooltip" title="Введите путь где расположен патч, все файлы в папке будут проиндексированы, заархивированы.">Файлы для обновления, которые будем патчить</label>
+ 							 <div class="input-group">
+								<input type="text" id="savedirupdate" class="form-control" placeholder="Укажите папку" aria-label="Укажите папку" aria-describedby="basic-addon2">
+								<div class="input-group-append">
+								  <button class="btn btn-sm btn-primary showDialog" data-input="savedirupdate" data-toggle="modal" data-target="#openDiaglog" type="button">Окно</button>
+								</div>
+						     </div> 
+                      </div>
+					  
+					  <div class="form-group">
+                        <label for="savedirclientpath" data-toggle="tooltip" title="Вам необходимо указать папку для сохранения патча.">Где будут сохраняться архивы</label>
+ 							 <div class="input-group">
+								<input type="text" id="savedirclientpath" class="form-control" placeholder="Укажите папку" aria-label="Укажите папку" aria-describedby="basic-addon2">
+								<div class="input-group-append">
+	 							  <button class="btn btn-sm btn-primary showDialog" data-input="savedirclientpath" data-toggle="modal" data-target="#openDiaglog" type="button">Окно</button>
+								</div>
+							 </div> 
+                      </div>
+					 
+					<div class="form-group row">
+                        <label class="col-sm-3 col-form-label" data-toggle="tooltip" title="Версия будет служить как рекомендация к проверки файлов патча." for="version">Версия патча</label>
+							<div class="col-sm-9">
+								<input type="number" min="1" class="form-control" id="version" value="1">
+							</div>
+                    </div>
+					  
+				 <div class="form-group row">
+				  <label for="basic-select" class="col-sm-3 col-form-label">Хроники патча</label>
+				  <div class="col-sm-9">
+					<select  id="chronicle" class="form-control" id="basic-select">
+					  {{ range $i, $chronicle := .ChronicleList }}
+						<option value="{{ $chronicle.Codename }}"  > {{ $chronicle.Title }} ({{ $chronicle.Codename }})</option>
+					  {{ end }}           
+					</select>
+				  </div>
+				</div>
+				
+                        </div> 
+                       <button id="createPatchServer" type="submit" class="btn btn-primary mr-2">Начать</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+			  
+			  
+              <div class="col-md-4 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Создание патч-листа</h4>
+                    <div class="table-responsive">
+                      <table class="table table-dark">
+                         <tbody>
+                          <tr>
+                            <td> Файлов </td>
+                            <td id="filesCreateData"> 0 / 0 </td>
+                          </tr>
+                          <tr>
+                            <td> Размер </td>
+                            <td id="filesCreateDataSize"> 0B </td>
+                          </tr>
+                          <tr>
+                            <td> Время </td>
+                            <td id="filesCreateDataTime"> 0 </td>
+                          </tr>
+                          <tr>
+                            <td> Статус </td>
+                            <td id="filesCreateDataStatus"> Ожидание </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+		</div>
+	<hr>
+	
+	 <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+             <div class="card-header text-uppercase">Создание ссылки на аптейдер</div>
+             <div class="card-body">
+
+			 <blockquote class="blockquote">
+					<p>Что это и как это работает?</p>
+					<p>Ниже форма для заполнения, в ней укажите данные патча, после заполнения Вы получите ссылку.<br>
+					Эту ссылку разместите на своем сайте, пользователь нажмет и у него откроется лаунчер, в лаунчере будет данные для обновления под Ваш сервер.</p>
+						<footer class="blockquote-footer">@admin</footer>
+			 </blockquote>
+				<hr>
+				<div class="form-group row">
+				  <label for="Domain" class="col-sm-3 col-form-label">Сайт сервера</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="Domain" id="Domain">
+				  </div>
+				</div>
+			
+				<div class="form-group row">
+				  <label for="Chronicle" class="col-sm-3 col-form-label">Хроники</label>
+				   <div class="col-sm-9">
+						<select class="form-control " data-sname="Chronicle" id="Chronicle">
+						  {{ range $i, $chronicle := .ChronicleList }}
+							<option value="{{ $i }}"  > {{ $chronicle.Title }} ({{ $chronicle.Codename }})</option>
+						  {{ end }}   
+						</select>
+				</div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="PatchDBLink" class="col-sm-3 col-form-label">Ссылка патч-лист (patch.db)</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="PatchDBLink" id="PatchDBLink">
+				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="FileArchivesLink" class="col-sm-3 col-form-label">Ссылка где храниться файлы</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="FileArchivesLink" id="FileArchivesLink">
+				  </div>
+				</div>
+				<hr>
+					
+					
+					
+					
+				<div class="form-group row">
+				  <label for="Exp" class="col-sm-3 col-form-label">Exp</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="Exp" id="Exp">
+				  </div>
+				</div>	
+				
+				<div class="form-group row">
+				  <label for="SP" class="col-sm-3 col-form-label">SP</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="SP" id="SP">
+				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="Adena" class="col-sm-3 col-form-label">Drop</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="Drop" id="Drop">
+				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="Adena" class="col-sm-3 col-form-label">Adena</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="Adena" id="Adena">
+				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="Spoil" class="col-sm-3 col-form-label">Spoil</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="Spoil" id="Spoil">
+				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="Quest" class="col-sm-3 col-form-label">Quest</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="Quest" id="Quest">
+				  </div>
+				</div>
+				<hr>
+				<div class="form-group row">
+				  <label for="dateStart" class="col-sm-3 col-form-label">Дата старта</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="dateStart" id="dateStart">
+				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="ServerVersion" class="col-sm-3 col-form-label">Версия сервера</label>
+				  <div class="col-sm-9">
+						<select class="form-control " data-sname="Chronicle" id="ServerVersion">
+ 							<option value="1" >PvP</option>
+ 							<option value="2" >PvE</option>
+ 							<option value="2" >Adding</option>
+ 						</select>
+ 				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="TimeZone" class="col-sm-3 col-form-label">TimeZone</label>
+				  <div class="col-sm-9">
+						<select class="form-control " data-sname="Chronicle" id="TimeZone">
+ 							<option value="1"  > qwe qwe</option>
+ 						</select>
+ 					</div>
+				</div>
+				<hr>
+				
+					
+				<div class="form-group row">
+				  <label for="MaxEnchant" class="col-sm-3 col-form-label">Макс. заточка</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="MaxEnchant" id="MaxEnchant">
+				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="SafeEnchant" class="col-sm-3 col-form-label">Безопастные заточка</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="SafeEnchant" id="SafeEnchant">
+				  </div>
+				</div>
+				
+				
+				<hr>
+				
+				
+				<div class="form-group row">
+					<div class="col-sm-9">
+						<div class="icheck-material-primary">
+						<input type="checkbox" id="gmshop" checked=""/>
+						<label for="gmshop">Есть ли GM-Shop</label>
+					  </div>
+				    </div>
+ 
+				  
+				  <div class="col-sm-9">
+						<div class="icheck-material-primary">
+						<input type="checkbox" id="buffer" checked=""/>
+						<label for="buffer">Есть ли баффер</label>
+					  </div>
+				    </div>
+				  
+ 				
+				  <div class="col-sm-9">
+					<div class="icheck-material-primary">
+						<input type="checkbox" id="globalGK" checked=""/>
+						<label for="globalGK">Есть ли глобальный ГК</label>
+					  </div>
+				  </div>
+				
+				  <div class="col-sm-9">
+					<div class="icheck-material-primary">
+						<input type="checkbox" id="offlineTrade" checked=""/>
+						<label for="offlineTrade">Есть ли офлайн торг</label>
+					  </div>
+				  </div>
+				
+				  <div class="col-sm-9">
+					<div class="icheck-material-primary">
+						<input type="checkbox" id="soft" checked=""/>
+						<label for="soft">Разрешен бот</label>
+					  </div>
+				  </div>
+				
+				  <div class="col-sm-9">
+					<div class="icheck-material-primary">
+						<input type="checkbox" id="macros" checked=""/>
+						<label for="macros">Есть ли баг макросов</label>
+					  </div>
+				  </div>
+				
+				  <div class="col-sm-9">
+					<div class="icheck-material-primary">
+						<input type="checkbox" id="ss" checked=""/>
+						<label for="ss">Бесконечные ли Soushots</label>
+					  </div>
+				  </div>
+				 
+				  <div class="col-sm-9">
+					<div class="icheck-material-primary">
+						<input type="checkbox" id="newbiehelp" checked=""/>
+						<label for="newbiehelp">Есть ли помощь новичкам</label>
+					  </div>
+				  </div>
+				</div>
+			 
+			
+				
+				 <div class="form-footer">
+                    <button type="submit" id="gu_patchCreateLink" class="btn btn-success"><i class="fa fa-check-square-o"></i> Сгенерировать ссылку</button>
+                </div>
+				
+				<hr>
+				
+				<div class="form-group row">
+				  <label for="gulink" class="col-sm-3 col-form-label">Ссылка на GU<br>Скопируйте и вставьте на сайте</label>
+				  <div class="col-sm-9">
+                    <textarea class="form-control" rows="5" id="gulink" readonly></textarea>
+                    <a id="gu_testlink" href="#" ></a>
+				  </div>
+				</div>
+				
+			 
+				
+ 			  
+             </div>
+           </div>
+         </div>
+       </div><!--End Row-->
+{{end}}
+
+

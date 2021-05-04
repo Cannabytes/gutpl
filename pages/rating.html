@@ -1,0 +1,74 @@
+{{define "pages/rating"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "rating_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "rating_block"}}
+	  <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header"><i class="fa fa-table"></i> Рейтинг серверов</div>
+            <div class="card-body">
+              <div class="table-responsive">
+              <table id="default-datatable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Сервер</th>
+                        <th>Хроники</th>
+                        <th>Рейтинг</th>
+                    </tr>
+                </thead>
+                <tbody>
+				 {{range $i, $rating := .Rating}}
+                     <tr>
+                        <td>{{ add $i 1}}</td>
+                        <td><a {{ if $rating.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $rating.ID }}">{{ $rating.Domain }}</a> x{{ $rating.Exp }}
+						<div class="progress shadow" style="height: 4px;">
+							  <div class="progress-bar gradient-ibiza" role="progressbar" style="width: {{ percent $.MaxRating $rating.Rating }}%"></div>
+							</div>
+						</td>
+                        <td>{{ $rating.Chronicle | getChronicle }}</td>
+                        <td>
+							{{ $rating.Rating }}
+						</td>
+                    </tr>
+                   {{end}}   
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>№</th>
+                        <th>Сервер</th>
+                        <th>Хроники</th>
+                        <th>Рейтинг</th>
+                    </tr>
+                </tfoot>
+            </table>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- End Row-->
+
+	
+{{end}}
+
+

@@ -1,0 +1,274 @@
+{{define "pages/anons"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "anons_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+ 
+</body>
+</html>
+{{end}}
+
+{{define "anons_block"}}
+ 
+
+            <div class="card">
+             <div class="card-body"> 
+
+        <div class="row">
+         <div class="col-md-3">
+          <div class="tabs-vertical tabs-vertical-warning">
+                 <ul class="nav nav-tabs flex-column">
+                 
+				 <li class="nav-item">
+                    <a class="nav-link py-3 active" data-toggle="tab" href="#today"><i class="icon-home"></i>
+						{{ $countToday := .Today | CountServer }}
+						<span class="hidden-xs">
+						{{if eq $countToday 0 }}<s>{{end}}Сегодня{{if eq $countToday 0 }}</s>{{end}}
+						</span>
+					<span class="badge badge-success shadow-success m-1">{{ $countToday }}</span>
+					</a>
+                  </li>
+				  
+                  <li class="nav-item">
+                    <a class="nav-link py-3" data-toggle="tab" href="#yesterday"><i class="icon-user"></i>
+						<span class="hidden-xs">Вчера</span> 
+						{{ $countYesterday := .Yesterday | CountServer }}
+						<span class="hidden-xs">
+						{{if eq $countYesterday 0 }}<s>{{end}}Вчера{{if eq $countYesterday 0 }}</s>{{end}}
+						</span>
+						<span class="badge badge-warning shadow-warning m-1">{{ $countYesterday }}</span>
+						</a>
+                  </li>
+				  
+                  <li class="nav-item">
+                    <a class="nav-link py-3" data-toggle="tab" href="#tomorrow"><i class="icon-user"></i>
+						{{ $countTomorrow := .Tomorrow | CountServer }}
+						<span class="hidden-xs">
+						{{if eq $countTomorrow 0 }}<s>{{end}}Завтра{{if eq $countTomorrow 0 }}</s>{{end}}
+						</span>
+						<span class="badge badge-warning shadow-warning m-1">{{ $countTomorrow }}</span>
+						</a>
+                  </li>
+				  
+				  <li class="nav-item">
+                    <a class="nav-link py-3" data-toggle="tab" href="#expected"><i class="icon-envelope-open"></i> 
+					{{ $countExpected := .Expected | CountServer }}
+					<span class="hidden-xs">
+						{{if eq $countExpected 0 }}<s>{{end}}Ожидается{{if eq $countExpected 0 }}</s>{{end}}
+					</span>
+					<span class="badge badge-light shadow-light m-1">{{ $countExpected }}</span>
+					</a>
+                  </li>
+                 
+				  <li class="nav-item">
+                    <a class="nav-link py-3" data-toggle="tab" href="#opened"><i class="icon-envelope-open"></i> 
+					{{ $countOpened := .Opened | CountServer }}
+					<span class="hidden-xs">
+						{{if eq $countOpened 0 }}<s>{{end}}Открылись{{if eq $countOpened 0 }}</s>{{end}}
+					</span>
+					<span class="badge badge-light shadow-light m-1">{{ $countOpened }}</span>
+					</a>
+                  </li>
+                  </ul>
+         </div>
+      </div>
+	  
+	  
+        <div class="col-md-9">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div id="today" class="container tab-pane active">
+             
+			 
+			   <div class="table-responsive">
+                 <table class="table align-items-center table-flush">
+                  <thead>
+                   <tr>
+                     <th>Сервер</th>
+                     <th>Время</th>
+                     <th>Хроники</th>
+                     <th>Рейтинг</th>
+                   </tr>
+                   </thead>
+           <tbody>
+		   
+					{{ range $i, $day := .Today }}
+					  <tr>
+						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
+						   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
+						   <td>
+							 <span class="badge-dot">
+							   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+							 </span>
+						   </td>
+						   <td>
+							<div class="progress shadow" style="height: 4px;">
+								<div class="progress-bar gradient-ibiza" role="progressbar" style="width: 60%"></div>
+							</div>
+						  </td>
+					   </tr>
+					{{ end }}
+                 </tbody></table>
+               </div>
+		</div>
+                 
+
+			<div id="yesterday" class="container tab-pane fade">
+				  <div class="table-responsive">
+                 <table class="table align-items-center table-flush">
+                  <thead>
+                   <tr>
+                     <th>Сервер</th>
+                     <th>Время</th>
+                     <th>Хроники</th>
+                     <th>Рейтинг</th>
+                   </tr>
+                   </thead>
+				<tbody>
+				{{ range $i, $day := .Yesterday }}
+				  <tr>
+						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
+					   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
+					   <td>
+						 <span class="badge-dot">
+						   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+						 </span>
+					   </td>
+					   <td>
+							<div class="progress shadow" style="height: 4px;">
+								  <div class="progress-bar gradient-ibiza" role="progressbar" style="width:  {{ $day.Rating }}%"></div>
+							</div>
+					  </td>
+				   </tr>
+				{{ end }}
+                 </tbody></table>
+               </div>
+			</div>
+
+		<div id="tomorrow" class="container tab-pane fade">
+			<div class="table-responsive">
+                 <table class="table align-items-center table-flush">
+                  <thead>
+                   <tr>
+                     <th>Сервер</th>
+                     <th>Время</th>
+                     <th>Хроники</th>
+                     <th>Рейтинг</th>
+                   </tr>
+                   </thead>
+           <tbody> 
+                   
+			 {{ range $i, $day := .Tomorrow }}
+				  <tr>
+						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
+					   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
+					   <td>
+						 <span class="badge-dot">
+						   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+						 </span>
+					   </td>
+					   <td>
+							<div class="progress shadow" style="height: 4px;">
+								  <div class="progress-bar gradient-ibiza" role="progressbar" style="width: 60%"></div>
+							</div>
+					  </td>
+			   </tr>
+			{{ end }}
+			</tbody>
+		 </table>
+       </div>
+	</div>
+                  
+		<div id="expected" class="container tab-pane fade">
+			<div class="table-responsive">
+                 <table class="table align-items-center table-flush">
+                  <thead>
+                   <tr>
+                     <th>Сервер</th>
+                     <th>Время</th>
+                     <th>Хроники</th>
+                     <th>Рейтинг</th>
+                   </tr>
+                   </thead>
+				<tbody>
+					 {{ range $i, $day := .Expected }}
+						  <tr>
+						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
+							   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
+							   <td>
+								 <span class="badge-dot">
+								   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+								 </span>
+							   </td>
+							   <td>
+									<div class="progress shadow" style="height: 4px;">
+										  <div class="progress-bar gradient-ibiza" role="progressbar" style="width: 60%"></div>
+									</div>
+							  </td>
+						   </tr>
+					{{ end }} 
+					</tbody>
+				 </table>
+               </div>
+		</div> 
+	   
+		<div id="opened" class="container tab-pane fade">
+			<div class="table-responsive">
+                 <table class="table align-items-center table-flush">
+                  <thead>
+                   <tr>
+                     <th>Сервер</th>
+                     <th>Время</th>
+                     <th>Хроники</th>
+                     <th>Рейтинг</th>
+                   </tr>
+                   </thead>
+           <tbody><tr>
+                   
+         {{ range $i, $day := .Opened }}
+			  <tr>
+						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
+				   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
+				   <td>
+					 <span class="badge-dot">
+					   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+					 </span>
+				   </td>
+				   <td>
+					<div class="progress shadow" style="height: 4px;">
+						  <div class="progress-bar gradient-ibiza" role="progressbar" style="width: {{ percent $.MaxRating $day.Rating }}%"></div>
+					</div>
+				  </td>
+			   </tr>
+        {{ end }}
+		  
+		  
+                 </tbody></table>
+               </div>
+
+                  </div>
+                  
+                 </div>
+        </div>
+              </div>
+              </div>
+              </div>
+			  
+
+{{end}}
+
+

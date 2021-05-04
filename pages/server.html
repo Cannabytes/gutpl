@@ -1,0 +1,256 @@
+{{define "pages/server"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "server_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" .}}
+</body>
+</html>
+{{end}}
+
+{{define "server_block"}}
+	<div class="row">
+        <div class="col-lg-12">
+          <div class="card-group">
+            <div class="card border-right border-light-3">
+               <div class="card-body" id="serverSelect">
+					{{ template "serverSelect_block" . }}
+			   </div>
+            </div>
+            <div class="card border-right border-light-3">
+            
+			<div class="card-body"><h5 class="card-title">Рейтинг сервера</h5>
+				
+			<div class="row m-0 row-group text-center border-light-2">
+		   
+				   <div class="col-4 col-lg-4">
+					 <div class="p-0">
+					   <h5 class="mb-0">1428</h5>
+					   <small class="mb-0">Голосов</small>
+					 </div>
+				   </div>
+				   <div class="col-4 col-lg-4">
+					 <div class="p-0">
+					   <h5 class="mb-0">95%</h5>
+					   <small class="mb-0">Рейтинг</small>
+					 </div>
+				   </div>
+				   <div class="col-4 col-lg-4">
+					 <div class="p-0">
+					   <h5 class="mb-0"><i class="fa fa-thumbs-o-up"></i></h5>
+					   <small class="mb-1">Голосовать</small>
+					 </div>
+				   </div>
+				</div>
+              </div>
+              <div class="card-footer">
+					<div class="progress" style="height:5px;">
+					<div class="progress-bar bg-danger" style="width:45%"></div>
+             </div>
+           </div>
+            </div>
+            <div class="card">
+               <div class="card-body">
+                <h5 class="card-title">Заметки</h5>
+                <p class="card-text">Сохраните себе полезную информацию о сервере.</p>
+              </div>
+            </div>
+			
+			
+          </div>
+        </div>
+      </div><!--End Row-->
+  
+	<div class="row">
+			
+			 <div class="col-12 col-lg-4 col-xl-8">
+                    <div class="card" >
+ 
+                        <div class="card-header">Загрузка файлов
+                            <div class="card-action">
+                                <div class="dropdown">
+                                    <a href="#" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                                        <i class="icon-options"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item aj" href="/setting/block/list">Черный список</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body" id="GU_tableLoads"></div>
+
+						<div class="card-footer"> 
+                            <div class="row align-items-center text-center">
+                                <div class="col border-right border-light">
+                                    <h4 class="mb-0" id="CountFilesUploaded">0</h4>
+                                    <small class="extra-small-font">Загружено</small>
+                                </div>
+                                <div class="col">
+                                    <h4 class="mb-0" id="CountFiles">0</h4>
+                                    <small class="extra-small-font">Всего</small>
+                                </div>
+                            </div>
+                         </div>
+			
+						<div class="progress-wrapper">
+							<div class="progress" style="height: 9px;">
+							  <div class="progress-bar gradient-branding" id="ProcentLoad" role="progressbar" style="width: 0%"></div>
+							</div>
+						 </div>
+
+                    </div>
+                </div>
+				
+				
+                <div class="col-12 col-lg-4 col-xl-4">
+                    <div class="card">
+
+                        <div class="card-header">Характеристики</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Сервер : <span class="float-right">{{ .ServerInfo.Domain }}</span></li>
+                            <li class="list-group-item">Версия игры : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
+                            <li class="list-group-item">EXP : <span class="float-right">x{{ .ServerInfo.Exp }}</span></li>
+                            <li class="list-group-item">Версия сервера : <span class="float-right">{{ .ServerInfo.Style }}</span></li>
+                            <li class="list-group-item">Дата старта : <span class="float-right">{{ .ServerInfo.Date }}</span></li>
+                            <li class="list-group-item">Временная Зона : <span class="float-right">{{ .ServerInfo.TimeZone }}</span></li>
+                            <li class="list-group-item">Рейтинг : <span class="float-right">{{ .ServerInfo.Rating }}</span></li>
+                        </ul>
+                    </div> 
+                </div> 
+            </div>
+   		
+	<div class="card">
+        <div class="card-header text-uppercase">Уровень сервера - {{ .ServerLeveL | ServerLevelName }}</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="icheck-material-primary">
+                <input type="checkbox" id="primary" {{ if .ServerInfo.IsGMShop }}checked{{ end }} />
+                <label for="primary">GM Shop</label>
+              </div>
+             </div>
+             <div class="col-md-3">
+              <div class="icheck-material-success">
+                <input type="checkbox" id="success" {{ if .ServerInfo.IsNPCBuffer }}checked{{ end }}/>
+                <label for="success">NPC Buffer</label>
+              </div>
+             </div>
+             <div class="col-md-3">
+              <div class="icheck-material-danger">
+                <input type="checkbox" id="danger" {{ if .ServerInfo.IsGlobalGK }}checked{{ end }}/>
+                <label for="danger">Global GK</label>
+              </div>
+             </div>
+             <div class="col-md-3">
+              <div class="icheck-material-info">
+                <input type="checkbox" id="info" {{ if .ServerInfo.IsOfflineTrade }}checked{{ end }}/>
+                <label for="info">Offline Trade</label>
+              </div>
+             </div>
+             <div class="col-md-3">
+              <div class="icheck-material-warning">
+                <input type="checkbox" id="warning" {{ if .ServerInfo.IsAccessSoft }}checked{{ end }}/>
+                <label for="warning">Разрешен бот</label>
+              </div>
+             </div>
+             <div class="col-md-3">
+              <div class="icheck-material-secondary">
+                <input type="checkbox" id="secondary" {{ if .ServerInfo.IsBugMacros }}checked{{ end }}/>
+                <label for="secondary">Маг. макросы</label>
+              </div>
+             </div>
+             <div class="col-md-3">
+              <div class="icheck-material-dark">
+                <input type="checkbox" id="dark" {{ if .ServerInfo.IsInfinitySS }}checked{{ end }}/>
+                <label for="dark">Бесконечные SS</label>
+              </div>
+             </div>
+			 <div class="col-md-3">
+              <div class="icheck-material-white">
+                <input type="checkbox" id="white" {{ if .ServerInfo.IsHelpNewbie }}checked{{ end }}/>
+                <label for="white">Помощь новичкам</label>
+              </div>
+             </div>
+          </div><!--End Row-->
+          <hr>
+           
+		   <div class="row">
+            <div class="col-md-3">
+                <label>EXP: </label>
+                <label>{{ .ServerInfo.Exp }}</label>
+             </div>
+             <div class="col-md-3">
+                <label >SP: </label>
+                <label >{{ .ServerInfo.SP }}</label>
+             </div>
+             <div class="col-md-3">
+				<label >Adena: </label>
+                <label >{{ .ServerInfo.Adena }}</label>
+              </div>
+             <div class="col-md-3">
+             	<label >Drop: </label>
+                <label >{{ .ServerInfo.Drop }}</label>
+              </div>
+             <div class="col-md-3">
+             	<label >Spoil: </label>
+                <label >{{ .ServerInfo.Spoil }}</label>
+             </div>
+             <div class="col-md-3">
+             	<label >Quest: </label>
+                <label >{{ .ServerInfo.Quest }}</label>
+             </div>
+             <div class="col-md-3">
+             	<label >Max Enchant: </label>
+                <label >+{{ .ServerInfo.MaxEnchant }}</label>
+             </div>
+             <div class="col-md-3">
+             	<label >Safe Enchant: </label>
+                <label >+{{ .ServerInfo.SafeEnchant }}</label>
+			</div>
+			 
+          </div><!--End Row-->
+              
+		  </div>
+	  </div>
+{{end}}
+
+
+{{define "serverSelect_block"}}
+	{{ if not .WaysChronicle }}<small>Месторасположение игры {{  .ServerInfo.Chronicle | getChronicle }}</small>
+			<div class="input-group">
+				<input id="getClientPath" type="text" class="form-control" placeholder="К примеру: D:\Games\Interlude" aria-label="game path" aria-describedby="game path">
+				<div class="input-group-append">
+				    <button class="btn btn-sm btn-primary showDialog" data-input="getClientPath" data-toggle="modal" data-target="#openDiaglog">Выбрать</button>
+					<!-- <button data-input="getClientPath" id="getClientButtonSelectDir" data-chronicle="{{ .ServerInfo.Chronicle }}" data-serverid="{{ .ServerInfo.ID }}" class="btn btn-sm btn-primary" type="button">Окно</button> -->
+				</div>
+ 			</div>
+			<br>
+			<button id="dirOpenDialogPathServerSave" data-return="getClientPath" data-chronicle="{{ .ServerInfo.Chronicle }}" data-serverid="{{ .ServerInfo.ID }}" type="button" class="btn btn-success waves-effect waves-light m-0">Применить</button>
+ 	  {{else}}
+			<select class="form-control" id="getClientPath">
+			{{ range $i, $way := .WaysChronicle }}
+					<option value="{{ $way.Path }}" > {{ $way.Name }} [ {{ $way.Path }} ]</option>
+			{{ end }}
+			</select>
+			<button type="button" id="GU_patch" class="btn btn-success btn-sm waves-effect waves-light m-1">Обновить патч</button>
+			<div class="icheck-material-primary">
+				<input type="checkbox" id="autostart" checked="">
+				<label for="autostart">Запустить игру после обновления</label>
+			</div>
+	   {{ end }}
+{{end}}

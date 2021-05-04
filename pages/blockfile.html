@@ -1,0 +1,106 @@
+{{define "pages/blockfile"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+
+  <link href="/template/assets/plugins/jquery-multi-select/multi-select.css" rel="stylesheet" type="text/css">
+
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "blockfile_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }} 
+</body>
+</html>
+{{end}}
+
+{{define "blockfile_block"}}
+	 <div class="row">
+        <div class="col-lg-12">
+          <div id="accordion8">
+		  <div class="card mb-2 border border-danger">
+                <div class="card-header">
+                    <button class="btn btn-link shadow-none text-danger collapsed" data-toggle="collapse" data-target="#collapse-23" aria-expanded="false" aria-controls="collapse-23">
+                      Описание
+                    </button>
+                </div>
+                <div id="collapse-23" class="collapse" data-parent="#accordion8">
+                  <div class="card-body">
+                    Вы можете создать список игнорируемых файлов.<br>
+					При загрузки патча, Game Update не будет загружать Вами указанный файл, просто пропустит его загрузку!<br>
+					Это может быть полезно, если Вы не хотите загружать options.ini, user.ini...<br>
+				   </div>
+                </div>
+              </div>
+            </div>
+     
+          <div class="card">
+             <div class="card-header text-uppercase">Игнорирование файла</div>
+             <div class="card-body">
+
+			    <div class="form-group row">
+				  <label for="filename" class="col-sm-3 col-form-label">Название файла</label>
+				  <div class="col-sm-9">
+					<input type="text"  class="form-control form-control-xl" id="filename">
+				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="basic-select" class="col-sm-3 col-form-label">Хроники</label>
+				  <div class="col-sm-9">
+					<select class="form-control" id="chronicle">
+                       {{ range $i, $chronicle := .Chronicle }}
+						<option value="{{ $chronicle.Codename }}"  > {{ $chronicle.Title }} ({{ $chronicle.Codename }})</option>
+					   {{ end }}    
+                    </select>
+				  </div>
+				</div>
+  			  <button type="button" id="addblockfile" class="btn btn-danger  waves-effect waves-light m-0">Добавить</button>
+             </div>
+           </div>
+         </div>
+       </div><!--End Row-->
+	   
+	   
+	    <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header"><i class="fa fa-table"></i> Блокировки</div>
+            <div class="card-body">
+              <div class="table-responsive">
+              <table id="" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Файл</th>
+                        <th>Хроники</th>
+                    </tr>
+                </thead>
+                <tbody>
+					{{ range $i, $fd := .BlockFiles}}
+                    <tr>
+                        <td><h5 class="mb-0">{{ $fd.Filename }}	<span class="badge badge-pill badge-danger m-0"><i aria-hidden="true" class="fa fa-remove"></i></span></h5></td>
+                        <td>{{ $fd.Chronicle | getChronicle }}</td>
+                    </tr>
+                    {{ end }}
+                </tbody>
+                 
+            </table>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- End Row-->
+
+{{end}}
+
+
