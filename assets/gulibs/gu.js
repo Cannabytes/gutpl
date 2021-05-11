@@ -123,7 +123,7 @@ if(Status == 1 || Status == 2){
 /*
 	Когда пользователь нажимает на элемент с id=GU_patch
 */
-$('#GU_patch').on('click', function() {
+$(document).on("click", "#GU_patch",  function () {
 	var data = start();
 	info();
 });
@@ -166,41 +166,18 @@ function config() {
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
 		success: function(config){
-			// Версия билда GU - config.Version,
-			// Хроники - config.Chronicle,
-			// Ссылка на архивы - config.FileArchivesLink,
-			// Ссылка на главную страницу обновления - config.PageUpdateLink,
-			// Домен сервера - config.Domain,
-			// Ссылка на патч лист - config.PatchDBLink,
-			// Включена онлайн страница - config.OnlinePage,
-			// Ссылка на оффлайн шаблон - config.OfflineZipTemplateLink,
-			// Кол-во одновременных загрузок - config.Streams,
 			console.log(config);
 			const hostname = new URL(window.location.href).hostname;
 			 if(config.Domain == hostname){
 				$("#GU_connector").remove();
 			}
 			for ( var i = 1; i <= config.Streams; i++ ) {
-				 $('#GU_tableLoads').append(
-						`<div class="progress-wrapper mb-4">
-                                <div><nobr id="GU_progress_file_id-${i}">Нет загрузки</nobr><span class="float-right" id="GU_files_update_percent-${i}">0%</span></div>
-                                <div class="progress" style="height:7px;">
-                                    <div id="GU_progress_bar_id-${i}" class="progress-bar gradient-ibiza" style="width:0%"></div>
-                                </div>
-                            </div>`);
-
- 				// $('#GU_tableLoads').after( 
-				// '<tr>\
-                            // <td id="GU_progress_file_id-'+i+'"> Нет загрузки </td>\
-                            // <td>\
-                              // <div class="progress">\
-                                // <div id="GU_progress_bar_id-'+i+'" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>\
-                              // </div>\
-                            // </td>\
-                            // <td id="GU_progress_size_id-'+i+'"> 0B </td>\
-                          // </tr>'
-						  
-						  // );
+				 $("#GU_tableLoads").append(`<div class="progress-wrapper mb-4">
+												<div><nobr id="GU_progress_file_id-${i}">Нет загрузки</nobr><span class="float-right" id="GU_files_update_percent-${i}">0%</span></div>
+												<div class="progress" style="height:7px;">
+													<div id="GU_progress_bar_id-${i}" class="progress-bar gradient-ibiza" style="width:0%"></div>
+												</div>
+											</div>`); 
  			};
 			return config;
 		}
@@ -262,18 +239,12 @@ function info() {
 								$("#getSizeDl").text(data.SizeRemainsDownloadStr +"/"+FullSizeFileStr);
 								$("#Status").text(Status);
 								
-								// $("#GU_patchEvent").text("Скачено "+data.ProcentLoad+"% [ "+data.CountFilesUploaded+" из "+data.CountFiles+" ]");
-								// $("#GU_patchEvent").append('<br><progress value="'+data.ProcentLoad+'" max="100"></progress>');
 								$("#GU_patchEventAddLine").text("Осталось "+data.SizeRemainsDownloadStr);
 								document.title = "Осталось "+data.SizeRemainsDownloadStr;
 
 								$.each(GetDownloads, function( id, value ) {
-									console.log(value);
-								  $("#GU_progress_file_id-"+(id+1)).text(value.Path + "("+ value.DownloadStr +")");
-								  // $("#GU_progress_size_id-"+(id+1)).text(value.SizeStr);
+								  $("#GU_progress_file_id-"+(id+1)).text(value.Path);
 								  $("#GU_files_update_percent-"+(id+1)).text(value.DownloadPercent+"%");
-								  
- 								  // $("#GU_progress_bar_id-"+(id+1)).text(value.DownloadPercent+"%");
 								  $("#GU_progress_bar_id-"+(id+1)).css('width', value.DownloadPercent+'%');
 								});
 							}
@@ -284,11 +255,18 @@ function info() {
 							clearInterval(timerRequest);
 							$("#GU_patch").text("Обновление завершено");
 							document.title = "Обновление завершено";
+							
+							$("#CountFilesUploaded").text(data.CountFilesUploaded);
+							$("#CountFiles").text(data.CountFiles);
+							
+							$.each(GetDownloads, function( id, value ) {
+								  $("#GU_progress_file_id-"+(id+1)).text(value.Path);
+								  $("#GU_files_update_percent-"+(id+1)).text(value.DownloadPercent+"%");
+								  $("#GU_progress_bar_id-"+(id+1)).css('width', value.DownloadPercent+'%');
+							});
 
 							$("#GU_patchEvent").text(data.LastMsg);
-							$("#GU_patchEventAddLine").text("");
-							$("#GU_patchEventAddLine").append("<a id='l2exe' data-exe='system/L2.exe' data-args=''>Запустить игру (Ver. 0.1)</a>");
-							$("#GU_patchEventAddLine").append(" - <a id='cmd' data-command='netsh winsock reset netsh int ip reset all netsh winhttp reset proxy ipconfig /flushdns' >Сбросить DNS</a>");
+
 						break;
 						
 					  case 7:
@@ -466,7 +444,7 @@ $(document).on( 'click', '#savePathClient', function(e){
 var timerRequestCrPath = null;
 //Узнаем о создании патч листа
 getCreatePathInfo();
-$("#createPatchServer").on("click", function(){
+$(document).on( 'click', '#createPatchServer', function(e){
         timerRequestCrPath = setInterval(getCreatePathInfo, 300);
 		savedirclientpath = $("#savedirclientpath").val();
 		savedirupdate = $("#savedirupdate").val();
@@ -514,7 +492,6 @@ function getCreatePathInfo(){
 						status = "Архивация";
 					}
 					if(status == 2){
-
 						status = "Завершено";
 						clearInterval(timerRequestCrPath);
 					}
@@ -549,8 +526,7 @@ function loadBlockHTMLServerSelect(serverID, elementid, linkblock){
 /**
 	Сохранение настроек
 **/
-$('.gu_settings').change(function() {
-
+$(document).on("change", ".gu_settings", function(){
 	if ($(this).prop("type")=="checkbox"){
 		settingName = $(this).data("sname");
 		settingValue = $(this).is(":checked");
@@ -575,7 +551,8 @@ $('.gu_settings').change(function() {
 	});
 });
 
- $("#saveInputPathSetting").on("click", function(){
+
+$(document).on("click", "#saveInputPathSetting", function(){
 		settingName = "pathSetting";
 		settingValue = $("#savePathSetting").val();
 		console.log("-1", settingName, "-2", settingValue);
@@ -597,7 +574,8 @@ $('.gu_settings').change(function() {
 
 
 
-$("#addblockfile").on("click", function(){
+$(document).on("click", "#addblockfile", function(){
+
 	filename = $("#filename").val();
 	chronicle = $("#chronicle").val();
 
@@ -620,8 +598,7 @@ $("#addblockfile").on("click", function(){
 });
 
 
-$('#gu_patchCreateLink').on("click", function(){
-			
+$(document).on("click", "#gu_patchCreateLink", function(){
 
 	  	$.ajax({
 		url: 'http://127.0.0.1:'+launcherPort+'/setting/patch/create/link',
@@ -659,11 +636,15 @@ $('#gu_patchCreateLink').on("click", function(){
 				
 				
 			},
-		dataType: 'html',
+		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
 		success: function(bcode){
+			if(bcode["error"]){
+				nError(bcode["error"]);
+				return;
+			}
 			console.log(bcode);
 			linkTest = `<a href=${bcode}>Game Update</a>`
 			$('#gulink').text(linkTest);

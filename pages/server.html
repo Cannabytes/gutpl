@@ -126,8 +126,7 @@
                             <li class="list-group-item">Версия игры : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
                             <li class="list-group-item">EXP : <span class="float-right">x{{ .ServerInfo.Exp }}</span></li>
                             <li class="list-group-item">Версия сервера : <span class="float-right">{{ .ServerInfo.Style }}</span></li>
-                            <li class="list-group-item">Дата старта : <span class="float-right">{{ .ServerInfo.Date }}</span></li>
-                            <li class="list-group-item">Временная Зона : <span class="float-right">{{ .ServerInfo.TimeZone }}</span></li>
+                            <li class="list-group-item">Дата старта : <span class="float-right">{{ TimeFormat .ServerInfo.Date .ServerInfo.TimeZone }} / {{ DayFormat .ServerInfo.Date .ServerInfo.TimeZone }}</span></li>
                             <li class="list-group-item">Рейтинг : <span class="float-right">{{ .ServerInfo.Rating }}</span></li>
                         </ul>
                     </div> 

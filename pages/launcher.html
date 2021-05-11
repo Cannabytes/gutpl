@@ -111,49 +111,49 @@
           <div class="row">
             <div class="col-md-3">
               <div class="icheck-material-primary">
-                <input type="checkbox" id="primary" {{ if eq .ServerInfo.IsGMShop "true" }}checked{{ end }} />
+                <input type="checkbox" id="primary" {{ if  .ServerInfo.IsGMShop  }}checked{{ end }} />
                 <label for="primary">GM Shop</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-success">
-                <input type="checkbox" id="success" {{ if eq .ServerInfo.IsNPCBuffer "true" }}checked{{ end }}/>
+                <input type="checkbox" id="success" {{ if  .ServerInfo.IsNPCBuffer   }}checked{{ end }}/>
                 <label for="success">NPC Buffer</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-danger">
-                <input type="checkbox" id="danger" {{ if eq .ServerInfo.IsGlobalGK "true" }}checked{{ end }}/>
+                <input type="checkbox" id="danger" {{ if  .ServerInfo.IsGlobalGK  }}checked{{ end }}/>
                 <label for="danger">Global GK</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-info">
-                <input type="checkbox" id="info" {{ if eq .ServerInfo.IsOfflineTrade "true" }}checked{{ end }}/>
+                <input type="checkbox" id="info" {{ if  .ServerInfo.IsOfflineTrade  }}checked{{ end }}/>
                 <label for="info">Offline Trade</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-warning">
-                <input type="checkbox" id="warning" {{ if eq .ServerInfo.IsAccessSoft "true" }}checked{{ end }}/>
+                <input type="checkbox" id="warning" {{ if  .ServerInfo.IsAccessSoft   }}checked{{ end }}/>
                 <label for="warning">Разрешен бот</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-secondary">
-                <input type="checkbox" id="secondary" {{ if eq .ServerInfo.IsBugMacros "true" }}checked{{ end }}/>
+                <input type="checkbox" id="secondary" {{ if  .ServerInfo.IsBugMacros   }}checked{{ end }}/>
                 <label for="secondary">Маг. макросы</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-dark">
-                <input type="checkbox" id="dark" {{ if eq .ServerInfo.IsInfinitySS "true" }}checked{{ end }}/>
+                <input type="checkbox" id="dark" {{ if  .ServerInfo.IsInfinitySS  }}checked{{ end }}/>
                 <label for="dark">Бесконечные SS</label>
               </div>
              </div>
 			 <div class="col-md-3">
               <div class="icheck-material-white">
-                <input type="checkbox" id="white" {{ if eq .ServerInfo.IsHelpNewbie "true" }}checked{{ end }}/>
+                <input type="checkbox" id="white" {{ if .ServerInfo.IsHelpNewbie   }}checked{{ end }}/>
                 <label for="white">Помощь новичкам</label>
               </div>
              </div>
@@ -202,7 +202,7 @@
 
 
 {{define "launcherSelect_block"}}
-	{{ if not .WaysChronicle }}<small>Месторасположение игры {{  .ServerInfo.Chronicle | GetChronicleStr }}</small>
+	{{ if not .WaysChronicle }}<small>Месторасположение игры {{  .ServerInfo.Chronicle | getChronicle }}</small>
 			<div class="input-group">
 				<input id="getClientPath" type="text" class="form-control" placeholder="К примеру: D:\Games\Interlude" aria-label="game path" aria-describedby="game path">
 				<div class="input-group-append">
