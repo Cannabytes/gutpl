@@ -22,6 +22,37 @@
 {{end}}
 
 {{define "launcher_block"}}
+	{{ template "note_block" . }}
+
+		{{ if .ShowError }}
+                <div class="modal fade" id="error">
+                  <div class="modal-dialog">
+                    <div class="modal-content animated flipInX">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Ошибка</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <p>{{ .ShowError | NoEscape }}</p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+				
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+					$("#error").modal('show');
+			});
+		</script>
+	{{ end }}
+				
+				
+				
 	<div class="row">
         <div class="col-lg-12">
           <div class="card-group">
@@ -31,17 +62,15 @@
 			   </div>
             </div>
             <div class="card border-right border-light-3">
-            
-			 
-           
+              
             <div class="card">
                <div class="card-body">
                 <h5 class="card-title">Заметки</h5>
                 <p class="card-text">Сохраните себе полезную информацию о сервере.</p>
-              </div>
+				<button type="button" data-toggle="modal" data-target="#largesizemodal" class="btn btn-dark btn-sm btn-round btn-block waves-effect waves-light m-1">Открыть</button>
+               </div>
             </div>
-			
-			
+ 			
           </div> </div>
         </div>
       </div><!--End Row-->
@@ -94,11 +123,12 @@
 
                         <div class="card-header">Характеристики</div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Сервер : <span class="float-right">{{ .ServerInfo.Domain }}</span></li>
-                            <li class="list-group-item">Версия игры : <span class="float-right">{{ .ServerInfo.Chronicle  }}</span></li>
+                            <li class="list-group-item">Сервер : <span class="float-right"><a href="{{ .ServerInfo.Domain }}" target="_blank">{{ .ServerInfo.Domain | Hostname }}</a></span></li>
+                            <li class="list-group-item">Версия игры : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
                             <li class="list-group-item">EXP : <span class="float-right">x{{ .ServerInfo.Exp }}</span></li>
-                            <li class="list-group-item">Версия сервера : <span class="float-right">{{ .ServerInfo.Style }}</span></li>
-                            <li class="list-group-item">Дата старта : <span class="float-right">{{ .ServerInfo.Date }}</span></li>
+                            <li class="list-group-item">Версия сервера : <span class="float-right">{{ .ServerInfo.Style | ServerStyle }}</span></li>
+                            <li class="list-group-item">Дата старта : <span class="float-right">{{ TimeFormat .ServerInfo.Date .ServerInfo.TimeZone }} / {{ DayFormat .ServerInfo.Date .ServerInfo.TimeZone }}</span></li>
+                            <li class="list-group-item">Старт через : <span class="float-right">{{ TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }} сек.</span></li>
                             <li class="list-group-item">Временная Зона : <span class="float-right">{{ .ServerInfo.TimeZone }}</span></li>
                          </ul>
                     </div> 
@@ -197,7 +227,10 @@
           </div><!--End Row-->
               
 		  </div>
-	  </div>
+	  </div> 
+
+ 
+
 {{end}}
 
 

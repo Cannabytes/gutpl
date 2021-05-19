@@ -23,3 +23,15 @@ function nError(message){
 		    msg: message
 		    });
 }
+function nSuccess(message){
+			Lobibox.notify('success', {
+		    pauseDelayOnHover: true,
+		    size: 'mini',
+		    rounded: true,
+		    delayIndicator: false,
+		    icon: 'fa fa-check-circle-o',
+            continueDelayOnInactiveTab: false,
+		    position: 'top right',
+		    msg: message
+		    });
+}

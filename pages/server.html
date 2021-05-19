@@ -22,6 +22,10 @@
 {{end}}
 
 {{define "server_block"}}
+
+	{{ template "server_vote_block" . }}
+	{{ template "note_block" . }}
+
 	<div class="row">
         <div class="col-lg-12">
           <div class="card-group">
@@ -31,34 +35,36 @@
 			   </div>
             </div>
             <div class="card border-right border-light-3">
-            
+
 			<div class="card-body"><h5 class="card-title">Рейтинг сервера</h5>
 				
 			<div class="row m-0 row-group text-center border-light-2">
 		   
 				   <div class="col-4 col-lg-4">
 					 <div class="p-0">
-					   <h5 class="mb-0">1428</h5>
+					   <h5 class="mb-0">{{ .ServerInfo.Rating }}</h5>
 					   <small class="mb-0">Голосов</small>
 					 </div>
 				   </div>
 				   <div class="col-4 col-lg-4">
 					 <div class="p-0">
-					   <h5 class="mb-0">95%</h5>
+					   <h5 class="mb-0">{{ percent .MaxRating .ServerInfo.Rating }}%</h5>
 					   <small class="mb-0">Рейтинг</small>
 					 </div>
 				   </div>
 				   <div class="col-4 col-lg-4">
 					 <div class="p-0">
-					   <h5 class="mb-0"><i class="fa fa-thumbs-o-up"></i></h5>
-					   <small class="mb-1">Голосовать</small>
+					   <h5 class="mb-0" data-toggle="modal" data-target="#showVoteDialog"><i class="fa fa-thumbs-o-up"></i></h5>
+
+					   <small class="badge {{ if .VoteTimeOut | timeVoteCheck }}badge-success{{else}}badge-dark badge-pill{{end}}" data-toggle="modal" data-target="#showVoteDialog">Голосовать</small>
+					   
 					 </div>
 				   </div>
 				</div>
               </div>
               <div class="card-footer">
 					<div class="progress" style="height:5px;">
-					<div class="progress-bar bg-danger" style="width:45%"></div>
+					<div class="progress-bar bg-danger" style="width: {{ percent .MaxRating .ServerInfo.Rating }}%"></div>
              </div>
            </div>
             </div>
@@ -66,7 +72,8 @@
                <div class="card-body">
                 <h5 class="card-title">Заметки</h5>
                 <p class="card-text">Сохраните себе полезную информацию о сервере.</p>
-              </div>
+				<button type="button" data-toggle="modal" data-target="#largesizemodal" class="btn btn-dark btn-sm btn-round btn-block waves-effect waves-light m-1">Открыть</button>
+               </div>
             </div>
 			
 			
@@ -125,8 +132,9 @@
                             <li class="list-group-item">Сервер : <span class="float-right">{{ .ServerInfo.Domain }}</span></li>
                             <li class="list-group-item">Версия игры : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
                             <li class="list-group-item">EXP : <span class="float-right">x{{ .ServerInfo.Exp }}</span></li>
-                            <li class="list-group-item">Версия сервера : <span class="float-right">{{ .ServerInfo.Style }}</span></li>
+                            <li class="list-group-item">Версия сервера : <span class="float-right">{{ .ServerInfo.Style | ServerStyle }}</span></li>
                             <li class="list-group-item">Дата старта : <span class="float-right">{{ TimeFormat .ServerInfo.Date .ServerInfo.TimeZone }} / {{ DayFormat .ServerInfo.Date .ServerInfo.TimeZone }}</span></li>
+							 <li class="list-group-item">Старт через : <span class="float-right">{{ TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }} сек.</span></li>
                             <li class="list-group-item">Рейтинг : <span class="float-right">{{ .ServerInfo.Rating }}</span></li>
                         </ul>
                     </div> 
@@ -235,7 +243,6 @@
 				<input id="getClientPath" type="text" class="form-control" placeholder="К примеру: D:\Games\Interlude" aria-label="game path" aria-describedby="game path">
 				<div class="input-group-append">
 				    <button class="btn btn-sm btn-primary showDialog" data-input="getClientPath" data-toggle="modal" data-target="#openDiaglog">Выбрать</button>
-					<!-- <button data-input="getClientPath" id="getClientButtonSelectDir" data-chronicle="{{ .ServerInfo.Chronicle }}" data-serverid="{{ .ServerInfo.ID }}" class="btn btn-sm btn-primary" type="button">Окно</button> -->
 				</div>
  			</div>
 			<br>
@@ -253,3 +260,119 @@
 			</div>
 	   {{ end }}
 {{end}}
+
+             
+{{define "server_vote_block" }}
+                <div class="modal fade" id="showVoteDialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Голосование</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                          <div>
+						  {{ if .VoteTimeOut | timeVoteCheck }}
+                             <div class="form-group">
+								 <p class="card-text">Если Вам нравится сервер <b>{{ .ServerInfo.Domain }} {{  .ServerInfo.Chronicle | getChronicle }} x{{ .ServerInfo.Exp }}</b>, проголосуйте за него, и Вы улучшите позиции в рейтинге.</p>
+								 <p class="card-text">Вы можете голосовать каждые 12 часов.</p>
+								 <p class="card-text">Как правило, сервера вознаграждают игроков за голосование.</p>
+                             </div>
+                             <div class="form-group">
+                               <label for="voteGameNick">Ваш игровой ник</label>
+                               <input type="text" class="form-control" id="voteGameNick" placeholder="Ник персонажа">
+                             </div>
+                              <div class="form-group">
+                              <button type="submit" id="vote" class="btn btn-primary px-5"><i class="fa fa-thumbs-o-up"></i> Голосовать</button>
+                            </div>
+							{{ else }}
+							<div class="form-group">
+								 <p class="card-text">Вы уже голосовали.<br>Следующий раз проголосовать сможете через {{ .VoteTimeOut | TimeUnixSec }} сек.</p>
+                             </div>
+							{{end}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+				 
+{{end}}
+
+
+             
+{{define "note_block" }}
+
+			<!-- Modal -->
+                <div class="modal fade" id="largesizemodal">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+					
+                      <div class="modal-header">
+                        <h5 class="modal-title">Заметки</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                       
+					     
+                 <ul class="nav nav-tabs nav-tabs-danger top-icon" id="noteTab" >
+                  <li class="nav-item">
+                    <a class="nav-link active" id="allnote" data-domain="{{ .ServerInfo.Domain }}" data-toggle="tab" href="#notes"><i class="icon-home"></i> <span class="hidden-xs">Мои заметки</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#createnote"><i class="icon-user"></i> <span class="hidden-xs">Создать</span></a>
+                  </li>
+               
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div id="notes" class="container tab-pane active">
+ 					
+						<div class="card mt-1 shadow-none">
+							 <div class="table-responsive" id="noteData">
+								{{if not .Notes}}
+									<label>У Вас нет записей к данному серверу, но Вы можете создать</label>
+								{{else}}
+								<table class="table table-hover">
+									<tbody>
+									 {{ range .Notes }}
+										 <tr>
+											 <td>
+												 <label class="noteRead" data-id="{{ .ID }}" href="/notes/id/{{ .ID }}"><i class="fa fa-circle text-info mr-2"></i>{{ strLimit .Content 70 }}</label>
+											 </td>
+										 </tr>
+									 {{ end }}
+								 </tbody>
+							   </table>
+							   {{end}}
+						    </div>
+					   </div> 
+ 					
+                  </div>
+                
+				<div id="createnote" class="container tab-pane fade">
+                   	<div class="card mt-1 shadow-none" id="noteDataCreate">
+ 					  <div class="mt-0">
+						<div class="form-group">
+						 <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов."></textarea>
+						</div>
+					  </div>
+					  
+					  <div class="text-right">
+						  <button type="button" id="noteSave" data-domain="{{ .ServerInfo.Domain }}" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
+					  </div>
+                  </div>
+                  </div>
+				  
+                </div>
+
+                    </div>
+                  </div>
+                </div>
+             
+ 
+{{end}}
+

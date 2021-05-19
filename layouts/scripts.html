@@ -29,16 +29,24 @@
  
 	<script src="/template/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
-	<script src="/template/assets/gulibs/notifi.js?{{ .UnixTime }}"></script>
 	
 	<script src="/template/assets/gulibs/gu.js?{{ .UnixTime }}"></script>
 	<script src="/template/assets/gulibs/dialog.js?{{ .UnixTime }}"></script>
+	<script src="/template/assets/gulibs/notifi.js?{{ .UnixTime }}"></script>
 
      <script>
-      $('#dateStart').datepicker({
-        autoclose: true,
-         todayHighlight: true
+
+  $(document).ready(function () { 
+      $(document).on('focus' ,'#dateStart', function () {
+          $(this).datepicker({
+			autoclose: true,
+			 todayHighlight: true
+		  });
       });
+  });
+
+
+
     </script>
 
 {{ end }}

@@ -210,18 +210,20 @@
 				<hr>
 				<div class="form-group row">
 				  <label for="dateStart" class="col-sm-3 col-form-label">Дата старта</label>
-				  <div class="col-sm-9">
+				  
+				  <div class="col-sm-2">
+				    <input type="time" id="timeStart" autocomplete="off" data-date-format="hh.mm" class="form-control" data-sname="timeStart" required>
+				  </div> 
+				  
+				  <div class="col-sm-3">
 				    <input type="text" id="dateStart" autocomplete="off" data-date-format="mm.dd.yyyy" class="form-control" data-sname="dateStart">
-				  </div>
+				  </div> 
+				  
 				</div>
-				
-				
-				
+				   
 				<div class="form-group row">
-				  <label for="TimeZone" class="col-sm-3 col-form-label">TimeZone</label>
+				  <label for="TimeZone" class="col-sm-3 col-form-label">Часовой пояс</label>
 				  <div class="col-sm-9">
-							
-
 						<select class="form-control " data-sname="TimeZone" id="TimeZone">
  								{{ range $i, $tz := .Timezone }}
 									<option value="{{ $tz.Name }}"  > {{ $tz.Name }} - {{ $tz.Time | TimeReconstruct }}</option>

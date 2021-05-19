@@ -45,6 +45,12 @@ function reinit(){
             type: "POST",
             url: href,
             success: function (data) {
+				
+				  $('#dateStart').datepicker({
+					 autoclose: true,
+					 todayHighlight: true
+				  });
+				  
 				console.log("AJAX->", href);
                 $(".container-fluid").html(data);
 				reinit();
@@ -128,7 +134,6 @@ $(document).on("click", "#GU_patch",  function () {
 	info();
 });
 
-
 /*
 	updateDBname - сюда передаем название базы
 	Чтоб выключить загрузку, просто отпарвляем запрос на обновление (во время загрузки)
@@ -147,7 +152,14 @@ function start() {
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){ 
+		success: function(data){
+			$("#favoriteMenu").show();
+			if(data.ServerID==0){
+				$("#favoriteMenu").data("href", "/launcher");
+			}else{
+				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + data.Domain);
+				$("#favoriteMenu").attr("href", "/server/"+data.ServerID);
+			}
 			return data;
 		}
 	});
@@ -167,6 +179,13 @@ function config() {
 		processData: true,
 		success: function(config){
 			console.log(config);
+			if(config.ServerID==-1){
+				$("#favoriteMenu").hide();
+			}else{
+				$("#favoriteMenu").show();
+				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + config.Domain);
+				$("#favoriteMenu").attr("href", "/server/"+config.ServerID);
+			}
 			const hostname = new URL(window.location.href).hostname;
 			 if(config.Domain == hostname){
 				$("#GU_connector").remove();
@@ -415,9 +434,11 @@ $(document).on( 'click', '#getClientButtonSelectDir', function(e){
 });
 
 $(document).on( 'click', '#savePathClient', function(e){
+
  	version = $("#clientVersion").val();
 	name = $("#clientname").val();
 	path = $("#clientSetPath").val();
+	
   	$.ajax({
 		url: 'http://127.0.0.1:'+launcherPort+'/setting/games/set/save',
 		  xhrFields: {
@@ -430,9 +451,19 @@ $(document).on( 'click', '#savePathClient', function(e){
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
 		success: function(data){
-			if (data.error){
-				$("#notice").html('<div class="alert alert-danger" role="alert">'+data.error+'</div>');
+			if (data.error!=null){
+				nError(data.error);
 			}else{
+				$("#clientsPathList").empty();
+				$.each(data.AllWays, function( id, way ) {
+					console.log(way);
+					$('#clientsPathList').before('<tr>\
+                    <td>\
+					<span class="badge badge-danger removeClient" data-id="'+way.ID+'"><i class="fa fa-remove"></i></span> '+way.Title+'</td>\
+                    <td>'+way.Name+'</td>\
+                    <td>'+way.Path+'</td>\
+                  </tr>');
+				});
 			}
 			console.log(data);
 			return data;
@@ -599,8 +630,7 @@ $(document).on("click", "#addblockfile", function(){
 
 
 $(document).on("click", "#gu_patchCreateLink", function(){
-
-	  	$.ajax({
+ 	  	$.ajax({
 		url: 'http://127.0.0.1:'+launcherPort+'/setting/patch/create/link',
 		  xhrFields: {
 			withCredentials: false
@@ -619,8 +649,10 @@ $(document).on("click", "#gu_patchCreateLink", function(){
 				Spoil : $("#Spoil").val(),
 				Quest : $("#Quest").val(),
 				
+				timeStart : $("#timeStart").val(),
 				dateStart : $("#dateStart").val(),
-				Style : $("#Style").val(),
+				
+				Style : $("#ServerVersion").val(),
 				TimeZone : $("#TimeZone").val(),
 				MaxEnchant : $("#MaxEnchant").val(),
 				SafeEnchant : $("#SafeEnchant").val(),
@@ -653,3 +685,259 @@ $(document).on("click", "#gu_patchCreateLink", function(){
  		}
 	});
 });
+
+
+//Удаление месторасположения клиента
+$(document).on("click", ".removeClient", function(){
+	self = $(this);
+ 	id = self.data("id");
+  	$.ajax({
+	url: 'http://127.0.0.1:'+launcherPort+'/setting/game/remove',
+	  xhrFields: {
+		withCredentials: false
+	},
+	method: 'post',           
+	data: {id:id},
+	dataType: 'json',
+	crossDomain: true,
+	contentType: 'application/x-www-form-urlencoded',
+	processData: true,
+	success: function(data){
+		if (data.error==null){
+			self.closest("tr").remove();
+		}else{
+			nError(data.error);
+		}
+		console.log(data.error==null);
+    }
+  });
+});
+
+//Голосование
+$(document).on("click", "#vote", function(){
+  	gameNick = $("#voteGameNick").val();
+	if(gameNick.length<=1 || gameNick.length>=16){
+		nError("Введите ник от 1 до 16 символов");
+		return;
+	}
+  	$.ajax({
+	url: 'http://127.0.0.1:'+launcherPort+'/vote',
+	  xhrFields: {
+		withCredentials: false
+	},
+	method: 'post',           
+	data: {gameNick:gameNick},
+	dataType: 'json',
+	crossDomain: true,
+	contentType: 'application/x-www-form-urlencoded',
+	processData: true,
+	success: function(data){
+		if(data.error!=null){
+			nError(data.error);
+		}
+		if (data.status==1){
+			nSuccess("Увы успешно проголосовали");
+			$('#showVoteDialog').modal('toggle')
+		}
+ 		console.log(data);
+    },
+     error: function(xhr, status, error){
+         var errorMessage = xhr.status + ': ' + xhr.statusText
+		 nError("Извините, в данный момент голосование недоступно.<br>"+errorMessage);
+     }
+  });
+});
+
+
+//Сохранить в блокноте запись
+$(document).on("click", "#noteSave", function(){
+  	domain = $(this).data("domain");
+	content = $("#note").val();
+  	$.ajax({
+		url: 'http://127.0.0.1:'+launcherPort+'/note/save',
+		  xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',           
+		data: {domain:domain, content:content},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data){
+			if(data.ok==true){
+				nSuccess("Запись добавлена");
+				a = `<div class="mt-0">
+				    <div class="form-group">
+                     <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов.">`+data.note.Content+`</textarea>
+					</div>
+                  </div>
+				  
+                  <div class="text-right">
+                      <button type="button" id="noteRemove" data-id="`+data.note.ID+`" data-domain="`+data.note.Domain+`" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Удалить</button>
+                      <button type="button" id="noteSaveEdit" data-id="`+data.note.ID+`" data-domain="`+data.note.Domain+`"  class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
+                  </div>`
+				$("#noteDataCreate").html(a);
+			}
+			if(data.error){
+				nError(data.error);
+			}
+			console.log(data);
+		}
+  });
+});
+
+//Чтение в блокноте запись
+$(document).on("click", ".noteRead", function(){
+  	id = $(this).data("id");
+  	$.ajax({
+		url: 'http://127.0.0.1:'+launcherPort+'/note/read',
+		  xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',           
+		data: {id:id},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data){
+			a = `<div class="mt-0">
+				    <div class="form-group">
+                     <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов.">`+data.note.Content+`</textarea>
+					</div>
+                  </div>
+				  
+                  <div class="text-right">
+				      <button type="button" id="noteRemove" data-id="`+data.note.ID+`" data-domain="`+data.note.Domain+`" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Удалить</button>
+
+                      <button type="button" id="noteSaveEdit" data-id="`+data.note.ID+`" data-domain="`+data.note.Domain+`"  class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
+                  </div>`
+			$("#noteData").html(a);
+		}
+  });
+});
+
+//Перезаписать в блокноте
+$(document).on("click", "#noteSaveEdit", function(){
+  	id 		= $(this).data("id");
+  	domain  = $(this).data("domain");
+  	content = $("#note").val();
+  	$.ajax({
+		url: 'http://127.0.0.1:'+launcherPort+'/note/save/edit',
+		  xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',           
+		data: {id:id, domain:domain, content:content},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data){
+			console.log(data);
+ 				h = `<table class="table table-hover"><tbody>`;
+					c = ``;
+					   $.each(data.note, function( i, note ) {
+						 c = c+`<tr><td><label class="noteRead" data-id="`+note.ID+`" href="/notes/id/`+note.ID+`"><i class="fa fa-circle text-info mr-2"></i>`+ strLimit(note.Content, 70) +`</label></td></tr>`;
+					   });
+					f = `</tbody></table>`;
+				$("#noteData").html(h + c + f);
+				nSuccess("Заметка изменена");
+		}
+  });
+});
+
+//Получить записи сервера
+$(document).on("click", "#allnote", function(){
+  	domain = $(this).data("domain");
+  	$.ajax({
+		url: 'http://127.0.0.1:'+launcherPort+'/note/read/server',
+		  xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',           
+		data: {domain:domain},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data){
+			if (data.note.length==0){
+				$("#noteData").html("<label>У Вас нет записей к данному серверу, но Вы можете создать</label>");
+			}else{
+				h = `<table class="table table-hover"><tbody>`;
+				c = ``;
+				   $.each(data.note, function( i, note ) {
+				   	 c = c+`<tr><td><label class="noteRead" data-id="`+note.ID+`" href="/notes/id/`+note.ID+`"><i class="fa fa-circle text-info mr-2"></i>`+ strLimit(note.Content, 70) +`</label></td></tr>`;
+				   });
+				f = `</tbody></table>`;
+			$("#noteData").html(h + c + f);
+			}
+			console.log(data);
+		}
+  });
+});
+
+
+//Удаление заметки
+$(document).on("click", "#noteRemove", function(){
+  	id = $(this).data("id");
+  	domain = $(this).data("domain");
+  	$.ajax({
+		url: 'http://127.0.0.1:'+launcherPort+'/note/remove',
+		  xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',           
+		data: {id:id, domain:domain},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data){
+			
+			$("#note").empty();
+			$("#noteRemove").hide();
+			
+			$("#noteDataCreate").html(`<div class="mt-0">
+						<div class="form-group">
+						 <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов."></textarea>
+						</div>
+					  </div>
+					  
+					  <div class="text-right">
+						  <button type="button" id="noteSave" data-domain="`+domain+`" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
+			 </div>`);
+			
+			nSuccess("Заметка удалена");
+			
+			
+			
+			if (data.note.length==0){
+				$("#noteData").html("<label>У Вас нет записей к данному серверу, но Вы можете создать</label>");
+			}else{
+				h = `<table class="table table-hover"><tbody>`;
+				c = ``;
+				   $.each(data.note, function( i, note ) {
+				   	 c = c+`<tr><td><label class="noteRead" data-id="`+note.ID+`" href="/notes/id/`+note.ID+`"><i class="fa fa-circle text-info mr-2"></i>`+ strLimit(note.Content, 70) +`</label></td></tr>`;
+				   });
+				f = `</tbody></table>`;
+				$("#noteData").html(h + c + f);
+ 			}
+			
+			$('#noteTab a[href="#notes"]').tab('show');
+			console.log(data);
+		}
+  });
+});
+
+
+
+function strLimit(string, length){
+	if (string.length>length){
+		return string.substring(0, length) + "...";
+	}
+	return string;
+}
+

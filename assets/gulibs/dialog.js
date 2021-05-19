@@ -86,6 +86,9 @@ $(document).on('click', '.showDialog', function(e) {
 	inputIdf = $(this).data("input");
 	$( "#dirOpenDialogApply" ).data( "input", inputIdf );
 	path = $(this).data("path");
+	if($("#dialogFullPath").text()==""){
+		$("#dirOpenDialogBack").hide();
+	}
 	openDialogModal(path);
 });
 
@@ -133,9 +136,11 @@ function openDialogModal(path){
 				$("#dirOpenDialogList").html(`<div class="col-md-8 col-lg-1 col-xl-8 ">Тут нет ни одной папки</div>`);
 				return;
 			}
-			// if($("#dirOpenDialogBack").is(":hidden")==false){
-				// $("#dirOpenDialogBack").show();
-			// }
+			if($("#dialogFullPath").text()!=""){
+				$("#dirOpenDialogBack").show();
+			}else{
+				$("#dirOpenDialogBack").hide();
+			}
 			$("#dirOpenDialogList").empty();
 			if (data.type == "disk") {
 				img = "/template/assets/images/disk.png";
