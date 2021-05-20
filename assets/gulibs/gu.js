@@ -157,7 +157,7 @@ function start() {
 			if(data.ServerID==0){
 				$("#favoriteMenu").data("href", "/launcher");
 			}else{
-				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + data.Domain);
+				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(data.Domain).hostname);
 				$("#favoriteMenu").attr("href", "/server/"+data.ServerID);
 			}
 			return data;
@@ -183,7 +183,7 @@ function config() {
 				$("#favoriteMenu").hide();
 			}else{
 				$("#favoriteMenu").show();
-				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + config.Domain);
+				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(config.Domain).hostname);
 				$("#favoriteMenu").attr("href", "/server/"+config.ServerID);
 			}
 			const hostname = new URL(window.location.href).hostname;
@@ -665,8 +665,7 @@ $(document).on("click", "#gu_patchCreateLink", function(){
 				macros : $("#macros").is(':checked'),
 				ss : $("#ss").is(':checked'),
 				newbiehelp : $("#newbiehelp").is(':checked')
-				
-				
+				 
 			},
 		dataType: 'json',
 		crossDomain: true,
