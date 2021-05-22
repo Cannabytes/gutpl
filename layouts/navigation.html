@@ -1,18 +1,21 @@
 {{define "navigation"}}   
 <ul class="sidebar-menu">
-	  <li><a class="aj" href="/" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>События</span></a></li>
 
+	  <li><a class="aj" id="favoriteMenu" href="/" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>Лаунчер</span></a></li>
+	
+	 {{ if .LauncherConfig.EnabledAnons }}
       <li>
         <a href="javaScript:void();" class="waves-effect">
           <i class="zmdi zmdi-share text-info"></i> <span>Сервер</span><i class="fa fa-angle-left pull-right"></i>
         </a>
 		<ul class="sidebar-submenu">
-		  <li><a id="favoriteMenu" href="/launcher" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Not Select</a></li>
 		  <li><a href="/rating" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Рейтинги</a></li>
 		  <li><a href="/anons"  class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Анонсирование</a></li>
 		  <!-- <li><a href="#"  class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> История</a></li> -->
 		</ul>
       </li>
+	  {{ end }}
+	  
       <li>
         <a href="javaScript:void();" class="waves-effect">
           <i class="zmdi zmdi-layers"></i> <span>Настройки</span> <i class="fa fa-angle-left pull-right"></i>

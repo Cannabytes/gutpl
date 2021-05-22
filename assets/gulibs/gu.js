@@ -153,6 +153,7 @@ function start() {
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
 		success: function(data){
+			console.log(data);
 			$("#favoriteMenu").show();
 			if(data.ServerID==0){
 				$("#favoriteMenu").data("href", "/launcher");
@@ -177,28 +178,31 @@ function config() {
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(config){
-			console.log(config);
-			if(config.ServerID==-1){
+		success: function(json){
+			// console.log("->", new URL(json.Config.GameServer.Domain).hostname);
+			// return;
+			if(json.Config.GameServer.ID==-1){
 				$("#favoriteMenu").hide();
 			}else{
-				$("#favoriteMenu").show();
-				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(config.Domain).hostname);
-				$("#favoriteMenu").attr("href", "/server/"+config.ServerID);
-			}
-			const hostname = new URL(window.location.href).hostname;
-			 if(config.Domain == hostname){
-				$("#GU_connector").remove();
-			}
-			for ( var i = 1; i <= config.Streams; i++ ) {
-				 $("#GU_tableLoads").append(`<div class="progress-wrapper mb-4">
-												<div><nobr id="GU_progress_file_id-${i}">Нет загрузки</nobr><span class="float-right" id="GU_files_update_percent-${i}">0%</span></div>
-												<div class="progress" style="height:7px;">
-													<div id="GU_progress_bar_id-${i}" class="progress-bar gradient-ibiza" style="width:0%"></div>
-												</div>
-											</div>`); 
- 			};
-			return config;
+				if(json.Config.GameServer.Domain!=""){
+					$("#favoriteMenu").show();
+					$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(json.Config.GameServer.Domain).hostname);
+					$("#favoriteMenu").attr("href", "/server/"+json.Config.GameServer.ID);
+						const hostname = new URL(window.location.href).hostname;
+						if(json.Config.GameServer.Domain == hostname){
+							$("#GU_connector").remove();
+						}
+						for ( var i = 1; i <= json.Config.User.Streams; i++ ) {
+						 $("#GU_tableLoads").append(`<div class="progress-wrapper mb-4">
+														<div><nobr id="GU_progress_file_id-${i}">Нет загрузки</nobr><span class="float-right" id="GU_files_update_percent-${i}">0%</span></div>
+														<div class="progress" style="height:7px;">
+															<div id="GU_progress_bar_id-${i}" class="progress-bar gradient-ibiza" style="width:0%"></div>
+														</div>
+													</div>`); 
+						};
+					}
+				}
+			return json;
 		}
 	});
 }
@@ -628,8 +632,32 @@ $(document).on("click", "#addblockfile", function(){
   
 });
 
+function isValidHttpUrl(string) {
+  let url;
+  
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;  
+  }
+
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
 
 $(document).on("click", "#gu_patchCreateLink", function(){
+		if(isValidHttpUrl($("#Domain").val())==false){
+			nError("Ошибка названия домена");
+			return;
+		}
+		if(isValidHttpUrl($("#PatchDBLink").val())==false){
+			nError("Введите корректную ссылку на файл БД патча");
+			return;
+		}
+		if(isValidHttpUrl($("#FileArchivesLink").val())==false){
+			nError("Введите корректную ссылку на месторасположение архивов");
+			return;
+		}
  	  	$.ajax({
 		url: 'http://127.0.0.1:'+launcherPort+'/setting/patch/create/link',
 		  xhrFields: {
@@ -664,8 +692,8 @@ $(document).on("click", "#gu_patchCreateLink", function(){
 				soft : $("#soft").is(':checked'),
 				macros : $("#macros").is(':checked'),
 				ss : $("#ss").is(':checked'),
-				newbiehelp : $("#newbiehelp").is(':checked')
-				 
+				newbiehelp : $("#newbiehelp").is(':checked'),
+				autoregistration : $("#autoregistration").is(':checked')
 			},
 		dataType: 'json',
 		crossDomain: true,
@@ -676,11 +704,7 @@ $(document).on("click", "#gu_patchCreateLink", function(){
 				nError(bcode["error"]);
 				return;
 			}
-			console.log(bcode);
-			linkTest = `<a href=${bcode}>Game Update</a>`
-			$('#gulink').text(linkTest);
-			$("#gu_testlink").text("Тест вызова");
-			$("#gu_testlink").attr('href', bcode.substring(1, bcode.length-1));
+			$('#gulink').text(bcode);
  		}
 	});
 });

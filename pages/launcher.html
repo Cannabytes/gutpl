@@ -187,6 +187,12 @@
                 <label for="white">Помощь новичкам</label>
               </div>
              </div>
+			 <div class="col-md-3">
+              <div class="icheck-material-white">
+                <input type="checkbox" id="white" {{ if .ServerInfo.IsAutoRegistration   }}checked{{ end }}/>
+                <label for="white">Авторегистрация</label>
+              </div>
+             </div>
           </div><!--End Row-->
           <hr>
            
