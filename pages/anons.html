@@ -112,7 +112,7 @@
 						   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
 						   <td>
 							 <span class="badge-dot">
-							   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+							   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }} x{{ $day.Exp }}
 							 </span>
 						   </td>
 						   <td>
@@ -145,7 +145,7 @@
 					   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
 					   <td>
 						 <span class="badge-dot">
-						   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+						   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }} x{{ $day.Exp }}
 						 </span>
 					   </td>
 					   <td>
@@ -178,7 +178,7 @@
 					   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
 					   <td>
 						 <span class="badge-dot">
-						   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+						   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }} x{{ $day.Exp }}
 						 </span>
 					   </td>
 					   <td>
@@ -186,8 +186,8 @@
 								  <div class="progress-bar gradient-ibiza" role="progressbar" style="width: 60%"></div>
 							</div>
 					  </td>
-			   </tr>
-			{{ end }}
+					</tr>
+				{{ end }}
 			</tbody>
 		 </table>
        </div>
@@ -207,16 +207,16 @@
 				<tbody>
 					 {{ range $i, $day := .Expected }}
 						  <tr>
-						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
-							   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
+						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a></td>
+							   <td>{{ TimeFormat $day.Date $day.TimeZone }} / {{ DayFormat $day.Date $day.TimeZone }}</td>
 							   <td>
 								 <span class="badge-dot">
-								   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+								   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }} x{{ $day.Exp }}
 								 </span>
 							   </td>
 							   <td>
 									<div class="progress shadow" style="height: 4px;">
-										  <div class="progress-bar gradient-ibiza" role="progressbar" style="width: 60%"></div>
+										  <div class="progress-bar gradient-ibiza" role="progressbar" style="width: {{ $day.Rating }}%"></div>
 									</div>
 							  </td>
 						   </tr>
@@ -241,11 +241,11 @@
                    
          {{ range $i, $day := .Opened }}
 			  <tr>
-						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
+					<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
 				   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
 				   <td>
 					 <span class="badge-dot">
-					   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }}
+					   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }} x{{ $day.Exp }}
 					 </span>
 				   </td>
 				   <td>

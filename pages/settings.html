@@ -37,8 +37,8 @@
 					<label for="input-6" class="col-sm-4 col-form-label">Мы можем сохранять все патчи, это устранит надобность в повторной загрузки одинаковых файлов</label>
                   <div class="col-sm-8">
 						<select class="form-control gu_settings" data-sname="filesReserve" id="input-6" name="intersted" required>
-							<option value="false"  {{if .FilesReserve }}selected{{end}}>Загружать всегда повторно</option>
-							<option value="true" {{if not .FilesReserve }}selected{{end}}>Сохранять в резерве файлы патча</option>
+							<option value="false"  {{if not .FilesReserve }}selected{{end}}>Загружать всегда повторно</option>
+							<option value="true" {{if .FilesReserve }}selected{{end}}>Сохранять в резерве файлы патча</option>
 						</select>
                   </div>
                  </div>

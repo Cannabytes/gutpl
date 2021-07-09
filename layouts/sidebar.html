@@ -10,14 +10,14 @@
        </div>
      <div id="user-dropdown" class="collapse">
       <ul class="user-setting-menu">
-            <li><a class="aj" href="/settings"><i class="icon-user"></i>  Настройки</a></li>
             <li><a class="aj" href="/setting/patch/create"><i class="icon-settings"></i> Создать патч</a></li>
+            <li><a class="aj" href="/faq/api"><i class="icon-settings"></i> API для сайта</a></li>
 			<li><a class="aj" href="/setting/logs"><i class="icon-power"></i> Логи</a></li>
       </ul>
      </div>
   </div>
 	  
-	  {{ template "navigation" }}
+	  {{ template "navigation" .}}
 	  
    </div>
    <!--End sidebar-wrapper-->

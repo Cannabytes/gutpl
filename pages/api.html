@@ -1,0 +1,244 @@
+{{define "pages/api"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "api_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "api_block"}}
+	<div class="row">
+    <div class="col-lg-12">
+       <div class="card">
+          <div class="card-header">Интерфейс взаимодействия сайта и лаунчера</div>
+          <div class="card-body"> 
+              <p>Если Вы хотите встроить лаунчер Вам необходимо отправлять POST запросы к лаунчеру, получать возрат и отображать на вашем сайте.</p>
+			  <p>Воспользуйтесь таблицей</p>
+		  </div>
+        </div>
+    </div>
+    </div>
+	
+     <div class="card">
+      <div class="card-body"> 
+        <div class="row">
+         <div class="col-md-2">
+          <div class="tabs-vertical tabs-vertical-primary">
+                 <ul class="nav nav-tabs flex-column top-icon">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#tabe-25"> <span class="hidden-xs">Конфигурация</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tabe-26"> <span class="hidden-xs">Информация</span></a>
+                  </li>
+          <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#tabe-27"> <span class="hidden-xs">Обновление</span></a>
+                  </li>
+                 
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="javascript:void();"> <span class="hidden-xs">Setting</span></a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" data-toggle="tab" href="#tabe-28">Link 1</a>
+            <a class="dropdown-item" href="javascript:void();">Link 2</a>
+            <a class="dropdown-item" href="javascript:void();">Link 3</a>
+          </div>
+                   </li>
+                  </ul>
+         </div>
+                </div>
+        <div class="col-md-9">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div id="tabe-25" class="container tab-pane active">
+                    <p>Вам необходимо знать конфигурацию пользователя, к примеру для отображения индикаторов списка одновременных загрузок (лаунчер поддерживает до 5 одновременных загрузок файлов патча).</p>
+					<p class="mb-0">Адрес запроса: <code>http://127.0.0.1:12550/get/config</code></p>
+						<hr>
+						<div class="form-group row">
+						  <label for="e1" class="col-sm-3 col-form-label">Пример ответа</label>
+						  <div class="col-sm-9">
+							<textarea class="form-control" rows="12" id="e1">{
+   "Config":{
+      "EnabledAnons":true,
+      "OpenURL":"localhost",
+      "OpenPort":"12550",
+      "OpenPage":"",
+      "IsOpenBrowser":true,
+      "ClientURL":"",
+      "OnlinePage":false,
+      "ServerDBLink":"",
+      "User":{
+         "Streams":5
+      },
+      "GameServer":{
+         "ID":1,
+         "Chronicle":14,
+         "FileArchivesLink":"http://planetfl.net/launcher/patch2folder/",
+         "Domain":"https://dark-times.ru",
+         "PatchDBLink":"http://planetfl.net/launcher/patch2folder/patch.json",
+         "Rating":0,
+         "Sponsor":0,
+         "Exp":50,
+         "SP":50,
+         "Adena":50,
+         "Drop":50,
+         "Spoil":50,
+         "Quest":50,
+         "Date":"2021-10-01 20:00:00",
+         "Style":1,
+         "TimeZone":"Europe/Moscow",
+         "IsGMShop":true,
+         "IsNPCBuffer":true,
+         "IsGlobalGK":true,
+         "IsOfflineTrade":true,
+         "IsAccessSoft":false,
+         "IsBugMacros":false,
+         "IsInfinitySS":false,
+         "IsHelpNewbie":false,
+         "IsAutoRegistration":false,
+         "MaxEnchant":25,
+         "SafeEnchant":4
+      }
+   },
+   "CountFiles":0,
+   "CountFilesUploaded":0,
+   "GetDownloads":null,
+   "Status":0,
+   "Ways":[
+      {
+         "ID":26,
+         "Chronicle":14,
+         "Title":"High Five",
+         "Path":"D:\\test",
+         "Name":""
+      }
+   ]
+}</textarea>
+
+		</div>
+	</div>
+	
+	<hr>
+	
+         <ul class="list-unstyled">
+              <li class="media">
+                <div class="media-body">
+                  <h5 class="mt-0 mb-1">Config.User.Streams</h5>
+					Количество одновременно загружаемых файлов.
+                </div>
+              </li>
+			  <br>
+              <li class="media">
+                <div class="media-body">
+                  <h5 class="mt-0 mb-1">Config.GameServer.Domain</h5>
+					Сверяя данный домен со вашим, Вы можете узнать, пользователь применил настройки нашего сервера в свой лаунчер.
+                </div>
+              </li>
+			  
+			  <br>
+              <li class="media">
+                <div class="media-body">
+                  <h5 class="mt-0 mb-1">Config.Ways</h5>
+					Список указанных пользователем месторасположений игры.<br>
+					Данные пути необходимы чтоб пользователь смог выбрать место обновления игры.<br>
+                </div>
+              </li>
+			  <br>
+              <li class="media">
+                <div class="media-body">
+                  <h5 class="mt-0 mb-1">Config.GetDownloads</h5>
+					Возращает <code>null</code> либо информацию о загружающихся файлах
+                </div>
+              </li>
+			  <br>
+              <li class="media">
+                <div class="media-body">
+                  <h5 class="mt-0 mb-1">Config.Status</h5>
+					 Статус того что сейчас происходит в лаунчере.<br>
+					
+
+			 <div class="table-responsive">
+			 В процессе работы лаунчера, статус будет меняться и принимать значения ниже.
+               <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">Код статуса</th>
+                    <th scope="col">Описание</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">0</th>
+                    <td>Ничего не происходит</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Идет обновление патча</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>НЕ ИСПОЛЬЗУЕТСЯ</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>НЕ ИСПОЛЬЗУЕТСЯ</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>НЕ ИСПОЛЬЗУЕТСЯ</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">5</th>
+                    <td>Обновление патча завершено</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">6</th>
+                    <td>НЕ ИСПОЛЬЗУЕТСЯ</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">7</th>
+                    <td>Произошла ошибка</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">8</th>
+                    <td>Проверка соответствия файлов</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">9</th>
+                    <td>Загрузка отменена</td>
+                  </tr>
+                </tbody>
+              </table>
+					 </div> 	
+							
+                </div>
+              </li>
+              
+            </ul>
+ 						
+  
+				</div>
+                 
+                 </div>
+        </div>
+              </div><!--End Row-->
+       </div>
+           </div>
+  	
+{{end}}
+
+

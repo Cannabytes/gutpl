@@ -120,16 +120,9 @@
 	 <div class="row">
         <div class="col-lg-12">
           <div class="card">
-             <div class="card-header text-uppercase">Создание ссылки на аптейдер</div>
+             <div class="card-header text-uppercase">Регистрация сервера</div>
              <div class="card-body">
 
-			 <blockquote class="blockquote">
-					<p>Что это и как это работает?</p>
-					<p>Ниже форма для заполнения, в ней укажите данные патча, после заполнения Вы получите ссылку.<br>
-					Эту ссылку разместите на своем сайте, пользователь нажмет и у него откроется лаунчер, в лаунчере будет данные для обновления под Ваш сервер.</p>
-						<footer class="blockquote-footer">@admin</footer>
-			 </blockquote>
-				<hr>
 				<div class="form-group row">
 				  <label for="Domain" class="col-sm-3 col-form-label">Сайт сервера</label>
 				  <div class="col-sm-9">
@@ -161,6 +154,22 @@
 					<input type="text" class="form-control " data-sname="FileArchivesLink" id="FileArchivesLink">
 				  </div>
 				</div>
+				<hr>
+				
+				<div class="form-group row">
+				  <label for="l2exeapp" class="col-sm-3 col-form-label">Приложение игры</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="l2exeapp" id="l2exeapp" placeholder="system/l2.exe">
+				  </div>
+				</div>
+				
+				<div class="form-group row">
+				  <label for="l2exeargs" class="col-sm-3 col-form-label">Аргументы</label>
+				  <div class="col-sm-9">
+					<input type="text" class="form-control " data-sname="l2exeargs" id="l2exeargs">
+				  </div>
+				</div>
+				
 				<hr>
 					
 					
@@ -226,7 +235,7 @@
 				  <div class="col-sm-9">
 						<select class="form-control " data-sname="TimeZone" id="TimeZone">
  								{{ range $i, $tz := .Timezone }}
-									<option value="{{ $tz.Name }}"  > {{ $tz.Name }} - {{ $tz.Time | TimeReconstruct }}</option>
+									<option value="{{ $tz.Name }}" >{{ $tz.Name }} ({{ $tz.Time }})</option>
 							    {{ end }}   
  						</select>
  					</div>

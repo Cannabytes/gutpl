@@ -1,0 +1,51 @@
+{{define "pages/404"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "404_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "404_block"}}
+	 
+  <div class="text-center error-pages">
+                        <h1 class="error-title text-warning"> 404</h1>
+                        <h2 class="error-sub-title">404 not found</h2>
+
+                        <p class="error-message text-uppercase">Sorry, an error has occured, Requested page not found!</p>
+                        
+                        <div class="mt-4">
+                          <a href="index.html" class="btn btn-dark btn-round m-1">Go To Home </a>
+                          <a href="javascript:void();" class="btn btn-warning btn-round m-1">Previous Page </a>
+                        </div>
+
+                        <div class="mt-4">
+                            <p class="">Copyright © 2019 Dashtreme | All rights reserved.</p>
+                        </div>
+                           <hr class="w-50 border-light">
+                        <div class="mt-2">
+                            <a href="javascript:void()" class="btn-social btn-facebook btn-social-circle waves-effect waves-light m-1"><i class="fa fa-facebook"></i></a>
+                            <a href="javascript:void()" class="btn-social btn-google-plus btn-social-circle waves-effect waves-light m-1"><i class="fa fa-google-plus"></i></a>
+                            <a href="javascript:void()" class="btn-social btn-behance btn-social-circle waves-effect waves-light m-1"><i class="fa fa-behance"></i></a>
+                            <a href="javascript:void()" class="btn-social btn-dribbble btn-social-circle waves-effect waves-light m-1"><i class="fa fa-dribbble"></i></a>
+                        </div>
+                    </div>
+					
+{{end}}
+
+

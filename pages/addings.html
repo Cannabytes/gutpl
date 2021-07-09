@@ -1,0 +1,66 @@
+{{define "pages/addings"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "addings_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "addings_block"}}
+		<h6 class="text-uppercase">Дополнения лаунчера</h6>
+       <hr>
+	 <div class="row">
+	   <div class="col-12 col-lg-4">
+	    <div class="card">
+		  <img src="https://via.placeholder.com/800x500" class="card-img-top" alt="Card image cap">
+			<div class="card-body">
+				<h4 class="card-title">База Знаний</h4>
+				<p>База знаний NPC, дропа, спойла и месторасположение мобов. Данные соответствуют PTS.</p>
+				<hr>
+                <a href="javascript:void();" class="btn btn-primary btn-sm text-white"><i class="fa fa-star mr-1"></i> Установить</a>
+			</div>
+		</div>
+	   </div>
+	   <div class="col-12 col-lg-4">
+	    <div class="card">
+		 <img src="https://via.placeholder.com/800x500" class="card-img-top" alt="Card image cap">
+			<div class="card-body">
+				<h4 class="card-title">Крафт Калькулятор</h4>
+				<p>Калькулятор для крафтинга предметов, необходимых ресурсов.</p>
+				<hr>
+                <a href="javascript:void();" class="btn btn-primary btn-sm text-white"><i class="fa fa-star mr-1"></i> Установить</a>
+			</div>
+		</div>
+	   </div>
+	   <div class="col-12 col-lg-4">
+	    <div class="card">
+		 <img src="https://via.placeholder.com/800x500" class="card-img-top" alt="Card image cap">
+			<div class="card-body">
+				<h4 class="card-title">Эмулятор оффлайн</h4>
+				<p>Вы можете запустить свой эмулятор сервера.</p>
+				<hr>
+                <a href="javascript:void();" class="btn btn-primary btn-sm text-white"><i class="fa fa-star mr-1"></i> Установить</a>
+			</div>
+		</div>
+	   </div>
+	 </div><!--End Row-->
+
+	
+{{end}}
+
+

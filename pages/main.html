@@ -3,20 +3,20 @@
 <html lang="en">
 {{ template "head" }}
 <body>
-{{ template "pageloader" }}
+{{ template "pageloader" .}}
 <div id="wrapper">
-    {{ template "sidebar" }}
-    {{ template "topbar" }}
+    {{ template "sidebar" .}}
+    {{ template "topbar" .}}
     <div class="clearfix"></div>
     <div class="content-wrapper">
         <div class="container-fluid">
-			{{ template "main_block" . }} 
+ 			{{ template "main_block" . }} 
             <div class="overlay toggle-menu"></div>
 		</div>
     </div>
-	{{ template "footer" }}
+	{{ template "footer" .}}
 </div>
-{{ template "scripts" }}
+{{ template "scripts" .}}
 </body>
 </html>
 {{end}}
@@ -93,6 +93,21 @@
            </div>
            </div>
 	
+	
+	
+		
+	
+ 	    <div class="card">
+			<div class="card-body">
+				<div class="card-title" >Энчант</div>
+           
+				<a href="javascript:void()" id="testA" class="btn-social-text btn-github waves-effect waves-light m-1"> <span>Заточить +1</span></a>
+
+				<img id="enchantSuccess" src="/template/assets/games/ItemEnchant_df_effect_success_0.png">
+
+			</div>
+		</div>
+ 
 {{end}}
 
 

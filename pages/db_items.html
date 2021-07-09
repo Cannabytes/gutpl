@@ -1,0 +1,80 @@
+{{define "pages/db_items"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "db_items_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "db_items_block"}}
+{{ $getItem := GetItem .ItemID }}
+
+	<div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header"> <img src="/template/icon/{{ $getItem.Icon }}.png" alt="user avatar" class="rounded"> {{ $getItem.Name }} {{ if ne ($getItem.CrystalType | GradeLevel) "" }} <img src="/template/icon/{{ $getItem.CrystalType }}.png" alt="user avatar" class=" rounded"> {{ end }}  </div>
+            <div class="card-body">
+              <div class="table-responsive">
+              <table id="default-datatable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Exp</th>
+                        <th>Chance</th>
+                        <th>Min</th>
+                        <th>Max</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+					{{ range  $a, $n :=  .Npc }}
+								<tr>
+									<td> {{ add $a 1 }}</td>
+									<td><a href="/db/hf/npc/{{ $n.Id }}" class="aj">{{ $n.Name }}</a>{{ if ne .Agro_range 0 }}<font color="yellow">*</font>{{end}}</td>
+									<td>{{ $n.Level }}</td>
+									<td>{{ $n.Exp }}</td>
+									<td>{{ $n.Drop.Chance }}%</td>
+									<td>{{ $n.Drop.Min }}</td>
+									<td>{{ $n.Drop.Max }}</td>
+								</tr>
+					  {{ end }}
+					  
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Level</th>
+                        <th>Exp</th>
+                        <th>Chance</th>
+                        <th>Min</th>
+                        <th>Max</th>
+                    </tr>
+                </tfoot>
+            </table>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+	
+{{end}}
+
+

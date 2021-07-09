@@ -32,7 +32,7 @@ function reinit(){
 
 	$(document).on('click', '.aj', function(e) {
 		e.preventDefault();
-		var href = $(this).prop('href');
+ 		var href = $(this).prop('href');
 		if(window.location.href == href){
 			return;
 		}
@@ -45,18 +45,15 @@ function reinit(){
             type: "POST",
             url: href,
             success: function (data) {
-				
-				  $('#dateStart').datepicker({
+ 				  $('#dateStart').datepicker({
 					 autoclose: true,
 					 todayHighlight: true
 				  });
-				  
-				console.log("AJAX->", href);
                 $(".container-fluid").html(data);
 				reinit();
  				window.history.pushState("object or string", "Title", href);
-				config();
 				info();
+				config();
             }
         }); 
     }
@@ -176,30 +173,36 @@ function config() {
 		method: 'post',           
 		dataType: 'json',
 		crossDomain: true,
-		contentType: 'application/x-www-form-urlencoded',
+		// contentType: 'application/x-www-form-urlencoded',
+		dataType: "JSON",
+
 		processData: true,
 		success: function(json){
+			// console.log("config->", JSON.stringify(json));
 			// console.log("->", new URL(json.Config.GameServer.Domain).hostname);
 			// return;
-			if(json.Config.GameServer.ID==-1){
-				$("#favoriteMenu").hide();
-			}else{
-				if(json.Config.GameServer.Domain!=""){
-					$("#favoriteMenu").show();
-					$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(json.Config.GameServer.Domain).hostname);
-					$("#favoriteMenu").attr("href", "/server/"+json.Config.GameServer.ID);
-						const hostname = new URL(window.location.href).hostname;
-						if(json.Config.GameServer.Domain == hostname){
-							$("#GU_connector").remove();
-						}
-						for ( var i = 1; i <= json.Config.User.Streams; i++ ) {
+			
+			for ( var i = 1; i <= json.Config.User.Streams; i++ ) {
 						 $("#GU_tableLoads").append(`<div class="progress-wrapper mb-4">
 														<div><nobr id="GU_progress_file_id-${i}">Нет загрузки</nobr><span class="float-right" id="GU_files_update_percent-${i}">0%</span></div>
 														<div class="progress" style="height:7px;">
 															<div id="GU_progress_bar_id-${i}" class="progress-bar gradient-ibiza" style="width:0%"></div>
 														</div>
 													</div>`); 
-						};
+			};
+						
+						
+			if(json.Config.GameServer.ID==-1){
+				$("#favoriteMenu").hide();
+			}else{
+				if(json.Config.GameServer.Domain!=""){
+					
+					$("#favoriteMenu").show();
+					$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(json.Config.GameServer.Domain).hostname);
+					$("#favoriteMenu").attr("href", "/server/"+json.Config.GameServer.ID);
+						
+						 
+						
 					}
 				}
 			return json;
@@ -209,6 +212,7 @@ function config() {
 
 
 function info() { 
+	$("#l2exe").hide();
 	var timerRequest = setInterval(
 		function(){
 			if(activePage==false){
@@ -225,10 +229,10 @@ function info() {
 				contentType: 'application/x-www-form-urlencoded',
 				processData: true,
 				error: function(xhr, status, error) {
-					$("#GU_patchEvent").html("<a href='https://god.dark-times.ru/GameUpdate.exe'>Скачайте и запустите аптейдер</a>");
 					clearInterval(timerRequest);
 				},
 				success: function(data){ 
+					console.log(data);
 					Status = data.Status;
 					ProcentLoad = data.ProcentLoad;
 					LastMsg = data.LastMsg;
@@ -244,7 +248,11 @@ function info() {
 					CountFilesDBUpdate = data.CountFilesDBUpdate;
 					GetDownloads = data.GetDownloads;
 					
-					console.log(GetDownloads);
+						const hostname = new URL(window.location.href).hostname;
+						if(data.Config.GameServer.Domain == hostname){
+							$("#GU_connector").remove();
+						}
+						 
 					switch (Status) {
 					  case 0:
 							clearInterval(timerRequest);
@@ -284,12 +292,13 @@ function info() {
 							
 							$.each(GetDownloads, function( id, value ) {
 								  $("#GU_progress_file_id-"+(id+1)).text(value.Path);
-								  $("#GU_files_update_percent-"+(id+1)).text(value.DownloadPercent+"%");
-								  $("#GU_progress_bar_id-"+(id+1)).css('width', value.DownloadPercent+'%');
+								  $("#GU_files_update_percent-"+(id+1)).text("100%");
+								  $("#GU_progress_bar_id-"+(id+1)).css('width', '100%');
 							});
-
+							$("#ProcentLoad").css('width', '100%');
 							$("#GU_patchEvent").text(data.LastMsg);
-
+							$("#l2exe").show();
+							
 						break;
 						
 					  case 7:
@@ -670,6 +679,9 @@ $(document).on("click", "#gu_patchCreateLink", function(){
 				PatchDBLink : $("#PatchDBLink").val(),
 				FileArchivesLink : $("#FileArchivesLink").val(),
 				
+				L2exeapp  : $("#l2exeapp").val(),
+				L2exeargs : $("#l2exeargs").val(),
+ 
 				EXP   : $("#Exp").val(),
 				SP    : $("#SP").val(),
 				Drop  : $("#Drop").val(),
@@ -963,4 +975,73 @@ function strLimit(string, length){
 	}
 	return string;
 }
+
+
+$(document).on("click", "#testA", function(){
+ var images = ['ItemEnchant_df_effect_success_0.png',
+			'ItemEnchant_df_effect_success_1.png',
+			'ItemEnchant_df_effect_success_2.png',
+			'ItemEnchant_df_effect_success_3.png',
+			'ItemEnchant_df_effect_success_4.png',
+			'ItemEnchant_df_effect_success_5.png',
+			'ItemEnchant_df_effect_success_6.png',
+			'ItemEnchant_df_effect_success_7.png',
+			'ItemEnchant_df_effect_success_8.png',
+			'ItemEnchant_df_effect_success_9.png',
+			'ItemEnchant_df_effect_success_10.png',
+			'ItemEnchant_df_effect_success_11.png',
+			'ItemEnchant_df_effect_success_12.png',
+			'ItemEnchant_df_effect_success_13.png',
+			'ItemEnchant_df_effect_success_14.png',
+			'ItemEnchant_df_effect_success_15.png',
+			'ItemEnchant_df_effect_success_16.png',
+			'ItemEnchant_df_effect_success_17.png',
+			'ItemEnchant_df_effect_success_18.png',
+			'ItemEnchant_df_effect_success_19.png',
+			'ItemEnchant_df_effect_success_20.png',
+			'ItemEnchant_df_effect_success_21.png',
+			'ItemEnchant_df_effect_success_22.png',
+			'ItemEnchant_df_effect_success_23.png',
+			'ItemEnchant_df_effect_success_24.png',
+			'ItemEnchant_df_effect_success_25.png',
+			'ItemEnchant_df_effect_success_26.png',
+			'ItemEnchant_df_effect_success_27.png',
+			'ItemEnchant_df_effect_success_28.png'
+			],
+    index = 0, 
+    maxImages = images.length - 1;
+	var timer = setInterval(function() {
+		var currentImage = images[index];
+		index = (index == maxImages) ? 0 : ++index;
+		$('#enchantSuccess').fadeOut(0, function() {
+			$('#enchantSuccess').attr("src", '/template/assets/games/'+currentImage);
+			$('#enchantSuccess').fadeIn(0);
+		});
+		if(index==28){
+			clearInterval(timer);
+			return;
+		}
+	 }, 120);
+});
+
+ 
+ 
+$(document).on("click", "#gu_addingdonwload", function(){
+  	ids = $(this).data("ids");
+  	$.ajax({
+		url: 'http://127.0.0.1:'+launcherPort+'/adding/download',
+		  xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',           
+		data: {ids:ids},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data){
+ 			console.log(data);
+		}
+  });
+});
 

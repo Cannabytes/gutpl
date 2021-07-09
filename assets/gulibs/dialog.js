@@ -1,9 +1,12 @@
 ﻿inputIdf = "";
 
 
-//Нажатие на кнопку подтверждения выбора папки
 $(document).on('click', '#autostart', function(e) {
-		round_default_noti("QWE");
+	if($("#autostart").prop('checked')==true){
+ 		nSuccess("Автозапуск игры включен");
+	}else{
+		nError("Автозапуск игры отключен");
+	}
 });
 
 //Нажатие на кнопку подтверждения выбора папки
@@ -15,6 +18,10 @@ $(document).on('click', '#dirOpenDialogApply', function(e) {
 //Сохранение 
 $(document).on('click', '#dirOpenDialogPathServerSave', function(e) {
 		path = $("#dialogFullPath").text();
+		if (path == "") {
+			nError("Введите путь к папке игры");
+			return;
+		}
 		$("#"+inputIdf).val(path);
 		chronicle = $(this).data( "chronicle" );
 		serverid = $(this).data( "serverid" );

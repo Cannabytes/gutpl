@@ -29,8 +29,16 @@
              <div class="card-header ">Указать месторасположение</div>
              <div class="card-body">
 			 
+			 <div class="form-group row">
+				  <label for="clientname" class="col-sm-3 col-form-label">Краткое название</label>
+				  <div class="col-sm-9">
+				     <input type="text" id="clientname" placeholder="К примере: Для игры с допами" class="form-control">
+				  </div>
+				</div>
+				
+				
 				<div class="form-group row">
-				  <label for="clientVersion" class="col-sm-3 col-form-label">Версия клиента</label>
+				  <label for="clientVersion" class="col-sm-3 col-form-label">Версия клиента<font color="red">*</font></label>
 				  <div class="col-sm-9">
 					<select class="form-control" id="clientVersion">
                          {{range $i, $version := .Chronicle}}
@@ -40,16 +48,10 @@
 				  </div>
 				</div>
 				
-				<div class="form-group row">
-				  <label for="clientname" class="col-sm-3 col-form-label">Краткое название</label>
-				  <div class="col-sm-9">
-				     <input type="text" id="clientname" placeholder="К примере: Для игры с допами" class="form-control">
-				  </div>
-				</div>
 				
 				
 				<div class="form-group row">
-				  <label for="clientSetPath" class="col-sm-3 col-form-label ">Выберите папку с игрой</label>
+				  <label for="clientSetPath" class="col-sm-3 col-form-label ">Выберите папку с игрой<font color="red">*</font></label>
 				  <div class="col-sm-9">
 				  <div class="input-group">
                         <input id="clientSetPath" type="text" class="form-control" placeholder="К примеру: D:\Games\Interlude" aria-label="game path" aria-describedby="game path">

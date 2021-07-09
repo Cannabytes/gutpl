@@ -1,0 +1,65 @@
+{{define "pages/stream"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "stream_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "stream_block"}}
+	
+	      <div class="row">
+        <div class="col-lg-12">
+          <div class="card-group">
+            <div class="card border-right border-light-3">
+				<img src="//img.youtube.com/vi/21X5lGlDOfg/mqdefault.jpg" class="card-img-top" width="355" height="222">
+              <div class="card-body">
+                <h5 class="card-title">@Channal</h5>
+                <p class="card-text">Присоединяйся к нашему стриму...</p>
+              </div>
+              <div class="card-footer">
+                <small>Добавлен 15 мин. назад</small>
+              </div>
+            </div>
+            <div class="card border-right border-light-3">
+              <img class="card-img-top" src="https://via.placeholder.com/800x500" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Card Sample Title</h5>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+              </div>
+              <div class="card-footer">
+                <small>Last updated 3 mins ago</small>
+              </div>
+            </div>
+            <div class="card">
+              <img class="card-img-top" src="https://via.placeholder.com/800x500" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title">Card Sample Title</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+              </div>
+              <div class="card-footer">
+                <small>Last updated 3 mins ago</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+	
+{{end}}
+
+

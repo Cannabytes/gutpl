@@ -1,9 +1,8 @@
-{{define "navigation"}}   
-<ul class="sidebar-menu">
+{{define "navigation"}}  
 
-	  <li><a class="aj" id="favoriteMenu" href="/" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>Лаунчер</span></a></li>
+<ul class="sidebar-menu">
+	<li><a class="aj" id="favoriteMenu" href="/" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>Лаунчер</span></a></li>
 	
-	 {{ if .LauncherConfig.EnabledAnons }}
       <li>
         <a href="javaScript:void();" class="waves-effect">
           <i class="zmdi zmdi-share text-info"></i> <span>Сервер</span><i class="fa fa-angle-left pull-right"></i>
@@ -14,32 +13,58 @@
 		  <!-- <li><a href="#"  class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> История</a></li> -->
 		</ul>
       </li>
-	  {{ end }}
 	  
       <li>
         <a href="javaScript:void();" class="waves-effect">
-          <i class="zmdi zmdi-layers"></i> <span>Настройки</span> <i class="fa fa-angle-left pull-right"></i>
+          <i class="zmdi zmdi-layers"></i> <span>Клиент</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="sidebar-submenu">
 			<li><a href="/setting/games/set" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Месторасположения</a></li>
+			<li><a href="/setting/games/optimization" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Оптимизация</a></li>
          </ul>
       </li>
+	  
       <li>
         <a href="javaScript:void();" class="waves-effect">
           <i class="zmdi zmdi-card-travel"></i>
-          <span>База Знаний</span>
+          <span>Дополнения</span>
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="sidebar-submenu">
-          <li><a href="#"><i class="zmdi zmdi-dot-circle-alt"></i> Interlude</a></li>
-          <li><a href="#"><i class="zmdi zmdi-dot-circle-alt"></i> High Five</a></li>
+		  <li>
+		     <li>  
+				<a href="javaScript:void();" class="waves-effect">
+				  <i class="zmdi zmdi-card-travel"></i>
+				  <span>База Знаний</span>
+				  <i class="fa fa-angle-left pull-right"></i>
+				</a>
+				<ul class="sidebar-submenu">
+				  <li><a href="/db/hf" class="aj" ><i class="zmdi zmdi-dot-circle-alt"></i> High Five</a></li>
+				</ul>
+			  </li>
+		  </li>
+		  <li><a href="#" class="aj" ><i class="zmdi zmdi-dot-circle-alt"></i> Крафт калькулятор</a></li>
+		  <li><a href="#" class="aj" ><i class="zmdi zmdi-dot-circle-alt"></i> Эмулятор</a></li>
+
         </ul>
       </li>
-            
+	  
+      <!-- <li> -->
+        <!-- <a href="javaScript:void();" class="waves-effect"> -->
+          <!-- <i class="zmdi zmdi-card-travel"></i> -->
+          <!-- <span>База Знаний</span> -->
+          <!-- <i class="fa fa-angle-left pull-right"></i> -->
+        <!-- </a> -->
+        <!-- <ul class="sidebar-submenu"> -->
+          <!-- <li><a href="/db/hf" class="aj" ><i class="zmdi zmdi-dot-circle-alt"></i> High Five</a></li> -->
+          <!-- <li><a href="/db/interlude"><i class="zmdi zmdi-dot-circle-alt"></i> Interlude</a></li> -->
+        <!-- </ul> -->
+      <!-- </li> -->
+	  
       <!-- <li class="sidebar-header">LABELS</li> -->
       <!-- <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>Important</span></a></li> -->
       <!-- <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-chart-donut text-success"></i> <span>Warning</span></a></li> -->
       <!-- <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-share text-info"></i> <span>Information</span></a></li> -->
     </ul>
    
-  {{ end }}
+  {{ end }} 
