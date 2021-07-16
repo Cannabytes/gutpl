@@ -156,7 +156,7 @@ function start() {
 				$("#favoriteMenu").data("href", "/launcher");
 			}else{
 				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(data.Domain).hostname);
-				$("#favoriteMenu").attr("href", "/server/"+data.ServerID);
+				$("#favoriteMenu").attr("href", "/server/id/"+data.ServerID);
 			}
 			return data;
 		}
@@ -199,7 +199,7 @@ function config() {
 					
 					$("#favoriteMenu").show();
 					$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(json.Config.GameServer.Domain).hostname);
-					$("#favoriteMenu").attr("href", "/server/"+json.Config.GameServer.ID);
+					$("#favoriteMenu").attr("href", "/server/id/"+json.Config.GameServer.ID);
 						
 						 
 						
@@ -580,6 +580,31 @@ $(document).on("change", ".gu_settings", function(){
 	}
 	  	$.ajax({
 		url: 'http://127.0.0.1:'+launcherPort+'/settings/save',
+		  xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',           
+		data: {settingName:settingName, settingValue:settingValue},
+		dataType: 'html',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data){
+			console.log(data);
+ 		}
+	});
+});
+
+/**
+	Сохранение настроек
+**/
+$(document).on("click", ".gu_settings_autoload", function(){
+	if ($(this).prop("type")=="checkbox"){
+		settingName = $(this).data("sname");
+		settingValue = $(this).is(":checked");
+	}
+	$.ajax({
+		url: 'http://127.0.0.1:'+launcherPort+'/settings/save/autoload',
 		  xhrFields: {
 			withCredentials: false
 		},
@@ -1035,6 +1060,26 @@ $(document).on("click", "#gu_addingdonwload", function(){
 		},
 		method: 'post',           
 		data: {ids:ids},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data){
+ 			console.log(data);
+		}
+  });
+});
+
+
+$(document).on("click", "#openDirectory", function(){
+  	path = $(this).data("path");
+  	$.ajax({
+		url: 'http://127.0.0.1:'+launcherPort+'/open/directory',
+		  xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',           
+		data: {path:path},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',

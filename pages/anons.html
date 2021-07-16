@@ -108,7 +108,7 @@
 		   
 					{{ range $i, $day := .Today }}
 					  <tr>
-						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
+						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/id/{{ $day.ID }}">{{ $day.Domain }}</a> x{{ $day.Exp }}</td>
 						   <td>{{ TimeFormat $day.Date $day.TimeZone }}</td>
 						   <td>
 							 <span class="badge-dot">

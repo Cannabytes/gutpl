@@ -55,19 +55,7 @@
                 </tfoot>
             </table>
 			
-			<div class="table-responsive">
-              <ul class="pagination pagination-sm">
-				
-                <li class="page-item"><a class="page-link" href="javascript:void();">Previous</a></li>
-				
-				{{ range $i, $val := .CountPages }}
-					{{ $buttonID := add $i 1 }}
-					<li class="page-item {{ if eq $.PageId $buttonID }}active{{end}}"><a class="page-link aj" href="/db/hf/npc/level/{{$.min}}/{{$.max}}/{{$buttonID}}">{{ $buttonID }}</a></li>
-				{{ end }}
-                <li class="page-item"><a class="page-link" href="javascript:void();">Next</a></li>
-			  </ul>
-			</div>
-
+			 
             </div>
             </div>
           </div>

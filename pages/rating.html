@@ -41,7 +41,7 @@
 				 {{range $i, $rating := .Rating}}
                      <tr>
                         <td>{{ add $i 1}}</td>
-                        <td><a {{ if $rating.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/{{ $rating.ID }}">{{ $rating.Domain }}</a> x{{ $rating.Exp }}
+                        <td><a {{ if $rating.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/id/{{ $rating.ID }}">{{ $rating.Domain }}</a> x{{ $rating.Exp }}
 						<div class="progress shadow" style="height: 4px;">
 							  <div class="progress-bar gradient-ibiza" role="progressbar" style="width: {{ percent $.MaxRating $rating.Rating }}%"></div>
 							</div>

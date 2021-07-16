@@ -87,7 +87,7 @@
                     <td>
 					<span class="badge badge-danger removeClient" data-id="{{ .ID }}"><i class="fa fa-remove"></i></span> {{ .Title }}</td>
                     <td>{{ .Name }}</td>
-                    <td>{{ .Path }}</td>
+                    <td><strong id="openDirectory" data-path="{{ .Path }}">{{ .Path }}</strong></td>
                   </tr>
 				  {{ end }}
                 </tbody>

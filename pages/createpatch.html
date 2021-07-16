@@ -32,7 +32,7 @@
                  <div class="col-lg-12">
                   <p class="text-left">Мануал</p>
                   <p>Перед Вами форма создания патча. Вам следует указать папку с файлами, эти файлы будут добавлены в архив у указанную папку, и создан файл patch.db в котором перечислены файлы, которые мы добавили в архив и их хэш.</p>
-				  <p>Загрузите patch.db и файлы архивов на хостинг!</p>
+				  <p>Загрузите patch.json и файлы архивов на хостинг!</p>
                 </div>
 	
 				<hr>
@@ -58,25 +58,7 @@
 								</div>
 							 </div> 
                       </div>
-					 
-					<div class="form-group row">
-                        <label class="col-sm-3 col-form-label" data-toggle="tooltip" title="Версия будет служить как рекомендация к проверки файлов патча." for="version">Версия патча</label>
-							<div class="col-sm-9">
-								<input type="number" min="1" class="form-control" id="version" value="1">
-							</div>
-                    </div>
 					  
-				 <div class="form-group row">
-				  <label for="basic-select" class="col-sm-3 col-form-label">Хроники патча</label>
-				  <div class="col-sm-9">
-					<select  id="chronicle" class="form-control" id="basic-select">
-					  {{ range $i, $chronicle := .ChronicleList }}
-						<option value="{{ $chronicle.Codename }}"  > {{ $chronicle.Title }} ({{ $chronicle.Codename }})</option>
-					  {{ end }}           
-					</select>
-				  </div>
-				</div>
-				
                         </div> 
                        <button id="createPatchServer" type="submit" class="btn btn-primary mr-2">Начать</button>
                     </div>
@@ -235,7 +217,7 @@
 				  <div class="col-sm-9">
 						<select class="form-control " data-sname="TimeZone" id="TimeZone">
  								{{ range $i, $tz := .Timezone }}
-									<option value="{{ $tz.Name }}" >{{ $tz.Name }} ({{ $tz.Time }})</option>
+									<option value="{{ $tz.Name }}" >{{ $tz.Name }}</option>
 							    {{ end }}   
  						</select>
  					</div>

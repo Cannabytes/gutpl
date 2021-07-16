@@ -38,7 +38,7 @@
 					  </ul>
 					  <div class="carousel-inner">
 						<div class="carousel-item active">
-						  <img class="d-block w-100" src="/template/npc/{{ .Npc.Id }}.jpg">
+						  <img class="d-block w-100" src="{{ .NpcImg }}">
 						</div>
 						  
 					  </div>
@@ -58,7 +58,6 @@
 					  <div class="carousel-inner">
 					  
 						<div class="carousel-item active">
-						  <img class="d-block w-100" src="data:image/jpeg;base64,{{ MapLocation .Npc.Location }}">
  						</div>
 						 
 					  </div>
@@ -77,24 +76,19 @@
                 <li class="nav-item">
                     <a href="javascript:void();" data-target="#stats" data-toggle="pill" class="nav-link active"><i class="icon-user"></i> <span class="hidden-xs">Статы</span></a>
                 </li>
+			 
 				{{ $CountDrop := .Npc.Additional_make_multi_list | CountDrop }}
-				{{ $countDropExtra := .Npc.Additional_make_list | CountDropExtra }}
-                {{ if or (ge $CountDrop 1) (ge $countDropExtra 1) }}
-			   <li class="nav-item">
+				{{ if ge $CountDrop 1 }}
+ 				<li class="nav-item">
                     <a href="javascript:void();" data-target="#messages" data-toggle="pill" class="nav-link"><i class="icon-envelope-open"></i>
 					<span class="hidden-xs">Дроп 
-						
-						{{ if ge $CountDrop 1 }}
+ 						{{ if ge $CountDrop 1 }}
 							<span class="badge badge-pill badge-dark m-1">{{ $CountDrop }}</span>
 						{{ end }}
-
-						{{ if ge $countDropExtra 1 }}
-							<span class="badge badge-pill badge-light m-1">{{ $countDropExtra }}</span>
-						{{ end }}
-				
-				</span></a>
+ 				</span></a>
                 </li>
 				{{ end }}
+
 				
 				{{ $CountDropSweep := .Npc.Corpse_make_list | CountDropSweep }}
 				{{ if ge $CountDropSweep 1 }}
@@ -108,10 +102,12 @@
 				{{ end }}
 
                 <li class="nav-item">
-                    <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link"><i class="icon-note"></i> <span class="hidden-xs">Квест</span></a>
+                    <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link">
+					<i class="icon-note"></i> <span class="hidden-xs">Квест</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link"><i class="icon-note"></i> <span class="hidden-xs">Карты</span></a>
+                    <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link">
+					<i class="icon-note"></i> <span class="hidden-xs">Карты</span></a>
                 </li>
             </ul>
 			
@@ -127,7 +123,7 @@
                               <th>Name</th>
                               <td>{{ .Npc.Name }}</td>
                               <th>Type</th>
-                              <td>{{ .Npc.NpcType }}</td>
+                              <td>{{ .Npc.Type }}</td>
                             </tr>
                             <tr>
                               <th>level</th>
@@ -159,7 +155,7 @@
                               <th>atkspd</th>
                               <td>{{ .Npc.Base_attack_speed }}</td>
                               <th>Clan</th>
-                              <td>{{ .Npc.Clan }}</td>
+                              <td>-=-=-</td>
                             </tr>
 							
                             <tr> 
@@ -179,84 +175,39 @@
 				<div class="card">
 				{{ range  $v, $k :=  .Npc.Additional_make_multi_list }}
 					<div class="card-header">Шанс дропа категории {{ $k.Chance }}%</div> 
-
-						{{ range  $z, $x :=  $k.List }}
+						{{ range  $z, $x :=  $k.Droplist }}
 						 
  							{{$getItem := GetItem $x.Id }}
 							<ul class="list-group list-group-flush shadow-none">
 							  <li class="list-group-item">
 								<div class="media align-items-center">
-								<img src="/template/icon/{{ $getItem.Icon }}.png" alt="user avatar" class=" rounded">
+								<img src="/template/icon/{{ $getItem.Icon }}.png" alt="icon" class="rounded">
 								<div class="media-body ml-3">
-								  
 									 <div class="dropdown">
 										 <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
 										 <div class="icon-container">
 											<span class="ti-angle-down"></span>
-											<span class="icon-name">{{ $getItem.Name }} {{ if ne ($getItem.CrystalType | GradeLevel) "" }} <img src="/template/icon/{{ $getItem.CrystalType }}.png" alt="user avatar" class=" rounded"> {{ end }}</span>
+											<span class="icon-name">{{ $getItem.Name }} {{ if ne ($getItem.CrystalType | GradeLevel) "" }} <img src="/template/icon/{{ $getItem.CrystalType }}.png" alt="crystal" class=" rounded"> {{ end }}</span>
 										  </div>
 										 </a> 							 
 										<div class="dropdown-menu dropdown-menu-right">
 										<a class="dropdown-item aj" href="/db/hf/drop/{{ $getItem.Id }}">Дроп</a>
 										<a class="dropdown-item aj" href="/db/hf/sweep/{{ $getItem.Id }}">Спойл</a>
-										{{ if ne $getItem.RecipeId 0 }}
-											<a class="dropdown-item aj" href="/db/hf/recipe/{{ $getItem.RecipeId }}">Крафт</a>
-										{{ end }}		
-										{{ if $x.Craft }}
-											<a class="dropdown-item aj" href="/db/hf/craft/">Крафт</a>
-										{{ end }}
-										<div class="dropdown-divider"></div>
+  										<div class="dropdown-divider"></div>
 											<a class="dropdown-item aj" href="javascript:void();">Описание</a>
 									   </div>
 									  </div>
-									<small class="small-font">Шанс: {{ $x.Chance }}% / Кол-во: {{ ItemDifference $x.Min $x.Max }} / Цена: {{ $getItem.DefaultPrice }}</small>
+									<small class="small-font">Шанс: {{ $x.Chance }}% / Кол-во: {{ ItemDifference $x.Min $x.Max }}</small>
 								</div>
 							   </div>
 							  </li>
 							</ul>	
  						{{ end }}
-
 				{{ end }}
-				
-				 
-				 {{ if .Npc.Additional_make_list }}
-					<div class="card-header">Дополнительный дроп</div> 
-
-					{{ range  $v, $k :=  .Npc.Additional_make_list }}
-							{{$getItem := GetItem $k.Id }}
-
-								<ul class="list-group list-group-flush shadow-none">
-								  <li class="list-group-item">
-									<div class="media align-items-center">
-									<img src="/template/icon/{{ $getItem.Icon }}.png" alt="user avatar" class=" rounded">
-									<div class="media-body ml-3">
-									  <h6 class="mb-0">{{ $getItem.Name }} </h6>
-									  <small class="small-font">Шанс: {{ $k.Chance }}% Кол-во {{ ItemDifference $k.Min $k.Max }}  </small>
-									</div>
-								   </div>
-								  </li>
-								</ul>	
-					{{ end }}
-				{{ end }}
+		 
          
 
-				{{ if .Npc.Ex_item_drop_list }}
-					<div class="card-header">Экстра дроп</div> 
-					{{ range  $v, $k :=  .Npc.Ex_item_drop_list }}
-							{{$getItem := GetItem $k.Id }}
-								<ul class="list-group list-group-flush shadow-none">
-								  <li class="list-group-item">
-									<div class="media align-items-center">
-									<img src="/template/icon/{{ $getItem.Icon }}.png" alt="user avatar" class=" rounded">
-									<div class="media-body ml-3">
-									  <h6 class="mb-0">{{ $getItem.Name }} </h6>
-									  <small class="small-font">Шанс: {{ $k.Chance }}% Кол-во {{ ItemDifference $k.Min $k.Max }}  </small>
-									</div>
-								   </div>
-								  </li>
-								</ul>	
-					{{ end }}
-				{{ end }}
+				 
          
 
 		 </div>
@@ -286,12 +237,8 @@
 										<div class="dropdown-menu dropdown-menu-right">
 										<a class="dropdown-item aj" href="/db/hf/drop/{{ $getItem.Id }}">Дроп</a>
 										<a class="dropdown-item aj" href="/db/hf/sweep/{{ $getItem.Id }}">Спойл</a>
-										{{ if ne $getItem.RecipeId 0 }}
-											<a class="dropdown-item aj" href="/db/hf/recipe/{{ $getItem.RecipeId }}">Крафт</a>
-										{{ end }}
-										{{ if $k.Craft }}
-											<a class="dropdown-item aj" href="/db/hf/craft/">Крафт</a>
-										{{ end }}
+									
+									 
 										<div class="dropdown-divider"></div>
 											<a class="dropdown-item" href="javascript:void();">Описание</a>
 									   </div>

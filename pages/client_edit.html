@@ -1,0 +1,42 @@
+{{define "pages/client_edit"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "client_edit_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "client_edit_block"}}
+	
+		<h6 class="text-uppercase">Конфигурация настроек клиента</h6>
+       <hr>
+	 <div class="row">
+	   <div class="col-12 col-lg-6">
+	    <div class="card">
+			<div class="card-body">
+				<div class="card-title">Ещё рано</div>
+				<p>Планируется сделать тут возможность редактирования файлов конфигурации игры</p>
+			</div>
+		</div>
+	   </div>
+	   </div>
+
+	
+{{end}}
+
+
