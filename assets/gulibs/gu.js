@@ -136,7 +136,7 @@ $(document).on("click", "#GU_patch",  function () {
 	Чтоб выключить загрузку, просто отпарвляем запрос на обновление (во время загрузки)
 */
 function start() {
-	serverID = window.location.pathname.split('/server/')[1];
+	serverID = window.location.pathname.split('/server/id/')[1];
 	getClientPath = $("#getClientPath").val();
 	$.ajax({
 		url: 'http://127.0.0.1:'+launcherPort+'/download',

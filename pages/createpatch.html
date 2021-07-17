@@ -22,20 +22,37 @@
 {{end}}
 
 {{define "createpatch_block"}}
-	
-	<div class="row">
+
+      <div class="row">
+        <div class="col-lg-12">
+           <div class="card">
+              <div class="card-body"> 
+                <ul class="nav nav-pills nav-pills-dark nav-justified" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="pill" href="#piil-13"><i class="icon-home"></i> <span class="hidden-xs">Создание патч листа</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="pill" href="#piil-14"><i class="icon-user"></i> <span class="hidden-xs">Регистрация в Лаунчере</span></a>
+                  </li> 
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div id="piil-13" class="container tab-pane active">
+              
+		<div class="row">
               <div class="col-md-8 grid-margin stretch-card">
-                <div class="card">
-				
-                  <div class="card-body">
-				  
-                 <div class="col-lg-12">
-                  <p class="text-left">Мануал</p>
-                  <p>Перед Вами форма создания патча. Вам следует указать папку с файлами, эти файлы будут добавлены в архив у указанную папку, и создан файл patch.db в котором перечислены файлы, которые мы добавили в архив и их хэш.</p>
-				  <p>Загрузите patch.json и файлы архивов на хостинг!</p>
-                </div>
-	
-				<hr>
+ 				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Описание создания патча</button>
+				<div class="collapse" id="collapseExample">
+				  <div class="card card-body">
+					  <p>В первом поле укажите папку где находится игровой клиент, который необходимо запатчить.</p>
+					 <p>В следующем поле укажите папку сохранения архивов.</p>
+					 <p>После завершения архивации, в папке сохрания появится файл patch.json, это файл с данными вашего патча.</p>
+					 <p>Файл patch.json и все файлы необходимо загрузить на ваш сервер.</p>
+					 <p>Далее, при регистрации вашего сервера в базе лаунчера, необходимо указать прямые ссылки на patch.json и архивы.</p>
+				  </div>
+				</div>
+ 				<hr>
                     <div class="forms-sample">
                       <div class="form-group">
 					   
@@ -62,15 +79,12 @@
                         </div> 
                        <button id="createPatchServer" type="submit" class="btn btn-primary mr-2">Начать</button>
                     </div>
-                  </div>
-                </div>
-              </div>
-			  
-			  
+               </div>
+			   
               <div class="col-md-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Создание патч-листа</h4>
+                    <h4 class="card-title">Обработка</h4>
                     <div class="table-responsive">
                       <table class="table table-dark">
                          <tbody>
@@ -97,18 +111,23 @@
                 </div>
               </div>
 		</div>
-	<hr>
-	
-	 <div class="row">
-        <div class="col-lg-12">
-          <div class="card">
-             <div class="card-header text-uppercase">Регистрация сервера</div>
-             <div class="card-body">
-
+				</div>
+				
+               <div id="piil-14" class="container tab-pane fade">
+ 				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#descRegistrationLauncher" aria-expanded="false" aria-controls="collapseExample">Описание регистрации</button>
+				<div class="collapse" id="descRegistrationLauncher">
+				  <div class="card card-body">
+					<p>Все сервера отображаемые в лаунчере, находится в общей базе, при регистрации, вы добавляете свой сервер в базу.</p>
+					<p>Вам необходимо заполнить данные необходмые для лаунчера.</p>
+					<p>После заполнения, вы получите код ваших настроек, его нужно передать <a href="https://t.me/Cannabytes">разработчику лаунчера<a/>.</p>
+					<p>После успешной проверки, ваш сервер появится в базах у всех пользователей лаунчера.</p>
+				  </div>
+				</div>
+				<hr>
 				<div class="form-group row">
 				  <label for="Domain" class="col-sm-3 col-form-label">Сайт сервера</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="Domain" id="Domain">
+					<input type="text" class="form-control" placeholder="https://example.com" data-sname="Domain" id="Domain">
 				  </div>
 				</div>
 			
@@ -124,16 +143,16 @@
 				</div>
 				
 				<div class="form-group row">
-				  <label for="PatchDBLink" class="col-sm-3 col-form-label">Ссылка патч-лист (patch.db)</label>
+				  <label for="PatchDBLink" class="col-sm-3 col-form-label">Ссылка патч-лист (patch.json)</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="PatchDBLink" id="PatchDBLink">
+					<input type="text" class="form-control" placeholder="https://files.example.com/patch.json" data-sname="PatchDBLink" id="PatchDBLink">
 				  </div>
 				</div>
 				
 				<div class="form-group row">
 				  <label for="FileArchivesLink" class="col-sm-3 col-form-label">Ссылка где храниться файлы</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="FileArchivesLink" id="FileArchivesLink">
+					<input type="text" class="form-control" placeholder="https://files.example.com" data-sname="FileArchivesLink" id="FileArchivesLink">
 				  </div>
 				</div>
 				<hr>
@@ -153,49 +172,46 @@
 				</div>
 				
 				<hr>
-					
-					
-					
-					
+ 					
 				<div class="form-group row">
 				  <label for="Exp" class="col-sm-3 col-form-label">Exp</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="Exp" id="Exp">
+					<input type="number" class="form-control" placeholder="10" data-sname="Exp" id="Exp">
 				  </div>
 				</div>	
 				
 				<div class="form-group row">
 				  <label for="SP" class="col-sm-3 col-form-label">SP</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="SP" id="SP">
+					<input type="number" class="form-control" placeholder="10" data-sname="SP" id="SP">
 				  </div>
 				</div>
 				
 				<div class="form-group row">
 				  <label for="Adena" class="col-sm-3 col-form-label">Drop</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="Drop" id="Drop">
+					<input type="number" class="form-control" placeholder="1" data-sname="Drop" id="Drop">
 				  </div>
 				</div>
 				
 				<div class="form-group row">
 				  <label for="Adena" class="col-sm-3 col-form-label">Adena</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="Adena" id="Adena">
+					<input type="number" class="form-control " placeholder="3" data-sname="Adena" id="Adena">
 				  </div>
 				</div>
 				
 				<div class="form-group row">
 				  <label for="Spoil" class="col-sm-3 col-form-label">Spoil</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="Spoil" id="Spoil">
+					<input type="number" class="form-control" placeholder="3" data-sname="Spoil" id="Spoil">
 				  </div>
 				</div>
 				
 				<div class="form-group row">
 				  <label for="Quest" class="col-sm-3 col-form-label">Quest</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="Quest" id="Quest">
+					<input type="number" class="form-control" placeholder="1" data-sname="Quest" id="Quest">
 				  </div>
 				</div>
 				<hr>
@@ -242,14 +258,14 @@
 				<div class="form-group row">
 				  <label for="MaxEnchant" class="col-sm-3 col-form-label">Макс. заточка</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="MaxEnchant" id="MaxEnchant">
+					<input type="number" placeholder="16" class="form-control " data-sname="MaxEnchant" id="MaxEnchant">
 				  </div>
 				</div>
 				
 				<div class="form-group row">
 				  <label for="SafeEnchant" class="col-sm-3 col-form-label">Безопастные заточка</label>
 				  <div class="col-sm-9">
-					<input type="text" class="form-control " data-sname="SafeEnchant" id="SafeEnchant">
+					<input type="number" placeholder="3" class="form-control " data-sname="SafeEnchant" id="SafeEnchant">
 				  </div>
 				</div>
 				
@@ -332,18 +348,26 @@
 				
 				<hr>
 				
+				 
+				
 				<div class="form-group row">
 				  <label for="gulink" class="col-sm-3 col-form-label">Конфигурация<br>Передайте её разработчику</label>
 				  <div class="col-sm-9">
                     <textarea class="form-control" rows="5" id="gulink" readonly></textarea>
-                    <a id="gu_testlink" href="#" ></a>
 				  </div>
 				</div>
-				
-             </div>
+				 
+                  </div>
+              
+                </div>
+             
+			 </div>
            </div>
-         </div>
-       </div><!--End Row-->
+       
+        </div>
+        </div>
+
+	 
 {{end}}
 
 
