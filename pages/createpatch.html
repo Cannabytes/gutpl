@@ -188,7 +188,7 @@
 				</div>
 				
 				<div class="form-group row">
-				  <label for="Adena" class="col-sm-3 col-form-label">Drop</label>
+				  <label for="Drop" class="col-sm-3 col-form-label">Drop</label>
 				  <div class="col-sm-9">
 					<input type="number" class="form-control" placeholder="1" data-sname="Drop" id="Drop">
 				  </div>
@@ -340,7 +340,13 @@
 				  </div>
 				</div>
 			 
-			
+			<hr>
+			Проверка владельца сайта.<br>
+			Для того чтоб ваш сервер попал в базу лаунчера, необходимо проверить, является сайт вашим.<br>
+			В корне вашего сайта, создайте пустой файл <strong id="code">{{ .CreateCode }}</strong><br>
+			Пример: https://example.com/{{ .CreateCode }}<br>
+			Если на момент проверки файла не будет, регистрация будет отклонена.
+			<hr>
 				
 				 <div class="form-footer">
                     <button type="submit" id="gu_patchCreateLink" class="btn btn-success"><i class="fa fa-check-square-o"></i> Сгенерировать конфигурацию</button>

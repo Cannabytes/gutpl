@@ -1,0 +1,54 @@
+{{define "pages/serversdomain"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "serversdomain_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "serversdomain_block"}}
+  
+	<div class="row">
+	
+	{{ range $i, $server := .Servergames}}
+	
+    <div class="col-lg-4">
+    <div class="pricing-table">
+     <div class="card">
+      <div class="card-body text-center">
+     <div class="price-title">{{ $server.Chronicle | getChronicle }}</div>
+       <h2 class="price"><small class="currency">x</small>{{ $server.Exp }}</h2>
+       <ul class="list-group list-group-flush">
+      <li class="list-group-item"><b>{{ $server.Style | ServerStyle }}</b></li>
+      <li class="list-group-item">Запуск <b>{{ DayReconstruct $server.Date }}</b> </li>
+      <li class="list-group-item">Рейтинг<b> 315</b></li>
+      </ul>
+      <a href="/server/id/{{ $server.ID }}" class="btn btn-primary my-3 btn-round aj">Открыть</a>
+    </div>
+     </div>
+     </div>
+    </div>
+	
+	{{ end }}
+     
+   </div><!--End Row-->
+	
+
+{{end}}
+
+

@@ -464,22 +464,20 @@ $(document).on( 'click', '#savePathClient', function(e){
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
 		success: function(data){
-			if (data.error!=null){
+ 			if (data.error!=null){
 				nError(data.error);
 			}else{
 				$("#clientsPathList").empty();
 				$.each(data.AllWays, function( id, way ) {
-					console.log(way);
 					$('#clientsPathList').before('<tr>\
                     <td>\
-					<span class="badge badge-danger removeClient" data-id="'+way.ID+'"><i class="fa fa-remove"></i></span> '+way.Title+'</td>\
+					<span class="badge badge-danger removeClient" data-id="'+way.ID+'"><i class="fa fa-remove"></i></span> '+way.ChronicleTitle+'</td>\
                     <td>'+way.Name+'</td>\
                     <td>'+way.Path+'</td>\
                   </tr>');
 				});
 			}
-			console.log(data);
-			return data;
+ 			return data;
 		}
 	});
 });
@@ -644,26 +642,48 @@ $(document).on("click", "#saveInputPathSetting", function(){
 
 
 $(document).on("click", "#addblockfile", function(){
-
-	filename = $("#filename").val();
+ 	filename = $("#filename").val();
 	chronicle = $("#chronicle").val();
-
-  	$.ajax({
+   	$.ajax({
 	url: 'http://127.0.0.1:'+launcherPort+'/setting/block/add',
 	  xhrFields: {
 		withCredentials: false
 	},
 	method: 'post',           
 	data: {filename:filename, chronicle:chronicle},
-	dataType: 'html',
+	dataType: 'json',
 	crossDomain: true,
 	contentType: 'application/x-www-form-urlencoded',
 	processData: true,
 	success: function(data){
 		console.log(data);
+		$("#blocklists").append(`<tr>
+                        <td><h5 class="mb-0"><span id="removeBlocklist" data-id="`+data.ID+`" class="badge badge-pill badge-danger m-0"><i aria-hidden="true" class="fa fa-remove"></i></span>`+data.Filename+`</h5></td>
+                        <td>`+data.Chronicle+`</td>
+                    </tr>`);
     }
-  });
-  
+  }); 
+});
+
+$(document).on("click", ".removeBlocklist", function(){
+	thisButt = $(this);
+	id = thisButt.data("id");
+
+	$.ajax({
+	url: 'http://127.0.0.1:'+launcherPort+'/setting/block/remove',
+	  xhrFields: {
+		withCredentials: false
+	},
+	method: 'post',           
+	data: {id:id},
+	dataType: 'json',
+	crossDomain: true,
+	contentType: 'application/x-www-form-urlencoded',
+	processData: true,
+	success: function(data){
+		thisButt.closest('tr').remove();
+    }
+  }); 
 });
 
 function isValidHttpUrl(string) {
@@ -730,7 +750,8 @@ $(document).on("click", "#gu_patchCreateLink", function(){
 				macros : $("#macros").is(':checked'),
 				ss : $("#ss").is(':checked'),
 				newbiehelp : $("#newbiehelp").is(':checked'),
-				autoregistration : $("#autoregistration").is(':checked')
+				autoregistration : $("#autoregistration").is(':checked'),
+				code: $("#code").text(),
 			},
 		dataType: 'json',
 		crossDomain: true,
@@ -749,8 +770,8 @@ $(document).on("click", "#gu_patchCreateLink", function(){
 
 //Удаление месторасположения клиента
 $(document).on("click", ".removeClient", function(){
-	self = $(this);
- 	id = self.data("id");
+	thisButt = $(this);
+ 	id = thisButt.data("id");
   	$.ajax({
 	url: 'http://127.0.0.1:'+launcherPort+'/setting/game/remove',
 	  xhrFields: {
@@ -764,7 +785,7 @@ $(document).on("click", ".removeClient", function(){
 	processData: true,
 	success: function(data){
 		if (data.error==null){
-			self.closest("tr").remove();
+			thisButt.closest("tr").remove();
 		}else{
 			nError(data.error);
 		}
@@ -895,15 +916,15 @@ $(document).on("click", "#noteSaveEdit", function(){
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
 		success: function(data){
-			console.log(data);
- 				h = `<table class="table table-hover"><tbody>`;
-					c = ``;
-					   $.each(data.note, function( i, note ) {
-						 c = c+`<tr><td><label class="noteRead" data-id="`+note.ID+`" href="/notes/id/`+note.ID+`"><i class="fa fa-circle text-info mr-2"></i>`+ strLimit(note.Content, 70) +`</label></td></tr>`;
-					   });
-					f = `</tbody></table>`;
-				$("#noteData").html(h + c + f);
-				nSuccess("Заметка изменена");
+			console.log(data.note);
+ 			// h = `<table class="table table-hover"><tbody>`;
+				// c = ``;
+				   // $.each(data.note, function( i, note ) {
+					 // c = c+`<tr><td><label class="noteRead" data-id="`+note.ID+`" href="/notes/id/`+note.ID+`"><i class="fa fa-circle text-info mr-2"></i>`+ strLimit(note.Content, 70) +`</label></td></tr>`;
+				   // });
+				// f = `</tbody></table>`;
+			// $("#noteData").html(h + c + f);
+			nSuccess("Заметка изменена");
 		}
   });
 });
@@ -973,7 +994,6 @@ $(document).on("click", "#noteRemove", function(){
 			nSuccess("Заметка удалена");
 			
 			
-			
 			if (data.note.length==0){
 				$("#noteData").html("<label>У Вас нет записей к данному серверу, но Вы можете создать</label>");
 			}else{
@@ -1002,54 +1022,6 @@ function strLimit(string, length){
 }
 
 
-$(document).on("click", "#testA", function(){
- var images = ['ItemEnchant_df_effect_success_0.png',
-			'ItemEnchant_df_effect_success_1.png',
-			'ItemEnchant_df_effect_success_2.png',
-			'ItemEnchant_df_effect_success_3.png',
-			'ItemEnchant_df_effect_success_4.png',
-			'ItemEnchant_df_effect_success_5.png',
-			'ItemEnchant_df_effect_success_6.png',
-			'ItemEnchant_df_effect_success_7.png',
-			'ItemEnchant_df_effect_success_8.png',
-			'ItemEnchant_df_effect_success_9.png',
-			'ItemEnchant_df_effect_success_10.png',
-			'ItemEnchant_df_effect_success_11.png',
-			'ItemEnchant_df_effect_success_12.png',
-			'ItemEnchant_df_effect_success_13.png',
-			'ItemEnchant_df_effect_success_14.png',
-			'ItemEnchant_df_effect_success_15.png',
-			'ItemEnchant_df_effect_success_16.png',
-			'ItemEnchant_df_effect_success_17.png',
-			'ItemEnchant_df_effect_success_18.png',
-			'ItemEnchant_df_effect_success_19.png',
-			'ItemEnchant_df_effect_success_20.png',
-			'ItemEnchant_df_effect_success_21.png',
-			'ItemEnchant_df_effect_success_22.png',
-			'ItemEnchant_df_effect_success_23.png',
-			'ItemEnchant_df_effect_success_24.png',
-			'ItemEnchant_df_effect_success_25.png',
-			'ItemEnchant_df_effect_success_26.png',
-			'ItemEnchant_df_effect_success_27.png',
-			'ItemEnchant_df_effect_success_28.png'
-			],
-    index = 0, 
-    maxImages = images.length - 1;
-	var timer = setInterval(function() {
-		var currentImage = images[index];
-		index = (index == maxImages) ? 0 : ++index;
-		$('#enchantSuccess').fadeOut(0, function() {
-			$('#enchantSuccess').attr("src", '/template/assets/games/'+currentImage);
-			$('#enchantSuccess').fadeIn(0);
-		});
-		if(index==28){
-			clearInterval(timer);
-			return;
-		}
-	 }, 120);
-});
-
- 
  
 $(document).on("click", "#gu_addingdonwload", function(){
   	ids = $(this).data("ids");

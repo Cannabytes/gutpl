@@ -42,7 +42,7 @@
 				  <div class="col-sm-9">
 					<select class="form-control" id="clientVersion">
                          {{range $i, $version := .Chronicle}}
-							<option value="{{ $version.Codename }}">{{ $version.Codename }} - {{ $version.Title }}</option>
+							<option value="{{ $version.Codename }}">{{ $version.Title }} ({{ $version.Codename }})</option>
 						 {{ end }}
                         </select>
 				  </div>
@@ -85,7 +85,7 @@
 				  {{ range .AllWays }}
                   <tr>
                     <td>
-					<span class="badge badge-danger removeClient" data-id="{{ .ID }}"><i class="fa fa-remove"></i></span> {{ .Title }}</td>
+					<span class="badge badge-danger removeClient" data-id="{{ .ID }}"><i class="fa fa-remove"></i></span> {{ .Chronicle | getChronicle }}</td>
                     <td>{{ .Name }}</td>
                     <td><strong id="openDirectory" data-path="{{ .Path }}">{{ .Path }}</strong></td>
                   </tr>

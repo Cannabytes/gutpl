@@ -75,7 +75,7 @@
 	    <div class="row">
         <div class="col-lg-12">
           <div class="card">
-            <div class="card-header"><i class="fa fa-table"></i> Блокировки</div>
+            <div class="card-header"><i class="fa fa-table"></i>Блокировки</div>
             <div class="card-body">
               <div class="table-responsive">
               <table id="" class="table table-bordered">
@@ -85,22 +85,20 @@
                         <th>Хроники</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="blocklists">
 					{{ range $i, $fd := .BlockFiles}}
                     <tr>
-                        <td><h5 class="mb-0">{{ $fd.Filename }}	<span class="badge badge-pill badge-danger m-0"><i aria-hidden="true" class="fa fa-remove"></i></span></h5></td>
+                        <td><h5 class="mb-0"><span class="removeBlocklist" data-id="{{ $fd.ID }}" class="badge badge-pill badge-danger m-0"><i aria-hidden="true" class="fa fa-remove"></i></span>{{ $fd.Filename }}</h5></td>
                         <td>{{ $fd.Chronicle | getChronicle }}</td>
                     </tr>
                     {{ end }}
                 </tbody>
-                 
             </table>
             </div>
             </div>
           </div>
         </div>
-      </div><!-- End Row-->
-
+      </div>
 {{end}}
 
 

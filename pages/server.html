@@ -129,7 +129,7 @@
 
                         <div class="card-header">Характеристики</div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Сервер : <span class="float-right"><a href="{{ .ServerInfo.Domain }}" target="_blank">{{ .ServerInfo.Domain | Hostname }}</a></span></li>
+                            <li class="list-group-item">Сервер : <span class="float-right"><a href="/server/domain/{{ .ServerInfo.Domain | Hostname }}" class="aj">{{ .ServerInfo.Domain | Hostname }}</a> <a href="{{ .ServerInfo.Domain }}" target="_blank"><i aria-hidden="true" class="fa fa-external-link"></i></a></span></li>
                             <li class="list-group-item">Версия игры : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
                             <li class="list-group-item">EXP : <span class="float-right">x{{ .ServerInfo.Exp }}</span></li>
                             <li class="list-group-item">Версия сервера : <span class="float-right">{{ .ServerInfo.Style | ServerStyle }}</span></li>

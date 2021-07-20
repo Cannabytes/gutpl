@@ -17,7 +17,7 @@ $(document).on('click', '#dirOpenDialogApply', function(e) {
 
 //Сохранение 
 $(document).on('click', '#dirOpenDialogPathServerSave', function(e) {
-		path = $("#dialogFullPath").text();
+		path = $("#getClientPath").val();
 		if (path == "") {
 			nError("Введите путь к папке игры");
 			return;
@@ -40,6 +40,8 @@ $(document).on('click', '#dirOpenDialogPathServerSave', function(e) {
 			success: function(data){ 
 				$("#"+$(this).data("input")).val(data.path);
 				loadBlockHTMLServerSelect(serverid, $(this), "select/block");
+				// $("#l2exe").hide();
+				// document.getElementById('l2exe').style.display = 'none';
 			}
 		});
 });
@@ -149,19 +151,14 @@ function openDialogModal(path){
 				$("#dirOpenDialogBack").hide();
 			}
 			$("#dirOpenDialogList").empty();
-			if (data.type == "disk") {
-				img = "/template/assets/images/disk.png";
-			}else if (data.type == "folder"){
-				img = "/template/assets/images/folder.png";
-			}
+	
 			$.each(data.files, function(i, item) {
-				$("#dirOpenDialogList").append(`<div class="col-md-1 col-lg-1 col-xl-2 ">
-                   <figure class="figure">
-					  <img src="`+img+`" class="figure-img img-fluid rounded selectDir" data-path="`+item.path+`" alt="A generic square placeholder image with rounded corners in a figure.">
-					  <figcaption class="figure-caption text-center "><p class="selectDir" data-path="`+item.path+`">`+item.name+`</p></figcaption>
-					</figure>
-                </div>`);
+ 				$("#dirOpenDialogList").append(`
+				<a href="javascript:void()" data-path="`+item.path+`" class="selectDir btn-social-text btn-github waves-effect waves-light m-1">
+				<i class="fa fa-folder text-warning"></i> <span>`+item.name+`</span>
+				</a>`);
 			});
+
   		}
 	});
 }
