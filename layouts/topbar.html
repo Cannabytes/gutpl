@@ -8,16 +8,54 @@
        <i class="icon-menu menu-icon"></i>
      </a>
     </li>
-    <li class="nav-item">
-      <form class="search-bar">
-        <input type="text" class="form-control" placeholder="Поиск">
+    <li class="nav-item ">
+      <form class="search-bar ">
+         <input type="text" class="form-control"  placeholder="{{ GetPhrase 30 }}">
          <a href="javascript:void();"><i class="icon-magnifier"></i></a>
       </form>
     </li>
   </ul>
      
   <ul class="navbar-nav align-items-center right-nav-link">
+    
+  <li data-toggle="tooltip" data-placement="bottom" title="{{ GetPhrase 31 }}" class="nav-item dropdown-lg">
+      <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="modal" data-target="#shortcut">
+      <i class="fa fa-save"></i></a>
+  </li>
   
+	
+
+  
+  <li data-toggle="tooltip" data-placement="bottom" title="{{ GetPhrase 32 }}" class="nav-item dropdown-lg">
+      <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="modal" data-target="#formemodal">
+      <i class="fa fa-copy"></i></a>
+  </li>
+  
+  <li class="nav-item language">
+      <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
+		{{ if eq LauncherConfig.Lang "en" }}
+			<i class="flag-icon flag-icon-gb"></i>
+		{{ end }}
+		{{ if eq LauncherConfig.Lang "ru" }}
+			<i class="flag-icon flag-icon-ru"></i>
+		{{ end }}
+		{{ if eq LauncherConfig.Lang "ua" }}
+			<i class="flag-icon flag-icon-ua"></i>
+		{{ end }}
+	  </a>
+      <ul class="dropdown-menu dropdown-menu-right">
+		   {{ if ne LauncherConfig.Lang "en" }}
+           <li class="dropdown-item"> <a href="/settings/save/lang/en"><i class="flag-icon flag-icon-gb mr-2"></i> English</a></li>
+		   {{ end }}
+	      {{ if ne LauncherConfig.Lang "ru" }} 
+          <li class="dropdown-item"> <a href="/settings/save/lang/ru"><i class="flag-icon flag-icon-ru mr-2"></i> Russia</a></li>
+		  {{ end }}
+		   {{ if ne LauncherConfig.Lang "ua" }} 
+           <li class="dropdown-item"> <a href="/settings/save/lang/ua"><i class="flag-icon flag-icon-ua mr-2"></i> Ukraine</a></li>
+		   {{ end }}
+        </ul>
+    </li>
+	
     <li class="nav-item dropdown-lg">
       <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
 		<i class="fa fa-cog"></i></a>
@@ -28,8 +66,8 @@
            <div class="media">
              <i class="zmdi zmdi-accounts fa-2x mr-3 text-info"></i>
             <div class="media-body">
-            <h6 class="mt-0 msg-title">Настройки</h6>
-            <p class="msg-info">Опции лаунчера</p>
+            <h6 class="mt-0 msg-title">{{ GetPhrase 33 }}</h6>
+            <p class="msg-info">{{ GetPhrase 34 }}</p>
             </div>
           </div>
           </a>
@@ -39,26 +77,76 @@
            <div class="media">
              <i class="zmdi zmdi-notifications-active fa-2x mr-3 text-danger"></i>
             <div class="media-body">
-            <h6 class="mt-0 msg-title">Обновление</h6>
-            <p class="msg-info">Информация лаунчера</p>
+            <h6 class="mt-0 msg-title">{{ GetPhrase 35 }}</h6>
+            <p class="msg-info">{{ GetPhrase 36 }}</p>
             </div>
           </div>
           </a>
           </li>
-          <!-- <li class="list-group-item text-center"><a href="javaScript:void();">See All Notifications</a></li> -->
-        </ul>
+         </ul>
       </div>
     </li>
-  
-  <li data-toggle="tooltip" data-placement="bottom" title="Трансляции" class="nav-item dropdown-lg">
-      <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect aj" data-toggle="dropdown" href="/stream">
-      <i class="fa fa-video-camera"></i><span class="badge badge-primary badge-up">12</span></a>
-  </li>
-	
+
  
   </ul>
 </nav>
 </header>
 <!--End topbar header-->
 
+               <!-- Modal -->
+                <div class="modal fade" id="formemodal">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">{{ GetPhrase 37 }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+							<div>
+							 <div class="form-group">
+                               <label for="hyperlink">{{ GetPhrase 38 }}</label>
+                               <input type="text" class="form-control" id="hyperlink">
+                             </div>
+                             <div class="form-group">
+                               <label for="htmllink">HTML link</label>
+                               <input type="text" class="form-control" id="htmllink">
+                             </div>
+                             <div class="form-group">
+                               <label for="bbcodelink">BB-code</label>
+                               <input type="text" class="form-control" id="bbcodelink">
+                             </div>
+							</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+				
+                <div class="modal fade" id="shortcut">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">{{ GetPhrase 39 }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+							<div>
+							 <div class="form-group">
+                               <label for="hyperlink">{{ GetPhrase 40 }}</label>
+                               <input type="text" class="form-control" id="shortcutname">
+                               <input type="hidden" class="form-control" id="shortcutlink">
+                             </div>
+                             <div class="form-group">
+								<button type="button" class="btn btn-dark btn-sm btn-round btn-block waves-effect waves-light m-1">{{ GetPhrase 41 }}</button>
+                             </div>
+                            
+							</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+ 
 {{ end }}

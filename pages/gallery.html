@@ -1,0 +1,61 @@
+{{define "pages/gallery"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "gallery_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "gallery_block"}}
+	<div class="row">
+		<div class="col-lg-12">
+		<div class="card">
+		  <div class="card-body">
+			<button type="button" id="screensave" class="btn-social-text btn-github btn-round waves-effect waves-light m-1" >{{ GetPhrase 111 }}</button>
+			{{ GetPhrase 112 }}
+		  </div>
+		</div>            
+	   </div>
+ 
+	<div class="col-12">
+          <div class="card">
+            <div class="card-header text-uppercase">{{ GetPhrase 29 }}</div>
+            <div class="card-body">
+              <div class="row" id="screens">
+			  {{ if .Galleries }}
+				{{ range $i, $screen :=  .Galleries }}
+                <div class="col-md-6 col-lg-3 col-xl-3">
+					<a href="{{ $screen }}" data-fancybox="group2">
+						<img src="{{ $screen }}" alt="lightbox" class="lightbox-thumb img-thumbnail">
+					</a>
+                </div>
+                {{ end }}
+			  {{ else }}
+ 					<h6 class="mb-0">{{ GetPhrase 113 }}</h6>
+              {{ end }}  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!--End Row-->
+
+	 	{{ template "setTitle" . }}
+
+{{end}}
+
+

@@ -1,4 +1,7 @@
 function secondsToDhms(seconds) {
+	if (Math.sign(seconds)==-1) {
+		seconds = Math.abs(seconds)
+	}
 	seconds = Number(seconds);
 	var d = Math.floor(seconds / (3600*24));
 	var h = Math.floor(seconds % (3600*24) / 3600);
@@ -10,7 +13,7 @@ function secondsToDhms(seconds) {
 	var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
 	var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
 
-		return dDisplay + hDisplay + mDisplay + sDisplay;
+	return dDisplay + hDisplay + mDisplay + sDisplay;
 }
 
 let timerId = setInterval(function tick() {

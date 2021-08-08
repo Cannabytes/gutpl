@@ -36,27 +36,27 @@
             </div>
             <div class="card border-right border-light-3">
 
-			<div class="card-body"><h5 class="card-title">Рейтинг сервера</h5>
+			<div class="card-body"><h5 class="card-title">{{ GetPhrase 181 }}</h5>
 				
 			<div class="row m-0 row-group text-center border-light-2">
 		   
 				   <div class="col-4 col-lg-4">
 					 <div class="p-0">
 					   <h5 class="mb-0">{{ .ServerInfo.Rating }}</h5>
-					   <small class="mb-0">Голосов</small>
+					   <small class="mb-0">{{ GetPhrase 182 }}</small>
 					 </div>
 				   </div>
 				   <div class="col-4 col-lg-4">
 					 <div class="p-0">
 					   <h5 class="mb-0">{{ percent .MaxRating .ServerInfo.Rating }}%</h5>
-					   <small class="mb-0">Рейтинг</small>
+					   <small class="mb-0">{{ GetPhrase 51 }}</small>
 					 </div>
 				   </div>
 				   <div class="col-4 col-lg-4">
 					 <div class="p-0">
 					   <h5 class="mb-0" data-toggle="modal" data-target="#showVoteDialog"><i class="fa fa-thumbs-o-up"></i></h5>
 
-					   <small class="badge {{ if .VoteTimeOut | timeVoteCheck }}badge-success{{else}}badge-dark badge-pill{{end}}" data-toggle="modal" data-target="#showVoteDialog">Голосовать</small>
+					   <small class="badge {{ if .VoteTimeOut | timeVoteCheck }}badge-success{{else}}badge-dark badge-pill{{end}}" data-toggle="modal" data-target="#showVoteDialog">{{ GetPhrase 161 }}</small>
 					   
 					 </div>
 				   </div>
@@ -70,9 +70,9 @@
             </div>
             <div class="card">
                <div class="card-body">
-                <h5 class="card-title">Заметки</h5>
-                <p class="card-text">Сохраните себе полезную информацию о сервере.</p>
-				<button type="button" data-toggle="modal" data-target="#largesizemodal" class="btn btn-dark btn-sm btn-round btn-block waves-effect waves-light m-1">Открыть</button>
+                <h5 class="card-title">{{ GetPhrase 115 }}</h5>
+                <p class="card-text">{{ GetPhrase 116 }}</p>
+				<button type="button" data-toggle="modal" data-target="#largesizemodal" class="btn btn-dark btn-sm btn-round btn-block waves-effect waves-light m-1">{{ GetPhrase 117 }}</button>
                </div>
             </div>
 			
@@ -86,14 +86,14 @@
 			 <div class="col-12 col-lg-4 col-xl-8">
                     <div class="card" >
  
-                        <div class="card-header">Загрузка файлов
+                        <div class="card-header">{{ GetPhrase 118 }}
                             <div class="card-action">
                                 <div class="dropdown">
                                     <a href="#" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
                                         <i class="icon-options"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item aj" href="/setting/block/list">Черный список</a>
+                                        <a class="dropdown-item aj" href="/setting/block/list">{{ GetPhrase 119 }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -105,11 +105,11 @@
                             <div class="row align-items-center text-center">
                                 <div class="col border-right border-light">
                                     <h4 class="mb-0" id="CountFilesUploaded">0</h4>
-                                    <small class="extra-small-font">Загружено</small>
+                                    <small class="extra-small-font">{{ GetPhrase 120 }}</small>
                                 </div>
                                 <div class="col">
                                     <h4 class="mb-0" id="CountFiles">0</h4>
-                                    <small class="extra-small-font">Всего</small>
+                                    <small class="extra-small-font">{{ GetPhrase 121 }}</small>
                                 </div>
                             </div>
                          </div>
@@ -127,21 +127,23 @@
                 <div class="col-12 col-lg-4 col-xl-4">
                     <div class="card">
 
-                        <div class="card-header">Характеристики</div>
+                        <div class="card-header">{{ GetPhrase 122 }}</div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Сервер : <span class="float-right"><a href="/server/domain/{{ .ServerInfo.Domain | Hostname }}" class="aj">{{ .ServerInfo.Domain | Hostname }}</a> <a href="{{ .ServerInfo.Domain }}" target="_blank"><i aria-hidden="true" class="fa fa-external-link"></i></a></span></li>
-                            <li class="list-group-item">Версия игры : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
+                            <li class="list-group-item">{{ GetPhrase 22 }} : <span class="float-right"><a href="/server/domain/{{ .ServerInfo.Domain | Hostname }}" class="aj">{{ .ServerInfo.Domain | Hostname }}</a> <a href="{{ .ServerInfo.Domain }}" target="_blank"><i aria-hidden="true" class="fa fa-external-link"></i></a></span></li>
+                            <li class="list-group-item">{{ GetPhrase 123 }} : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
                             <li class="list-group-item">EXP : <span class="float-right">x{{ .ServerInfo.Exp }}</span></li>
-                            <li class="list-group-item">Версия сервера : <span class="float-right">{{ .ServerInfo.Style | ServerStyle }}</span></li>
-                            <li class="list-group-item">Дата старта : <span class="float-right">{{ TimeReconstruct .ServerInfo.Date  }} / {{ DayReconstruct .ServerInfo.Date }}</span></li>
-							<li class="list-group-item">Старт через : <span class="float-right timeout" data-second="{{ TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }}">{{ TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }}</span></li>
+                            <li class="list-group-item">{{ GetPhrase 95 }} : <span class="float-right">{{ .ServerInfo.Style | ServerStyle }}</span></li>
+                            <li class="list-group-item">{{ GetPhrase 93 }} : <span class="float-right">{{ TimeReconstruct .ServerInfo.Date  }} / {{ DayReconstruct .ServerInfo.Date }}</span></li>
+							{{ $timeOut := TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }}
+							{{ $AbstimeOut := Abs $timeOut }}
+							<li class="list-group-item">{{ if $AbstimeOut }} {{ GetPhrase 124 }} {{ else }} {{ GetPhrase 183 }} {{ end }} : <span class="float-right timeout" data-second="{{ TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }}">{{ $timeOut }}</span></li>
                          </ul>
                     </div> 
                 </div> 
             </div>
    		
 	<div class="card">
-        <div class="card-header text-uppercase">Уровень сервера - {{ .ServerLeveL | ServerLevelName }}</div>
+        <div class="card-header text-uppercase">{{ GetPhrase 126 }} - {{ .ServerLeveL | ServerLevelName }}</div>
         <div class="card-body">
           <div class="row">
             <div class="col-md-3">
@@ -171,31 +173,31 @@
              <div class="col-md-3">
               <div class="icheck-material-warning">
                 <input type="checkbox" id="warning" disabled="" {{ if .ServerInfo.IsAccessSoft }}checked{{ end }}/>
-                <label for="warning">Разрешен бот</label>
+                <label for="warning">{{ GetPhrase 102 }}</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-secondary">
                 <input type="checkbox" id="secondary" disabled="" {{ if .ServerInfo.IsBugMacros }}checked{{ end }}/>
-                <label for="secondary">Маг. макросы</label>
+                <label for="secondary">{{ GetPhrase 103 }}</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-dark">
                 <input type="checkbox" id="dark" disabled="" {{ if .ServerInfo.IsInfinitySS }}checked{{ end }}/>
-                <label for="dark">Бесконечные SS</label>
+                <label for="dark">{{ GetPhrase 104 }}</label>
               </div>
              </div>
 			 <div class="col-md-3">
               <div class="icheck-material-white">
                 <input type="checkbox" id="white" disabled="" {{ if .ServerInfo.IsHelpNewbie }}checked{{ end }}/>
-                <label for="white">Помощь новичкам</label>
+                <label for="white">{{ GetPhrase 105 }}</label>
               </div>
              </div>
 			 <div class="col-md-3">
               <div class="icheck-material-danger">
                 <input type="checkbox" id="autoreg" disabled="" {{ if .ServerInfo.IsAutoRegistration   }}checked{{ end }}/>
-                <label for="autoreg">Авторегистрация</label>
+                <label for="autoreg">{{ GetPhrase 106 }}</label>
               </div>
              </div>
           </div><!--End Row-->
@@ -239,29 +241,33 @@
               
 		  </div>
 	  </div>
+	  
+	{{ template "setTitle" . }} 
+		
 {{end}}
 
 
 {{define "serverSelect_block"}}
-			{{ if not .WaysChronicle }}<small>Месторасположение игры {{  .ServerInfo.Chronicle | getChronicle }}</small>
+			{{ if not .WaysChronicle }}<small>{{ GetPhrase 127 }} {{  .ServerInfo.Chronicle | getChronicle }}</small>
 				<div class="input-group">
-					<input id="getClientPath" type="text" class="form-control" placeholder="К примеру: D:\Games\{{ .ServerInfo.Chronicle | getChronicle }}" aria-label="game path" aria-describedby="game path">
+					<input id="getClientPath" type="text" class="form-control" placeholder="{{ GetPhrase 65 }}: D:\Games\{{ .ServerInfo.Chronicle | getChronicle }}" aria-label="game path" aria-describedby="game path">
 					<div class="input-group-append">
-						<button class="btn btn-sm btn-primary showDialog" data-input="getClientPath" data-toggle="modal" data-target="#openDiaglog">Выбрать</button>
+						<button class="btn btn-sm btn-primary showDialog" data-input="getClientPath" data-toggle="modal" data-target="#openDiaglog">{{ GetPhrase 76 }}</button>
 					</div>
 				</div>
 				<br>
-				<button id="dirOpenDialogPathServerSave" data-return="getClientPath" data-chronicle="{{ .ServerInfo.Chronicle }}" data-serverid="{{ .ServerInfo.ID }}" type="button" class="btn btn-success waves-effect waves-light m-0">Применить</button>
+				<button id="dirOpenDialogPathServerSave" data-return="getClientPath" data-chronicle="{{ .ServerInfo.Chronicle }}" data-serverid="{{ .ServerInfo.ID }}" type="button" class="btn btn-success waves-effect waves-light m-0">{{ GetPhrase 128 }}</button>
 			{{else}}
 				<select class="form-control" id="getClientPath">
-			{{ range $i, $way := .WaysChronicle }}
-					<option value="{{ $way.Path }}" > {{ $way.Name }} [ {{ $way.Path }} ]</option>
-			{{ end }}
+				{{ $wayID := .WayID }}
+				{{ range $i, $way := .WaysChronicle }}
+						<option value="{{ $way.Path }}" {{ if eq $way.ID $wayID }}selected{{end}}  > {{ $way.Name }} [ {{ $way.Path }} ]</option>
+				{{ end }}
 			</select>
 			 
     
-		<button type="button" id="GU_patch" class="m-1 btn btn-sm btn-block btn-success waves-effect waves-light"> Обновить </button>
-		<button type="button" id="l2exe" data-exe="{{ .ServerInfo.L2Exe }}" data-args="{{ .ServerInfo.L2Args }}" class="m-1 btn btn-sm btn-block btn-danger waves-effect waves-light"> Запустить игру </button>
+		<button type="button" id="GU_patch" class="m-1 btn btn-sm btn-block btn-success waves-effect waves-light"> {{ GetPhrase 152 }} </button>
+		<button type="button" id="l2exe" data-serverid="{{ .ServerInfo.ID }}" data-exe="{{ .ServerInfo.L2Exe }}" data-args="{{ .ServerInfo.L2Args }}" class="m-1 btn btn-sm btn-block btn-danger waves-effect waves-light"> {{ GetPhrase 153 }} </button>
 	  
 	{{ end }}
 {{end}}
@@ -272,7 +278,7 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Голосование</h5>
+                        <h5 class="modal-title">{{ GetPhrase 154 }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -281,12 +287,12 @@
                           <div>
 						  {{ if .VoteTimeOut | timeVoteCheck }}
                              <div class="form-group">
-								 <p class="card-text">Если Вам нравится сервер <b>{{ .ServerInfo.Domain }} {{  .ServerInfo.Chronicle | getChronicle }} x{{ .ServerInfo.Exp }}</b>, проголосуйте за него, и Вы улучшите позиции в рейтинге.</p>
-								 <p class="card-text">Вы можете голосовать каждые 12 часов.</p>
-								 <p class="card-text">Как правило, сервера вознаграждают игроков за голосование.</p>
+								 <p class="card-text">{{ GetPhrase 155 }} <b>{{ .ServerInfo.Domain }} {{  .ServerInfo.Chronicle | getChronicle }} x{{ .ServerInfo.Exp }}</b>, {{ GetPhrase 156 }}</p>
+								 <p class="card-text">{{ GetPhrase 157 }}</p>
+								 <p class="card-text">{{ GetPhrase 158 }}</p>
                              </div>
                              <div class="form-group">
-                               <label for="voteGameNick">Ваш игровой ник</label>
+                               <label for="voteGameNick">{{ GetPhrase 158 }}</label>
                                <input type="text" class="form-control" id="voteGameNick" placeholder="Ник персонажа">
                              </div>
                               <div class="form-group">
@@ -294,7 +300,7 @@
                             </div>
 							{{ else }}
 							<div class="form-group">
-								 <p class="card-text">Вы уже голосовали.<br>Следующий раз проголосовать сможете через {{ .VoteTimeOut | TimeUnixSec }} сек.</p>
+								 <p class="card-text">{{ GetPhrase 162 }}.<br>{{ GetPhrase 163 }} {{ .VoteTimeOut | TimeUnixSec }} {{ GetPhrase 164 }}</p>
                              </div>
 							{{end}}
                         </div>
@@ -315,7 +321,7 @@
                     <div class="modal-content">
 					
                       <div class="modal-header">
-                        <h5 class="modal-title">Заметки</h5>
+                        <h5 class="modal-title">{{ GetPhrase 115 }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -324,10 +330,10 @@
 					     
                  <ul class="nav nav-tabs nav-tabs-danger top-icon" id="noteTab" >
                   <li class="nav-item">
-                    <a class="nav-link active" id="allnote" data-domain="{{ .ServerInfo.Domain }}" data-toggle="tab" href="#notes"><i class="icon-home"></i> <span class="hidden-xs">Мои заметки</span></a>
+                    <a class="nav-link active" id="allnote" data-domain="{{ .ServerInfo.Domain }}" data-toggle="tab" href="#notes"><i class="icon-home"></i> <span class="hidden-xs">{{ GetPhrase 165 }}</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#createnote"><i class="icon-user"></i> <span class="hidden-xs">Создать</span></a>
+                    <a class="nav-link" data-toggle="tab" href="#createnote"><i class="icon-user"></i> <span class="hidden-xs">{{ GetPhrase 166 }}</span></a>
                   </li>
                
                 </ul>
@@ -335,11 +341,10 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                   <div id="notes" class="container tab-pane active">
- 					
 						<div class="card mt-1 shadow-none">
 							 <div class="table-responsive" id="noteData">
 								{{if not .Notes}}
-									<label>У Вас нет записей к данному серверу, но Вы можете создать</label>
+									<label>{{ GetPhrase 167 }}</label>
 								{{else}}
 								<table class="table table-hover">
 									<tbody>
@@ -355,19 +360,18 @@
 							   {{end}}
 						    </div>
 					   </div> 
- 					
-                  </div>
+                   </div>
                 
 					<div id="createnote" class="container tab-pane fade">
 						<div class="card mt-1 shadow-none" id="noteDataCreate">
 						  <div class="mt-0">
 							<div class="form-group">
-							 <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов."></textarea>
+							 <textarea class="form-control" rows="9" id="note" placeholder="{{ GetPhrase 168 }}"></textarea>
 							</div>
 						  </div>
 						  
 						  <div class="text-right">
-							  <button type="button" id="noteSave" data-domain="{{ .ServerInfo.Domain }}" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
+							  <button type="button" id="noteSave" data-domain="{{ .ServerInfo.Domain }}" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> {{ GetPhrase 66 }}</button>
 						  </div>
 					  </div>
 					  </div>
@@ -378,9 +382,7 @@
                 </div>
              
 			 
-			 
-			 
-              
- 
+			  
+
 {{end}}
 

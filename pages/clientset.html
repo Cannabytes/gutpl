@@ -26,19 +26,23 @@
 		<div class="row">
         <div class="col-lg-12">
           <div class="card">
-             <div class="card-header ">Указать месторасположение</div>
+             <div class="card-header ">{{ GetPhrase 60 }}</div>
              <div class="card-body">
 			 
-			 <div class="form-group row">
-				  <label for="clientname" class="col-sm-3 col-form-label">Краткое название</label>
+				<div class="form-group row">
+				  <label for="clientSetPath" class="col-sm-3 col-form-label ">{{ GetPhrase 64 }}<font color="red">*</font></label>
 				  <div class="col-sm-9">
-				     <input type="text" id="clientname" placeholder="К примере: Для игры с допами" class="form-control">
-				  </div>
+				  <div class="input-group">
+                        <input id="clientSetPath" type="text" class="form-control" placeholder="{{ GetPhrase 65 }}: D:\Games\Interlude" aria-label="game path" aria-describedby="game path">
+                        <div class="input-group-append">
+						  <button class="btn btn-sm btn-primary showDialog" data-input="clientSetPath" data-toggle="modal" data-target="#openDiaglog">{{ GetPhrase 66 }}</button>
+					   </div>
+                      </div>
+ 				  </div>
 				</div>
 				
-				
 				<div class="form-group row">
-				  <label for="clientVersion" class="col-sm-3 col-form-label">Версия клиента<font color="red">*</font></label>
+				  <label for="clientVersion" class="col-sm-3 col-form-label">{{ GetPhrase 63 }}<font color="red">*</font></label>
 				  <div class="col-sm-9">
 					<select class="form-control" id="clientVersion">
                          {{range $i, $version := .Chronicle}}
@@ -48,20 +52,15 @@
 				  </div>
 				</div>
 				
-				
-				
-				<div class="form-group row">
-				  <label for="clientSetPath" class="col-sm-3 col-form-label ">Выберите папку с игрой<font color="red">*</font></label>
+			 <div class="form-group row">
+				  <label for="clientname" class="col-sm-3 col-form-label">{{ GetPhrase 61 }}</label>
 				  <div class="col-sm-9">
-				  <div class="input-group">
-                        <input id="clientSetPath" type="text" class="form-control" placeholder="К примеру: D:\Games\Interlude" aria-label="game path" aria-describedby="game path">
-                        <div class="input-group-append">
-						  <button class="btn btn-sm btn-primary showDialog" data-input="clientSetPath" data-toggle="modal" data-target="#openDiaglog">Выбрать</button>
-					   </div>
-                      </div>
- 				  </div>
+				     <input type="text" id="clientname" placeholder="{{ GetPhrase 62 }}" class="form-control">
+				  </div>
 				</div>
-				<button type="submit" id="savePathClient" class="btn btn-primary mr-2">Сохранить</button>
+				
+				 
+				<button type="submit" id="savePathClient" class="btn btn-primary mr-2">{{ GetPhrase 67 }}</button>
              </div>
           </div>
         </div>
@@ -76,9 +75,9 @@
                <table class="table table-sm">
                 <thead>
                   <tr>
-                    <th scope="col">Chronicle</th>
-                    <th scope="col">Название</th>
-                    <th scope="col">Адрес</th>
+                    <th scope="col">{{ GetPhrase 50 }}</th>
+                    <th scope="col">{{ GetPhrase 68 }}</th>
+                    <th scope="col">{{ GetPhrase 69 }}</th>
                   </tr>
                 </thead>
                 <tbody id="clientsPathList">
@@ -97,7 +96,8 @@
           </div>
         </div>
         </div>
-	  
-{{end}}
+		
+	{{ template "setTitle" . }}
 
+{{end}}
 

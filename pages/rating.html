@@ -25,16 +25,16 @@
 	  <div class="row">
         <div class="col-lg-12">
           <div class="card">
-            <div class="card-header"><i class="fa fa-table"></i> Рейтинг серверов</div>
+            <div class="card-header"><i class="fa fa-table"></i> {{ GetPhrase 151 }}</div>
             <div class="card-body">
               <div class="table-responsive">
               <table id="default-datatable" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>№</th>
-                        <th>Сервер</th>
-                        <th>Хроники</th>
-                        <th>Рейтинг</th>
+                        <th>{{ GetPhrase 22 }}</th>
+                        <th>{{ GetPhrase 50 }}</th>
+                        <th>{{ GetPhrase 60 }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,9 +56,9 @@
                 <tfoot>
                     <tr>
                         <th>№</th>
-                        <th>Сервер</th>
-                        <th>Хроники</th>
-                        <th>Рейтинг</th>
+                        <th>{{ GetPhrase 22 }}</th>
+                        <th>{{ GetPhrase 50 }}</th>
+                        <th>{{ GetPhrase 60 }}</th>
                     </tr>
                 </tfoot>
             </table>
@@ -68,7 +68,8 @@
         </div>
       </div><!-- End Row-->
 
-	
+		{{ template "setTitle" . }}
+
 {{end}}
 
 

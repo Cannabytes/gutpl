@@ -5,7 +5,7 @@ $(document).on('click', '#autostart', function(e) {
 	if($("#autostart").prop('checked')==true){
  		nSuccess("Автозапуск игры включен");
 	}else{
-		nError("Автозапуск игры отключен");
+		nInfo("Автозапуск игры отключен");
 	}
 });
 
@@ -25,9 +25,8 @@ $(document).on('click', '#dirOpenDialogPathServerSave', function(e) {
 		$("#"+inputIdf).val(path);
 		chronicle = $(this).data( "chronicle" );
 		serverid = $(this).data( "serverid" );
-		console.log(path, chronicle, serverid);
 		$.ajax({
-			url: 'http://127.0.0.1:'+launcherPort+'/open/dialog/select/save',
+			url: launcherURL+'/open/dialog/select/save',
 				xhrFields: {
 				withCredentials: false
 			},
@@ -40,11 +39,15 @@ $(document).on('click', '#dirOpenDialogPathServerSave', function(e) {
 			success: function(data){ 
 				$("#"+$(this).data("input")).val(data.path);
 				loadBlockHTMLServerSelect(serverid, $(this), "select/block");
-				// $("#l2exe").hide();
-				// document.getElementById('l2exe').style.display = 'none';
+				$(document).on( 'focus', function() {
+					alert("TEST");
+					$("#l2exe").hide();
+				});
+
 			}
 		});
 });
+
 
 
 //Сохранение от анонимного сервера
@@ -53,7 +56,7 @@ $(document).on('click', '#dirOpenDialogPathServerLauncherSave', function(e) {
 		$("#"+inputIdf).val(path);
 		chronicle = $(this).data( "chronicle" );
 		$.ajax({
-			url: 'http://127.0.0.1:'+launcherPort+'/open/dialog/select/save',
+			url: launcherURL+'/open/dialog/select/save',
 				xhrFields: {
 				withCredentials: false
 			},
@@ -72,7 +75,7 @@ $(document).on('click', '#dirOpenDialogPathServerLauncherSave', function(e) {
 
 function loadBlockHTMLServerSelectAnon(elementid, linkblock){
 	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/html/load/'+linkblock,
+		url: launcherURL+'/html/load/'+linkblock,
 		  xhrFields: {
 			withCredentials: false
 		},
@@ -122,14 +125,14 @@ $(document).on("click", "#dirOpenDialogBack", function (e) {
 			 $("#dialogFullPath").empty();
 			 return ""
 		 }
-	return  path
+		return path
 	}
 	openDialogModal(backdir(path));
 });
 
 function openDialogModal(path){
 	  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/open/dialog/select',
+		url: launcherURL+'/open/dialog/select',
 		  xhrFields: {
 			withCredentials: false
 		},
@@ -153,12 +156,10 @@ function openDialogModal(path){
 			$("#dirOpenDialogList").empty();
 	
 			$.each(data.files, function(i, item) {
- 				$("#dirOpenDialogList").append(`
-				<a href="javascript:void()" data-path="`+item.path+`" class="selectDir btn-social-text btn-github waves-effect waves-light m-1">
+ 				$("#dirOpenDialogList").append(`<a href="#" data-path="`+item.path+`" class="selectDir btn-social-text btn-github waves-effect waves-light m-1">
 				<i class="fa fa-folder text-warning"></i> <span>`+item.name+`</span>
 				</a>`);
 			});
-
   		}
 	});
 }

@@ -29,45 +29,45 @@
             <div class="card-body">
                 <h4 class="form-header text-uppercase">
                   <i class="fa fa-user-circle-o"></i>
-                   Настройки Game Update
+                   {{ GetPhrase 13 }}
                 </h4>
 				<hr>
 
                 <div class="form-group row">
-					<label for="input-6" class="col-sm-4 col-form-label">Мы можем сохранять все патчи, это устранит надобность в повторной загрузки одинаковых файлов</label>
+					<label for="input-6" class="col-sm-4 col-form-label">{{ GetPhrase 170 }}</label>
                   <div class="col-sm-8">
 						<select class="form-control gu_settings" data-sname="filesReserve" id="input-6" name="intersted" required>
-							<option value="false"  {{if not .FilesReserve }}selected{{end}}>Загружать всегда повторно</option>
-							<option value="true" {{if .FilesReserve }}selected{{end}}>Сохранять в резерве файлы патча</option>
+							<option value="false"  {{if not .FilesReserve }}selected{{end}}>{{ GetPhrase 171 }}</option>
+							<option value="true" {{if .FilesReserve }}selected{{end}}>{{ GetPhrase 172 }}</option>
 						</select>
                   </div>
                  </div>
                 <div class="form-group row">
-					<label for="saveFiles" class="col-sm-4 col-form-label">Где сохранять резервные патчи</label>
+					<label for="savePathSetting" class="col-sm-4 col-form-label">{{ GetPhrase 173 }}</label>
 					 <div class="col-sm-8">
 						<div class="input-group">
-							<input id="savePathSetting" type="text" data-sname="savePathSetting" value="{{ .PathSetting }}" class="form-control gu_settings" placeholder="" aria-label="резервный патч" aria-describedby="резервный патч">
+							<input id="savePathSetting" type="text" data-sname="savePathSetting" value="{{ .PathSetting }}" class="form-control gu_settings" placeholder="" aria-label="{{ GetPhrase 174 }}" aria-describedby="{{ GetPhrase 174 }}">
 							<div class="input-group-append">
-								<button class="btn btn-sm btn-primary showDialog" data-input="savePathSetting" data-toggle="modal" data-target="#openDiaglog">Выбрать</button>
-								<button class="btn btn-sm btn-danger" id="saveInputPathSetting">Сохранить</button>
+								<button class="btn btn-sm btn-primary showDialog" data-input="savePathSetting" data-toggle="modal" data-target="#openDiaglog">{{ GetPhrase 66 }}</button>
+								<button class="btn btn-sm btn-danger" id="saveInputPathSetting">{{ GetPhrase 67 }}</button>
 							</div>
                         </div>
                     </div>
                  </div>
 				<hr>
                 <div class="form-group row">
-                  <label for="input-7" class="col-sm-4 col-form-label">Удалять файлы сразу?</label>
+                  <label for="input-7" class="col-sm-4 col-form-label">{{ GetPhrase 175 }}</label>
                   <div class="col-sm-8">
 						<select class="form-control gu_settings" data-sname="delayedRemove" id="input-7" name="intersted" required>
-							<option value="true"  {{if .DelayedRemoveZip }}selected{{end}}>Да, будем удалять архив после загрузки каждого файла</option>
-							<option value="false" {{if not .DelayedRemoveZip }}selected{{end}}>Нет, будем удалять архивы патча после загрузки всех файлов</option>
+							<option value="true"  {{if .DelayedRemoveZip }}selected{{end}}>{{ GetPhrase 176 }}</option>
+							<option value="false" {{if not .DelayedRemoveZip }}selected{{end}}>{{ GetPhrase 177 }}</option>
 						</select>
                   </div>
                 </div>
 				<hr>
                 
                 <div class="form-group row">
-					<label for="countDownloads" class="col-sm-4 col-form-label">Кол-во одновременных загрузок</label>
+					<label for="countDownloads" class="col-sm-4 col-form-label">{{ GetPhrase 178 }}</label>
                     <div class="col-sm-2">
                           <input class="form-control gu_settings" data-sname="countDownloads" id="countDownloads" type="number" value="{{ .Streams }}" min="1" max="5" >
                     </div>
@@ -75,11 +75,11 @@
 				<hr>
 				
 				<div class="form-group row">
-                  <label for="autostart" class="col-sm-4 col-form-label">Автозапуск</label>
+                  <label for="autostart" class="col-sm-4 col-form-label">{{ GetPhrase 179 }}</label>
                   <div class="col-sm-8">
 				  		<div class="icheck-material-primary">
 							<input type="checkbox" class="gu_settings_autoload" id="autostart" {{ if .AutoStartGU }}checked{{end}} />
-							<label for="autostart">Запускать Game Update после запуска Windows</label>
+							<label for="autostart">{{ GetPhrase 180 }}</label>
 						</div>
                 </div>
                 </div>
@@ -89,10 +89,8 @@
           </div>
         </div>
       </div><!--End Row-->
-	
- 
-             
-				
+	  
+	{{ template "setTitle" . }}
 {{end}}
 
 

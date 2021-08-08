@@ -29,7 +29,7 @@
                   <div class="modal-dialog">
                     <div class="modal-content animated flipInX">
                       <div class="modal-header">
-                        <h5 class="modal-title">Ошибка</h5>
+                        <h5 class="modal-title">{{ GetPhrase 114 }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -65,9 +65,9 @@
               
             <div class="card">
                <div class="card-body">
-                <h5 class="card-title">Заметки</h5>
-                <p class="card-text">Сохраните себе полезную информацию о сервере.</p>
-				<button type="button" data-toggle="modal" data-target="#largesizemodal" class="btn btn-dark btn-sm btn-round btn-block waves-effect waves-light m-1">Открыть</button>
+                <h5 class="card-title">{{ GetPhrase 115 }}</h5>
+                <p class="card-text">{{ GetPhrase 116 }}</p>
+				<button type="button" data-toggle="modal" data-target="#largesizemodal" class="btn btn-dark btn-sm btn-round btn-block waves-effect waves-light m-1">{{ GetPhrase 117 }}</button>
                </div>
             </div>
  			
@@ -80,14 +80,14 @@
 			 <div class="col-12 col-lg-4 col-xl-8">
                     <div class="card" >
  
-                        <div class="card-header">Загрузка файлов
+                        <div class="card-header">{{ GetPhrase 118 }}
                             <div class="card-action">
                                 <div class="dropdown">
                                     <a href="#" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
                                         <i class="icon-options"></i>
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item aj" href="/setting/block/list">Черный список</a>
+                                        <a class="dropdown-item aj" href="/setting/block/list">{{ GetPhrase 119 }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -99,11 +99,11 @@
                             <div class="row align-items-center text-center">
                                 <div class="col border-right border-light">
                                     <h4 class="mb-0" id="CountFilesUploaded">0</h4>
-                                    <small class="extra-small-font">Загружено</small>
+                                    <small class="extra-small-font">{{ GetPhrase 120 }}</small>
                                 </div>
                                 <div class="col">
                                     <h4 class="mb-0" id="CountFiles">0</h4>
-                                    <small class="extra-small-font">Всего</small>
+                                    <small class="extra-small-font">{{ GetPhrase 121 }}</small>
                                 </div>
                             </div>
                          </div>
@@ -121,22 +121,22 @@
                 <div class="col-12 col-lg-4 col-xl-4">
                     <div class="card">
 
-                        <div class="card-header">Характеристики</div>
+                        <div class="card-header">{{ GetPhrase 122 }}</div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Сервер : <span class="float-right"><a href="{{ .ServerInfo.Domain }}" target="_blank">{{ .ServerInfo.Domain | Hostname }}</a></span></li>
-                            <li class="list-group-item">Версия игры : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
+                            <li class="list-group-item">{{ GetPhrase 22 }} : <span class="float-right"><a href="{{ .ServerInfo.Domain }}" target="_blank">{{ .ServerInfo.Domain | Hostname }}</a></span></li>
+                            <li class="list-group-item">{{ GetPhrase 123 }} : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
                             <li class="list-group-item">EXP : <span class="float-right">x{{ .ServerInfo.Exp }}</span></li>
-                            <li class="list-group-item">Версия сервера : <span class="float-right">{{ .ServerInfo.Style | ServerStyle }}</span></li>
-                            <li class="list-group-item">Дата старта : <span class="float-right">{{ TimeFormat .ServerInfo.Date .ServerInfo.TimeZone }} / {{ DayFormat .ServerInfo.Date .ServerInfo.TimeZone }}</span></li>
-                            <li class="list-group-item">Старт через : <span class="float-right">{{ TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }} сек.</span></li>
-                            <li class="list-group-item">Временная Зона : <span class="float-right">{{ .ServerInfo.TimeZone }}</span></li>
+                            <li class="list-group-item">{{ GetPhrase 95 }} : <span class="float-right">{{ .ServerInfo.Style | ServerStyle }}</span></li>
+                            <li class="list-group-item">{{ GetPhrase 93 }} : <span class="float-right">{{ TimeFormat .ServerInfo.Date .ServerInfo.TimeZone }} / {{ DayFormat .ServerInfo.Date .ServerInfo.TimeZone }}</span></li>
+                            <li class="list-group-item">{{ GetPhrase 124 }} : <span class="float-right">{{ TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }} сек.</span></li>
+                            <li class="list-group-item">{{ GetPhrase 125 }} : <span class="float-right">{{ .ServerInfo.TimeZone }}</span></li>
                          </ul>
                     </div> 
                 </div> 
             </div>
    		
 	<div class="card">
-        <div class="card-header text-uppercase">Уровень сервера - {{ .ServerLeveL | ServerLevelName }}</div>
+        <div class="card-header text-uppercase">{{ GetPhrase 126 }} - {{ .ServerLeveL | ServerLevelName }}</div>
         <div class="card-body">
           <div class="row">
             <div class="col-md-3">
@@ -166,31 +166,31 @@
              <div class="col-md-3">
               <div class="icheck-material-warning">
                 <input type="checkbox" id="warning" {{ if  .ServerInfo.IsAccessSoft   }}checked{{ end }}/>
-                <label for="warning">Разрешен бот</label>
+                <label for="warning">{{ GetPhrase 102 }}</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-secondary">
                 <input type="checkbox" id="secondary" {{ if  .ServerInfo.IsBugMacros   }}checked{{ end }}/>
-                <label for="secondary">Маг. макросы</label>
+                <label for="secondary">{{ GetPhrase 103 }}</label>
               </div>
              </div>
              <div class="col-md-3">
               <div class="icheck-material-dark">
                 <input type="checkbox" id="dark" {{ if  .ServerInfo.IsInfinitySS  }}checked{{ end }}/>
-                <label for="dark">Бесконечные SS</label>
+                <label for="dark">{{ GetPhrase 104 }}</label>
               </div>
              </div>
 			 <div class="col-md-3">
               <div class="icheck-material-white">
                 <input type="checkbox" id="white" {{ if .ServerInfo.IsHelpNewbie   }}checked{{ end }}/>
-                <label for="white">Помощь новичкам</label>
+                <label for="white">{{ GetPhrase 105 }}</label>
               </div>
              </div>
 			 <div class="col-md-3">
               <div class="icheck-material-white">
                 <input type="checkbox" id="white" {{ if .ServerInfo.IsAutoRegistration   }}checked{{ end }}/>
-                <label for="white">Авторегистрация</label>
+                <label for="white">{{ GetPhrase 106 }}</label>
               </div>
              </div>
           </div><!--End Row-->
@@ -241,25 +241,26 @@
 
 
 {{define "launcherSelect_block"}}
-	{{ if not .WaysChronicle }}<small>Месторасположение игры {{  .ServerInfo.Chronicle | getChronicle }}</small>
+	{{ if not .WaysChronicle }}<small>{{ GetPhrase 127 }} {{  .ServerInfo.Chronicle | getChronicle }}</small>
 			<div class="input-group">
-				<input id="getClientPath" type="text" class="form-control" placeholder="К примеру: D:\Games\Interlude" aria-label="game path" aria-describedby="game path">
+				<input id="getClientPath" type="text" class="form-control" placeholder="{{ GetPhrase 65 }}: D:\Games\Interlude" aria-label="game path" aria-describedby="game path">
 				<div class="input-group-append">
-				    <button class="btn btn-sm btn-primary showDialog" data-input="getClientPath" data-toggle="modal" data-target="#openDiaglog">Выбрать</button>
+				    <button class="btn btn-sm btn-primary showDialog" data-input="getClientPath" data-toggle="modal" data-target="#openDiaglog">{{ GetPhrase 66 }}</button>
  				</div>
  			</div>
 			<br>
-			<button id="dirOpenDialogPathServerLauncherSave" data-return="getClientPath" data-chronicle="{{ .ServerInfo.Chronicle }}" type="button" class="btn btn-success waves-effect waves-light m-0">Применить</button>
+			<button id="dirOpenDialogPathServerLauncherSave" data-return="getClientPath" data-chronicle="{{ .ServerInfo.Chronicle }}" type="button" class="btn btn-success waves-effect waves-light m-0">{{ GetPhrase 128 }}</button>
  	  {{else}}
 			<select class="form-control" id="getClientPath">
 			{{ range $i, $way := .WaysChronicle }}
 					<option value="{{ $way.Path }}" > {{ $way.Name }} [ {{ $way.Path }} ]</option>
 			{{ end }}
 			</select>
-			<button type="button" id="GU_patch" class="btn btn-success btn-sm waves-effect waves-light m-1">Обновить патч</button>
+			<button type="button" id="GU_patch" class="btn btn-success btn-sm waves-effect waves-light m-1">{{ GetPhrase 129 }}</button>
 			<div class="icheck-material-primary">
 				<input type="checkbox" id="autostart" checked="">
-				<label for="autostart">Запустить игру после обновления</label>
+				<label for="autostart">{{ GetPhrase 130 }}</label>
 			</div>
 	   {{ end }}
+	   {{ template "setTitle" . }}
 {{end}}

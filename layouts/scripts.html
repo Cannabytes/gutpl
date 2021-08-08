@@ -1,3 +1,11 @@
+
+
+{{define "setTitle"}}
+	<script>
+		document.title = {{ .title }};
+	</script>
+{{ end }}
+
 {{define "scripts"}}   
   <!-- Bootstrap core JavaScript-->
   <script src="/template/assets/js/jquery.min.js"></script>
@@ -30,11 +38,14 @@
 	<script src="/template/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
 	
-	<script src="/template/assets/gulibs/gu.js?{{ .UnixTime }}"></script>
-	<script src="/template/assets/gulibs/dialog.js?{{ .UnixTime }}"></script>
-	<script src="/template/assets/gulibs/notifi.js?{{ .UnixTime }}"></script>
+	<!-- <script src="/template/assets/gulibs/gu.js?1"></script> -->
+	<script src="/template/assets/gulibs/lang.js"></script>
+	<script src="/template/assets/gulibs/launcher.js"></script>
+	<script src="/template/assets/gulibs/dialog.js?"></script>
+	<script src="/template/assets/gulibs/notifi.js"></script>
 
 	<script src="/template/assets/js/oth.js"></script>
+	<script src="/template/assets/plugins/fancybox/js/jquery.fancybox.min.js"></script>
 
      <script>
 

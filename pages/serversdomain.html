@@ -35,10 +35,10 @@
        <h2 class="price"><small class="currency">x</small>{{ $server.Exp }}</h2>
        <ul class="list-group list-group-flush">
       <li class="list-group-item"><b>{{ $server.Style | ServerStyle }}</b></li>
-      <li class="list-group-item">Запуск <b>{{ DayReconstruct $server.Date }}</b> </li>
-      <li class="list-group-item">Рейтинг<b> 315</b></li>
+      <li class="list-group-item">{{ GetPhrase 169 }} <b>{{ DayReconstruct $server.Date }}</b> </li>
+      <li class="list-group-item">{{ GetPhrase 51 }}<b> 315</b></li>
       </ul>
-      <a href="/server/id/{{ $server.ID }}" class="btn btn-primary my-3 btn-round aj">Открыть</a>
+      <a href="/server/id/{{ $server.ID }}" class="btn btn-primary my-3 btn-round aj">{{ GetPhrase 117 }}</a>
     </div>
      </div>
      </div>
@@ -48,6 +48,7 @@
      
    </div><!--End Row-->
 	
+	{{ template "setTitle" . }}
 
 {{end}}
 

@@ -1,72 +1,107 @@
-﻿reinit();
+﻿var activePage = true;
+var timeoutRequest = 560;
+var launcherPort = 12550;
 
-function reinit(){
-	 $('#default-datatable').DataTable( {
-		    "order": [  3, 'DESC' ]
-	 }); 
+reinit();
+copyLink();
+
+function reinit() {
+	$('#default-datatable').DataTable({
+		"order": [3, 'DESC']
+	});
 }
 
-	$(window).on('popstate', function (event) {
-        if (history.state != null && history.state.sitesearch != null) {
-            var params = parseParams(window.location.search);
-            prepareSearch(params['s'], params['page'], false);
-        } else {
-			var href = window.location.href; 
-			load(href);
-            window.scrollTo(0, 0);
-        }
-    });
-
-    function addActiveMenu(element, current) {
-          $('.nav-item').removeClass('active');
-          $('.nav-link').removeClass('active');
-          element.parents('.nav-item').last().addClass('active');
-          if (element.parents('.sub-menu').length) {
-            element.closest('.collapse').addClass('show');
-            element.addClass('active');
-          }
-          if (element.parents('.submenu-item').length) {
-            element.addClass('active');
-          }
-      }
-
-	$(document).on('click', '.aj', function(e) {
-		e.preventDefault();
- 		var href = $(this).prop('href');
-		if(window.location.href == href){
-			return;
-		}
-		addActiveMenu($(this), href)
+$(window).on('popstate', function(event) {
+	if (history.state != null && history.state.sitesearch != null) {
+		var params = parseParams(window.location.search);
+		prepareSearch(params['s'], params['page'], false);
+	} else {
+		var href = window.location.href;
 		load(href);
-    });
+		window.scrollTo(0, 0);
+	}
+});
 
-    function load(href){
-		$.ajax({
-            type: "POST",
-            url: href,
-            success: function (data) {
- 				  $('#dateStart').datepicker({
-					 autoclose: true,
-					 todayHighlight: true
-				  });
-                $(".container-fluid").html(data);
-				reinit();
- 				window.history.pushState("object or string", "Title", href);
-				info();
-				config();
-            }
-        }); 
-    }
+function addActiveMenu(element, current) {
+	$('.nav-item').removeClass('active');
+	$('.nav-link').removeClass('active');
+	element.parents('.nav-item').last().addClass('active');
+	if (element.parents('.sub-menu').length) {
+		element.closest('.collapse').addClass('show');
+		element.addClass('active');
+	}
+	if (element.parents('.submenu-item').length) {
+		element.addClass('active');
+	}
+}
+
+$(document).on('click', '.aj', function(e) {
+	e.preventDefault();
+	var href = $(this).prop('href');
+	if (window.location.href == href) {
+		return;
+	}
+	addActiveMenu($(this), href)
+	load(href);
+});
+
+function load(href) {
+	$.ajax({
+		type: "POST",
+		url: href,
+		crossDomain: true,
+		success: function(data) {
+			$('#dateStart').datepicker({
+				autoclose: true,
+				todayHighlight: true
+			});
+			$(".container-fluid").html(data);
+			reinit();
+			window.history.pushState("object or string", "Title", href);
+			info();
+			config();
+			copyLink();
+		}
+	});
+}
+
+function copyLink() {
+	var href = document.location.href.replace('http://localhost:12550/', 'open-launcher://');
+	$("#hyperlink").val(href);
+	$("#htmllink").val("<a href='" + href + "'>" + document.title + "</a>");
+	$("#bbcodelink").val("[URL='" + href + "']" + document.title + "[/URL]");
+	$("#shortcutlink").val(document.location.href.replace('http://localhost:12550/', ''));
+	$("#shortcutname").val(document.title);
+}
+
+
+$(document).on("click", "#shortcut", function() {
+	shortcutlink = $("#shortcutlink").val();
+	shortcutname = $("#shortcutname").val();
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/shortcut/save',
+		xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',
+		data: {
+			shortcutlink: shortcutlink,
+			shortcutname: shortcutname
+		},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data) {
+			console.log(data);
+		}
+	});
+});
 
 
 
 
-var activePage = true;
-var timeoutRequest = 560;
-/*
-	Порт лаунчера
-*/
-var launcherPort = 12550;
+
 
 /*
 	Статус лаунчера
@@ -82,7 +117,7 @@ var launcherPort = 12550;
 	8 - Проверка соответствия файлов
 	9 - Загрузка отменена
  */
- 
+
 var Status = 0;
 //Последнее сообщения события
 var LastMsg = "";
@@ -119,14 +154,14 @@ config();
 // Делаем запрос к лаунчеру, чтоб знать статус, да и вообще что происходит
 info();
 
-if(Status == 1 || Status == 2){
+if (Status == 1 || Status == 2) {
 	info();
 }
 
 /*
 	Когда пользователь нажимает на элемент с id=GU_patch
 */
-$(document).on("click", "#GU_patch",  function () {
+$(document).on("click", "#GU_patch", function() {
 	var data = start();
 	info();
 });
@@ -139,24 +174,27 @@ function start() {
 	serverID = window.location.pathname.split('/server/id/')[1];
 	getClientPath = $("#getClientPath").val();
 	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/download',
-		  xhrFields: {
+		url: 'http://127.0.0.1:' + launcherPort + '/download',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {getClientPath:getClientPath, serverID: serverID},
+		method: 'post',
+		data: {
+			getClientPath: getClientPath,
+			serverID: serverID
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
+		success: function(data) {
 			console.log(data);
 			$("#favoriteMenu").show();
-			if(data.ServerID==0){
+			if (data.ServerID == 0) {
 				$("#favoriteMenu").data("href", "/launcher");
-			}else{
-				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(data.Domain).hostname);
-				$("#favoriteMenu").attr("href", "/server/id/"+data.ServerID);
+			} else {
+ 				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(data.Domain).hostname);
+				$("#favoriteMenu").attr("href", "/server/id/" + data.ServerID);
 			}
 			return data;
 		}
@@ -166,64 +204,64 @@ function start() {
 //Если нужно получить конфиги, которые сейчас в GU
 function config() {
 	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/get/config',
+		url: 'http://127.0.0.1:' + launcherPort + '/get/config',
 		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
+		method: 'post',
 		dataType: 'json',
 		crossDomain: true,
 		// contentType: 'application/x-www-form-urlencoded',
 		dataType: "JSON",
 
 		processData: true,
-		success: function(json){
-			// console.log("config->", JSON.stringify(json));
+		success: function(json) {
+				// console.log("config->", JSON.stringify(json));
 			// console.log("->", new URL(json.Config.GameServer.Domain).hostname);
 			// return;
-			
-			for ( var i = 1; i <= json.Config.User.Streams; i++ ) {
-						 $("#GU_tableLoads").append(`<div class="progress-wrapper mb-4">
+
+			for (var i = 1; i <= json.Config.User.Streams; i++) {
+				$("#GU_tableLoads").append(`<div class="progress-wrapper mb-4">
 														<div><nobr id="GU_progress_file_id-${i}">Нет загрузки</nobr><span class="float-right" id="GU_files_update_percent-${i}">0%</span></div>
 														<div class="progress" style="height:7px;">
 															<div id="GU_progress_bar_id-${i}" class="progress-bar gradient-ibiza" style="width:0%"></div>
 														</div>
-													</div>`); 
+													</div>`);
 			};
-						
-						
-			if(json.Config.GameServer.ID==-1){
+
+
+			if (json.Config.GameServer.ID == -1) {
 				$("#favoriteMenu").hide();
-			}else{
-				if(json.Config.GameServer.Domain!=""){
-					
+			} else {
+				if (json.Config.GameServer.Domain != "") {
+
 					$("#favoriteMenu").show();
 					$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(json.Config.GameServer.Domain).hostname);
-					$("#favoriteMenu").attr("href", "/server/id/"+json.Config.GameServer.ID);
-						
-						 
-						
-					}
+					$("#favoriteMenu").attr("href", "/server/id/" + json.Config.GameServer.ID);
+
+
+
 				}
+			}
 			return json;
 		}
 	});
 }
 
 
-function info() { 
-	$("#l2exe").hide();
+function info() {
+	serverID = window.location.pathname.split('/server/id/')[1];
 	var timerRequest = setInterval(
-		function(){
-			if(activePage==false){
+		function() {
+			if (activePage == false) {
 				return;
 			}
 			$.ajax({
-				url: 'http://127.0.0.1:'+launcherPort+'/info',
-				  xhrFields: {
+				url: 'http://127.0.0.1:' + launcherPort + '/info',
+				xhrFields: {
 					withCredentials: false
 				},
-				method: 'post',           
+				method: 'post',
 				dataType: 'json',
 				crossDomain: true,
 				contentType: 'application/x-www-form-urlencoded',
@@ -231,8 +269,8 @@ function info() {
 				error: function(xhr, status, error) {
 					clearInterval(timerRequest);
 				},
-				success: function(data){ 
-					console.log(data);
+				success: function(data) {
+					// console.log(data);
 					Status = data.Status;
 					ProcentLoad = data.ProcentLoad;
 					LastMsg = data.LastMsg;
@@ -247,87 +285,95 @@ function info() {
 					GetInfoDownloadFile = data.GetInfoDownloadFile;
 					CountFilesDBUpdate = data.CountFilesDBUpdate;
 					GetDownloads = data.GetDownloads;
-					
-						const hostname = new URL(window.location.href).hostname;
-						if(data.Config.GameServer.Domain == hostname){
-							$("#GU_connector").remove();
-						}
-						 
+
+					const hostname = new URL(window.location.href).hostname;
+					if (data.Config.GameServer.Domain == hostname) {
+						$("#GU_connector").remove();
+					}
+					console.log(serverID, data.Config.GameServer.ID);
+					if (serverID != data.Config.GameServer.ID) {
+						return;
+					}
+
+
 					switch (Status) {
-					  case 0:
+						case 0:
 							clearInterval(timerRequest);
-						break;
-						
-					  case 1:
+							break;
+
+						case 1:
 							$("#GU_patch").text("Отменить загрузку");
 							$("#GU_patchEvent").text(data.LastMsg);
-							if(data.CountFiles>0){
-								$("#ProcentLoad").css('width',  ProcentLoad+'%');
+							if (data.CountFiles > 0) {
+								$("#ProcentLoad").css('width', ProcentLoad + '%');
 
-								$("#getFilesUp").text(data.CountFilesUploaded+"/"+data.CountFiles);
+								$("#getFilesUp").text(data.CountFilesUploaded + "/" + data.CountFiles);
 								$("#CountFilesUploaded").text(data.CountFilesUploaded);
 								$("#CountFiles").text(data.CountFiles);
-								$("#getSizeDl").text(data.SizeRemainsDownloadStr +"/"+FullSizeFileStr);
+								$("#getSizeDl").text(data.SizeRemainsDownloadStr + "/" + FullSizeFileStr);
 								$("#Status").text(Status);
-								
-								$("#GU_patchEventAddLine").text("Осталось "+data.SizeRemainsDownloadStr);
-								document.title = "Осталось "+data.SizeRemainsDownloadStr;
 
-								$.each(GetDownloads, function( id, value ) {
-								  $("#GU_progress_file_id-"+(id+1)).text(value.Path);
-								  $("#GU_files_update_percent-"+(id+1)).text(value.DownloadPercent+"%");
-								  $("#GU_progress_bar_id-"+(id+1)).css('width', value.DownloadPercent+'%');
+								$("#GU_patchEventAddLine").text("Осталось " + data.SizeRemainsDownloadStr);
+								document.title = "Осталось " + data.SizeRemainsDownloadStr;
+
+								$.each(GetDownloads, function(id, value) {
+									$("#GU_progress_file_id-" + (id + 1)).text(value.Path);
+									$("#GU_files_update_percent-" + (id + 1)).text(value.DownloadPercent + "%");
+									$("#GU_progress_bar_id-" + (id + 1)).css('width', value.DownloadPercent + '%');
 								});
 							}
-						break;
-						
-					  case 5:
-					  case 6:
+							break;
+
+						case 5:
+						case 6:
 							clearInterval(timerRequest);
 							$("#GU_patch").text("Обновление завершено");
 							document.title = "Обновление завершено";
-							
+
 							$("#CountFilesUploaded").text(data.CountFilesUploaded);
 							$("#CountFiles").text(data.CountFiles);
-							
-							$.each(GetDownloads, function( id, value ) {
-								  $("#GU_progress_file_id-"+(id+1)).text(value.Path);
-								  $("#GU_files_update_percent-"+(id+1)).text("100%");
-								  $("#GU_progress_bar_id-"+(id+1)).css('width', '100%');
+
+							$.each(GetDownloads, function(id, value) {
+								$("#GU_progress_file_id-" + (id + 1)).text(value.Path);
+								$("#GU_files_update_percent-" + (id + 1)).text("100%");
+								$("#GU_progress_bar_id-" + (id + 1)).css('width', '100%');
 							});
 							$("#ProcentLoad").css('width', '100%');
 							$("#GU_patchEvent").text(data.LastMsg);
 							$("#l2exe").show();
-							
-						break;
-						
-					  case 7:
-					  case 9:
+
+							break;
+
+						case 7:
+						case 9:
 							clearInterval(timerRequest);
 							$("#GU_patch").text("Обновить патч");
 							$("#GU_patchEvent").text(data.LastMsg);
-						break;
-						
-					  case 8: //Произошла ошибка (к примеру, память диска закончилась)
+							break;
+
+						case 8: //Произошла ошибка (к примеру, память диска закончилась)
 							clearInterval(timerRequest);
 							$("#GU_patchEvent").text("Ошибка обновления");
 							document.title = "Ошибка обновления";
- 							$("#GU_patchEvent").append("<br>Error: "+data.LastMsg);
-						break;
-						
+							$("#GU_patchEvent").append("<br>Error: " + data.LastMsg);
+							break;
+
 					}
- 					console.log(data);
+					// console.log(data);
 				}
-			}) 
-	}, timeoutRequest);
-	
+			})
+		}, timeoutRequest);
+
 }
 
 
-$(document).on("click", "#l2exe",  function () {
+$(document).on("click", "#l2exe", function() {
 	var exe = $(this).data("exe");
 	var args = $(this).data("args");
- 	l2exe(exe, args);
+	var serverid = $(this).data("serverid");
+	var getClientPath = $("#getClientPath").val();
+	l2exe(exe, args, getClientPath, serverid);
+	info();
 });
 /*
 	Для запуска игры
@@ -336,19 +382,29 @@ $(document).on("click", "#l2exe",  function () {
 	второй параметр другие аргументы к запуску
 	Обратите внимание, что регистр имеет значение!
 */
-function l2exe(exe, args){
+function l2exe(exe, args, getClientPath, serverid) {
 	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/game/start',
-		  xhrFields: {
+		url: 'http://127.0.0.1:' + launcherPort + '/game/start',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {exe: exe, args: args},
+		method: 'post',
+		data: {
+			exe: exe,
+			args: args,
+			getClientPath,
+			serverid: serverid
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
+		success: function(data) {
+			console.log(data);
+			if (data.error){
+				nError(data.error);
+			}
+			info();
 			return data;
 		}
 	});
@@ -356,9 +412,9 @@ function l2exe(exe, args){
 
 
 
-$(document).on("#cmd", "click", function () {
+$(document).on("#cmd", "click", function() {
 	var command = $(this).data("command");
- 	cmd(command);
+	cmd(command);
 });
 
 /*
@@ -367,19 +423,21 @@ $(document).on("#cmd", "click", function () {
 	К примеру
 	netsh winsock reset netsh int ip reset all netsh winhttp reset proxy ipconfig /flushdns
 */
-function cmd(command){
+function cmd(command) {
 	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/cmd',
-		  xhrFields: {
+		url: 'http://127.0.0.1:' + launcherPort + '/cmd',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {command: command},
+		method: 'post',
+		data: {
+			command: command
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){ 
+		success: function(data) {
 			return data;
 		}
 	});
@@ -387,98 +445,79 @@ function cmd(command){
 
 
 //пользователь на вкладке сайте
-window.onfocus = function(){ 
+window.onfocus = function() {
 	timeoutRequest = 800;
 	activePage = true;
 }
 
 //пользователь закрыл вкладку или переключил на другую
-window.onblur = function(){ 
+window.onblur = function() {
 	// activePage = false;
 	timeoutRequest = 1500;
 }
 
-$(document).on( 'click', '.openDialog', function(e){
- 	openDialog($(this));
+$(document).on('click', '.openDialog', function(e) {
+	openDialog($(this));
 
 });
 
 //Открыть патч пути
-function openDialog(elementid){
-		chronicle = elementid.data( "chronicle" );
-		$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/open/dialog',
-		  xhrFields: {
+function openDialog(elementid) {
+	chronicle = elementid.data("chronicle");
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/open/dialog',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',        
-		data: {chronicle:chronicle},
+		method: 'post',
+		data: {
+			chronicle: chronicle
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){ 
-			$("#"+elementid.data("input")).val(data.path);
+		success: function(data) {
+			$("#" + elementid.data("input")).val(data.path);
 		}
 	});
 };
 
-//Открыть патч пути
-//ДЕПРИКЕЙТЕД
-$(document).on( 'click', '#getClientButtonSelectDir', function(e){
-		chronicle = $(this).data( "chronicle" );
-		serverid = $(this).data( "serverid" );
-		$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/open/dialog',
-		  xhrFields: {
-			withCredentials: false
-		},
-		method: 'post',        
-		data: {chronicle:chronicle},
-		dataType: 'json',
-		crossDomain: true,
-		contentType: 'application/x-www-form-urlencoded',
-		processData: true,
-		success: function(data){ 
-			$("#"+$(this).data("input")).val(data.path);
-			loadBlockHTMLServerSelect(serverid, $(this), "select/block");
-		}
-	});
-});
 
-$(document).on( 'click', '#savePathClient', function(e){
-
- 	version = $("#clientVersion").val();
+$(document).on('click', '#savePathClient', function(e) {
+	version = $("#clientVersion").val();
 	name = $("#clientname").val();
 	path = $("#clientSetPath").val();
-	
-  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/setting/games/set/save',
-		  xhrFields: {
+ 	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/setting/games/set/save',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {version:version, name:name, path:path},
+		method: 'post',
+		data: {
+			version: version,
+			name: name,
+			path: path
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
- 			if (data.error!=null){
+		success: function(data) {
+			if (data.error) {
 				nError(data.error);
-			}else{
+			} else {
 				$("#clientsPathList").empty();
-				$.each(data.AllWays, function( id, way ) {
-					$('#clientsPathList').before('<tr>\
+				$.each(data.AllWays, function(id, way) {
+					$('#clientsPathList').append('<tr>\
                     <td>\
-					<span class="badge badge-danger removeClient" data-id="'+way.ID+'"><i class="fa fa-remove"></i></span> '+way.ChronicleTitle+'</td>\
-                    <td>'+way.Name+'</td>\
-                    <td>'+way.Path+'</td>\
+					<span class="badge badge-danger removeClient" data-id="' + way.ID + '"><i class="fa fa-remove"></i></span> ' + way.ChronicleTitle + '</td>\
+                    <td>' + way.Name + '</td>\
+                    <td>' + way.Path + '</td>\
                   </tr>');
 				});
 			}
- 			return data;
-		}
+ 		}
 	});
 });
 
@@ -486,501 +525,534 @@ $(document).on( 'click', '#savePathClient', function(e){
 var timerRequestCrPath = null;
 //Узнаем о создании патч листа
 getCreatePathInfo();
-$(document).on( 'click', '#createPatchServer', function(e){
-        timerRequestCrPath = setInterval(getCreatePathInfo, 300);
-		savedirclientpath = $("#savedirclientpath").val();
-		savedirupdate = $("#savedirupdate").val();
-		version = $("#version").val();
-		chronicle = $("#chronicle").val();
-		$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/setting/patch/create/start',
-		  xhrFields: {
+
+$(document).on('click', '#createPatchServer', function(e) {
+	timerRequestCrPath = setInterval(getCreatePathInfo, 300);
+	savedirclientpath = $("#savedirclientpath").val();
+	savedirupdate = $("#savedirupdate").val();
+	version = $("#version").val();
+	chronicle = $("#chronicle").val();
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/setting/patch/create/start',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {savedirclientpath:savedirclientpath, savedirupdate:savedirupdate, version:version, chronicle:chronicle},
+		method: 'post',
+		data: {
+			savedirclientpath: savedirclientpath,
+			savedirupdate: savedirupdate,
+			version: version,
+			chronicle: chronicle
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
+		success: function(data) {
 
 		}
 	});
 });
 
 
-function getCreatePathInfo(){
+function getCreatePathInfo() {
 	$.ajax({
-				url: 'http://127.0.0.1:'+launcherPort+'/setting/patch/create/start/get',
-				  xhrFields: {
-					withCredentials: false
-				},
-				method: 'post',           
-				dataType: 'json',
-				crossDomain: true,
-				contentType: 'application/x-www-form-urlencoded',
-				processData: true,
-				success: function(data){
-					status = data.status;
-					allSize = data.allSize;
-					countFiles = data.countFiles;
-					countCreateFiles = data.countCreateFiles;
-					timeWork = data.timeWork;
-					if(status == 0){
-						status = "Ожидание";
-					}
-					if(status == 1){
-						status = "Архивация";
-					}
-					if(status == 2){
-						status = "Завершено";
-						clearInterval(timerRequestCrPath);
-					}
-					$("#filesCreateData").text(countCreateFiles + " / " + countFiles);
-					$("#filesCreateDataSize").text(allSize);
-					$("#filesCreateDataTime").text(timeWork);
-					$("#filesCreateDataStatus").text(status);
-					
-			}
-	});
-}
-	
-
-function loadBlockHTMLServerSelect(serverID, elementid, linkblock){
-  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/html/load/'+linkblock,
-		  xhrFields: {
+		url: 'http://127.0.0.1:' + launcherPort + '/setting/patch/create/start/get',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {serverID:serverID},
-		dataType: 'html',
+		method: 'post',
+		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
-			$("#serverSelect").html(data);
- 		}
+		success: function(data) {
+			status = data.status;
+			allSize = data.allSize;
+			countFiles = data.countFiles;
+			countCreateFiles = data.countCreateFiles;
+			timeWork = data.timeWork;
+			if (status == 0) {
+				status = "Ожидание";
+			}
+			if (status == 1) {
+				status = "Архивация";
+			}
+			if (status == 2) {
+				status = "Завершено";
+				clearInterval(timerRequestCrPath);
+			}
+			$("#filesCreateData").text(countCreateFiles + " / " + countFiles);
+			$("#filesCreateDataSize").text(allSize);
+			$("#filesCreateDataTime").text(timeWork);
+			$("#filesCreateDataStatus").text(status);
+
+		}
 	});
-} 
+}
+
+
+function loadBlockHTMLServerSelect(serverID, elementid, linkblock) {
+
+		$.ajax({
+			url: 'http://127.0.0.1:' + launcherPort + '/html/load/' + linkblock,
+			xhrFields: {
+				withCredentials: false
+			},
+			method: 'post',
+			data: {
+				serverID: serverID
+			},
+			dataType: 'html',
+			crossDomain: true,
+			contentType: 'application/x-www-form-urlencoded',
+			processData: true,
+			success: function(data) {
+				$("#serverSelect").html(data);
+			}
+		});
+
+}
 
 /**
 	Сохранение настроек
 **/
-$(document).on("change", ".gu_settings", function(){
-	if ($(this).prop("type")=="checkbox"){
+$(document).on("change", ".gu_settings", function() {
+	if ($(this).prop("type") == "checkbox") {
 		settingName = $(this).data("sname");
 		settingValue = $(this).is(":checked");
-	}else{
+	} else {
 		settingName = $(this).data("sname");
 		settingValue = $(this).val();
 	}
-	  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/settings/save',
-		  xhrFields: {
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/settings/save',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {settingName:settingName, settingValue:settingValue},
+		method: 'post',
+		data: {
+			settingName: settingName,
+			settingValue: settingValue
+		},
 		dataType: 'html',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
+		success: function(data) {
 			console.log(data);
- 		}
+		}
 	});
 });
 
 /**
 	Сохранение настроек
 **/
-$(document).on("click", ".gu_settings_autoload", function(){
-	if ($(this).prop("type")=="checkbox"){
+$(document).on("click", ".gu_settings_autoload", function() {
+	if ($(this).prop("type") == "checkbox") {
 		settingName = $(this).data("sname");
 		settingValue = $(this).is(":checked");
 	}
 	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/settings/save/autoload',
-		  xhrFields: {
+		url: 'http://127.0.0.1:' + launcherPort + '/settings/save/autoload',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {settingName:settingName, settingValue:settingValue},
+		method: 'post',
+		data: {
+			settingName: settingName,
+			settingValue: settingValue
+		},
 		dataType: 'html',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
+		success: function(data) {
 			console.log(data);
- 		}
+		}
 	});
 });
 
-
-$(document).on("click", "#saveInputPathSetting", function(){
-		settingName = "pathSetting";
-		settingValue = $("#savePathSetting").val();
-		console.log("-1", settingName, "-2", settingValue);
-  		$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/settings/save',
-		  xhrFields: {
+$(document).on("click", "#saveInputPathSetting", function() {
+	settingName = "pathSetting";
+	settingValue = $("#savePathSetting").val();
+	console.log("-1", settingName, "-2", settingValue);
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/settings/save',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {settingName:settingName, settingValue:settingValue},
+		method: 'post',
+		data: {
+			settingName: settingName,
+			settingValue: settingValue
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
- 		}
+		success: function(data) {}
 	});
 });
 
-
-
-$(document).on("click", "#addblockfile", function(){
- 	filename = $("#filename").val();
+$(document).on("click", "#addblockfile", function() {
+	filename = $("#filename").val();
 	chronicle = $("#chronicle").val();
-   	$.ajax({
-	url: 'http://127.0.0.1:'+launcherPort+'/setting/block/add',
-	  xhrFields: {
-		withCredentials: false
-	},
-	method: 'post',           
-	data: {filename:filename, chronicle:chronicle},
-	dataType: 'json',
-	crossDomain: true,
-	contentType: 'application/x-www-form-urlencoded',
-	processData: true,
-	success: function(data){
-		console.log(data);
-		$("#blocklists").append(`<tr>
-                        <td><h5 class="mb-0"><span id="removeBlocklist" data-id="`+data.ID+`" class="badge badge-pill badge-danger m-0"><i aria-hidden="true" class="fa fa-remove"></i></span>`+data.Filename+`</h5></td>
-                        <td>`+data.Chronicle+`</td>
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/setting/block/add',
+		xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',
+		data: {
+			filename: filename,
+			chronicle: chronicle
+		},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data) {
+			$("#blocklists").append(`<tr>
+                        <td><h5 class="mb-0"><span class="removeBlocklist" data-id="` + data.ID + `" ><i aria-hidden="true" class="fa fa-remove"></i></span> ` + data.Filename + `</h5></td>
+                        <td>` + data.Chronicle + `</td>
                     </tr>`);
-    }
-  }); 
+		}
+	});
 });
 
-$(document).on("click", ".removeBlocklist", function(){
+$(document).on("click", ".removeBlocklist", function() {
 	thisButt = $(this);
 	id = thisButt.data("id");
-
 	$.ajax({
-	url: 'http://127.0.0.1:'+launcherPort+'/setting/block/remove',
-	  xhrFields: {
-		withCredentials: false
-	},
-	method: 'post',           
-	data: {id:id},
-	dataType: 'json',
-	crossDomain: true,
-	contentType: 'application/x-www-form-urlencoded',
-	processData: true,
-	success: function(data){
-		thisButt.closest('tr').remove();
-    }
-  }); 
+		url: 'http://127.0.0.1:' + launcherPort + '/setting/block/remove',
+		xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',
+		data: {
+			id: id
+		},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data) {
+			thisButt.closest('tr').remove();
+		}
+	});
 });
 
 function isValidHttpUrl(string) {
-  let url;
-  
-  try {
-    url = new URL(string);
-  } catch (_) {
-    return false;  
-  }
+	let url;
 
-  return url.protocol === "http:" || url.protocol === "https:";
+	try {
+		url = new URL(string);
+	} catch (_) {
+		return false;
+	}
+
+	return url.protocol === "http:" || url.protocol === "https:";
 }
 
-
-$(document).on("click", "#gu_patchCreateLink", function(){
-		if(isValidHttpUrl($("#Domain").val())==false){
-			nError("Ошибка названия домена");
-			return;
-		}
-		if(isValidHttpUrl($("#PatchDBLink").val())==false){
-			nError("Введите корректную ссылку на файл БД патча");
-			return;
-		}
-		if(isValidHttpUrl($("#FileArchivesLink").val())==false){
-			nError("Введите корректную ссылку на месторасположение архивов");
-			return;
-		}
- 	  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/setting/patch/create/link',
-		  xhrFields: {
+$(document).on("click", "#gu_patchCreateLink", function() {
+	if (isValidHttpUrl($("#Domain").val()) == false) {
+		nError("Ошибка названия домена");
+		return;
+	}
+	if (isValidHttpUrl($("#PatchDBLink").val()) == false) {
+		nError("Введите корректную ссылку на файл БД патча");
+		return;
+	}
+	if (isValidHttpUrl($("#FileArchivesLink").val()) == false) {
+		nError("Введите корректную ссылку на месторасположение архивов");
+		return;
+	}
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/setting/patch/create/link',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
+		method: 'post',
 		data: {
-				Domain : $("#Domain").val(),
-				Chronicle : $("#Chronicle").val(),
-				PatchDBLink : $("#PatchDBLink").val(),
-				FileArchivesLink : $("#FileArchivesLink").val(),
-				
-				L2exeapp  : $("#l2exeapp").val(),
-				L2exeargs : $("#l2exeargs").val(),
- 
-				EXP   : $("#Exp").val(),
-				SP    : $("#SP").val(),
-				Drop  : $("#Drop").val(),
-				Adena : $("#Adena").val(),
-				Spoil : $("#Spoil").val(),
-				Quest : $("#Quest").val(),
-				
-				timeStart : $("#timeStart").val(),
-				dateStart : $("#dateStart").val(),
-				
-				Style : $("#ServerVersion").val(),
-				TimeZone : $("#TimeZone").val(),
-				MaxEnchant : $("#MaxEnchant").val(),
-				SafeEnchant : $("#SafeEnchant").val(),
+			Domain: $("#Domain").val(),
+			Chronicle: $("#Chronicle").val(),
+			PatchDBLink: $("#PatchDBLink").val(),
+			FileArchivesLink: $("#FileArchivesLink").val(),
 
- 				gmshop : $("#gmshop").is(':checked'),
-				buffer : $("#buffer").is(':checked'),
-				globalGK : $("#globalGK").is(':checked'),
-				offlineTrade : $("#offlineTrade").is(':checked'),
-				soft : $("#soft").is(':checked'),
-				macros : $("#macros").is(':checked'),
-				ss : $("#ss").is(':checked'),
-				newbiehelp : $("#newbiehelp").is(':checked'),
-				autoregistration : $("#autoregistration").is(':checked'),
-				code: $("#code").text(),
-			},
+			L2exeapp: $("#l2exeapp").val(),
+			L2exeargs: $("#l2exeargs").val(),
+
+			EXP: $("#Exp").val(),
+			SP: $("#SP").val(),
+			Drop: $("#Drop").val(),
+			Adena: $("#Adena").val(),
+			Spoil: $("#Spoil").val(),
+			Quest: $("#Quest").val(),
+
+			timeStart: $("#timeStart").val(),
+			dateStart: $("#dateStart").val(),
+
+			Style: $("#ServerVersion").val(),
+			TimeZone: $("#TimeZone").val(),
+			MaxEnchant: $("#MaxEnchant").val(),
+			SafeEnchant: $("#SafeEnchant").val(),
+
+			gmshop: $("#gmshop").is(':checked'),
+			buffer: $("#buffer").is(':checked'),
+			globalGK: $("#globalGK").is(':checked'),
+			offlineTrade: $("#offlineTrade").is(':checked'),
+			soft: $("#soft").is(':checked'),
+			macros: $("#macros").is(':checked'),
+			ss: $("#ss").is(':checked'),
+			newbiehelp: $("#newbiehelp").is(':checked'),
+			autoregistration: $("#autoregistration").is(':checked'),
+			code: $("#code").text(),
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(bcode){
-			if(bcode["error"]){
+		success: function(bcode) {
+			if (bcode["error"]) {
 				nError(bcode["error"]);
 				return;
 			}
 			$('#gulink').text(bcode);
- 		}
+		}
 	});
 });
 
-
 //Удаление месторасположения клиента
-$(document).on("click", ".removeClient", function(){
+$(document).on("click", ".removeClient", function() {
 	thisButt = $(this);
- 	id = thisButt.data("id");
-  	$.ajax({
-	url: 'http://127.0.0.1:'+launcherPort+'/setting/game/remove',
-	  xhrFields: {
-		withCredentials: false
-	},
-	method: 'post',           
-	data: {id:id},
-	dataType: 'json',
-	crossDomain: true,
-	contentType: 'application/x-www-form-urlencoded',
-	processData: true,
-	success: function(data){
-		if (data.error==null){
-			thisButt.closest("tr").remove();
-		}else{
-			nError(data.error);
-		}
-		console.log(data.error==null);
-    }
-  });
-});
-
-//Голосование
-$(document).on("click", "#vote", function(){
-  	gameNick = $("#voteGameNick").val();
-	if(gameNick.length<=1 || gameNick.length>=16){
-		nError("Введите ник от 1 до 16 символов");
-		return;
-	}
-  	$.ajax({
-	url: 'http://127.0.0.1:'+launcherPort+'/vote',
-	  xhrFields: {
-		withCredentials: false
-	},
-	method: 'post',           
-	data: {gameNick:gameNick},
-	dataType: 'json',
-	crossDomain: true,
-	contentType: 'application/x-www-form-urlencoded',
-	processData: true,
-	success: function(data){
-		if(data.error!=null){
-			nError(data.error);
-		}
-		if (data.status==1){
-			nSuccess("Увы успешно проголосовали");
-			$('#showVoteDialog').modal('toggle')
-		}
- 		console.log(data);
-    },
-     error: function(xhr, status, error){
-         var errorMessage = xhr.status + ': ' + xhr.statusText
-		 nError("Извините, в данный момент голосование недоступно.<br>"+errorMessage);
-     }
-  });
-});
-
-
-//Сохранить в блокноте запись
-$(document).on("click", "#noteSave", function(){
-  	domain = $(this).data("domain");
-	content = $("#note").val();
-  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/note/save',
-		  xhrFields: {
+	id = thisButt.data("id");
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/setting/game/remove',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {domain:domain, content:content},
+		method: 'post',
+		data: {
+			id: id
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
-			if(data.ok==true){
+		success: function(data) {
+			if (data.error == null) {
+				thisButt.closest("tr").remove();
+			} else {
+				nError(data.error);
+			}
+			console.log(data.error == null);
+		}
+	});
+});
+
+//Голосование
+$(document).on("click", "#vote", function() {
+	gameNick = $("#voteGameNick").val();
+	if (gameNick.length <= 1 || gameNick.length >= 16) {
+		nError("Введите ник от 1 до 16 символов");
+		return;
+	}
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/vote',
+		xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',
+		data: {
+			gameNick: gameNick
+		},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data) {
+			if (data.error != null) {
+				nError(data.error);
+			}
+			if (data.status == 1) {
+				nSuccess("Увы успешно проголосовали");
+				$('#showVoteDialog').modal('toggle')
+			}
+			console.log(data);
+		},
+		error: function(xhr, status, error) {
+			var errorMessage = xhr.status + ': ' + xhr.statusText
+			nError("Извините, в данный момент голосование недоступно.<br>" + errorMessage);
+		}
+	});
+});
+
+//Сохранить в блокноте запись
+$(document).on("click", "#noteSave", function() {
+	domain = $(this).data("domain");
+	content = $("#note").val();
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/note/save',
+		xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',
+		data: {
+			domain: domain,
+			content: content
+		},
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data) {
+			if (data.ok == true) {
 				nSuccess("Запись добавлена");
 				a = `<div class="mt-0">
 				    <div class="form-group">
-                     <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов.">`+data.note.Content+`</textarea>
+                     <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов.">` + data.note.Content + `</textarea>
 					</div>
                   </div>
 				  
                   <div class="text-right">
-                      <button type="button" id="noteRemove" data-id="`+data.note.ID+`" data-domain="`+data.note.Domain+`" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Удалить</button>
-                      <button type="button" id="noteSaveEdit" data-id="`+data.note.ID+`" data-domain="`+data.note.Domain+`"  class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
+                      <button type="button" id="noteRemove" data-id="` + data.note.ID + `" data-domain="` + data.note.Domain + `" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Удалить</button>
+                      <button type="button" id="noteSaveEdit" data-id="` + data.note.ID + `" data-domain="` + data.note.Domain + `"  class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
                   </div>`
 				$("#noteDataCreate").html(a);
 			}
-			if(data.error){
+			if (data.error) {
 				nError(data.error);
 			}
 			console.log(data);
 		}
-  });
+	});
 });
 
 //Чтение в блокноте запись
-$(document).on("click", ".noteRead", function(){
-  	id = $(this).data("id");
-  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/note/read',
-		  xhrFields: {
+$(document).on("click", ".noteRead", function() {
+	id = $(this).data("id");
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/note/read',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {id:id},
+		method: 'post',
+		data: {
+			id: id
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
+		success: function(data) {
 			a = `<div class="mt-0">
 				    <div class="form-group">
-                     <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов.">`+data.note.Content+`</textarea>
+                     <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов.">` + data.note.Content + `</textarea>
 					</div>
                   </div>
 				  
                   <div class="text-right">
-				      <button type="button" id="noteRemove" data-id="`+data.note.ID+`" data-domain="`+data.note.Domain+`" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Удалить</button>
+				      <button type="button" id="noteRemove" data-id="` + data.note.ID + `" data-domain="` + data.note.Domain + `" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Удалить</button>
 
-                      <button type="button" id="noteSaveEdit" data-id="`+data.note.ID+`" data-domain="`+data.note.Domain+`"  class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
+                      <button type="button" id="noteSaveEdit" data-id="` + data.note.ID + `" data-domain="` + data.note.Domain + `"  class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
                   </div>`
 			$("#noteData").html(a);
 		}
-  });
+	});
 });
 
 //Перезаписать в блокноте
-$(document).on("click", "#noteSaveEdit", function(){
-  	id 		= $(this).data("id");
-  	domain  = $(this).data("domain");
-  	content = $("#note").val();
-  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/note/save/edit',
-		  xhrFields: {
+$(document).on("click", "#noteSaveEdit", function() {
+	id = $(this).data("id");
+	domain = $(this).data("domain");
+	content = $("#note").val();
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/note/save/edit',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {id:id, domain:domain, content:content},
+		method: 'post',
+		data: {
+			id: id,
+			domain: domain,
+			content: content
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
+		success: function(data) {
 			console.log(data.note);
- 			// h = `<table class="table table-hover"><tbody>`;
-				// c = ``;
-				   // $.each(data.note, function( i, note ) {
-					 // c = c+`<tr><td><label class="noteRead" data-id="`+note.ID+`" href="/notes/id/`+note.ID+`"><i class="fa fa-circle text-info mr-2"></i>`+ strLimit(note.Content, 70) +`</label></td></tr>`;
-				   // });
-				// f = `</tbody></table>`;
+			// h = `<table class="table table-hover"><tbody>`;
+			// c = ``;
+			// $.each(data.note, function( i, note ) {
+			// c = c+`<tr><td><label class="noteRead" data-id="`+note.ID+`" href="/notes/id/`+note.ID+`"><i class="fa fa-circle text-info mr-2"></i>`+ strLimit(note.Content, 70) +`</label></td></tr>`;
+			// });
+			// f = `</tbody></table>`;
 			// $("#noteData").html(h + c + f);
 			nSuccess("Заметка изменена");
 		}
-  });
+	});
 });
 
 //Получить записи сервера
-$(document).on("click", "#allnote", function(){
-  	domain = $(this).data("domain");
-  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/note/read/server',
-		  xhrFields: {
+$(document).on("click", "#allnote", function() {
+	domain = $(this).data("domain");
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/note/read/server',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {domain:domain},
+		method: 'post',
+		data: {
+			domain: domain
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
-			if (data.note.length==0){
+		success: function(data) {
+			if (data.note.length == 0) {
 				$("#noteData").html("<label>У Вас нет записей к данному серверу, но Вы можете создать</label>");
-			}else{
+			} else {
 				h = `<table class="table table-hover"><tbody>`;
 				c = ``;
-				   $.each(data.note, function( i, note ) {
-				   	 c = c+`<tr><td><label class="noteRead" data-id="`+note.ID+`" href="/notes/id/`+note.ID+`"><i class="fa fa-circle text-info mr-2"></i>`+ strLimit(note.Content, 70) +`</label></td></tr>`;
-				   });
+				$.each(data.note, function(i, note) {
+					c = c + `<tr><td><label class="noteRead" data-id="` + note.ID + `" href="/notes/id/` + note.ID + `"><i class="fa fa-circle text-info mr-2"></i>` + strLimit(note.Content, 70) + `</label></td></tr>`;
+				});
 				f = `</tbody></table>`;
-			$("#noteData").html(h + c + f);
+				$("#noteData").html(h + c + f);
 			}
 			console.log(data);
 		}
-  });
+	});
 });
 
 
 //Удаление заметки
-$(document).on("click", "#noteRemove", function(){
-  	id = $(this).data("id");
-  	domain = $(this).data("domain");
-  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/note/remove',
-		  xhrFields: {
+$(document).on("click", "#noteRemove", function() {
+	id = $(this).data("id");
+	domain = $(this).data("domain");
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/note/remove',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {id:id, domain:domain},
+		method: 'post',
+		data: {
+			id: id,
+			domain: domain
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
-			
+		success: function(data) {
+
 			$("#note").empty();
 			$("#noteRemove").hide();
-			
+
 			$("#noteDataCreate").html(`<div class="mt-0">
 						<div class="form-group">
 						 <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов."></textarea>
@@ -988,77 +1060,112 @@ $(document).on("click", "#noteRemove", function(){
 					  </div>
 					  
 					  <div class="text-right">
-						  <button type="button" id="noteSave" data-domain="`+domain+`" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
+						  <button type="button" id="noteSave" data-domain="` + domain + `" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
 			 </div>`);
-			
+
 			nSuccess("Заметка удалена");
-			
-			
-			if (data.note.length==0){
+
+
+			if (data.note.length == 0) {
 				$("#noteData").html("<label>У Вас нет записей к данному серверу, но Вы можете создать</label>");
-			}else{
+			} else {
 				h = `<table class="table table-hover"><tbody>`;
 				c = ``;
-				   $.each(data.note, function( i, note ) {
-				   	 c = c+`<tr><td><label class="noteRead" data-id="`+note.ID+`" href="/notes/id/`+note.ID+`"><i class="fa fa-circle text-info mr-2"></i>`+ strLimit(note.Content, 70) +`</label></td></tr>`;
-				   });
+				$.each(data.note, function(i, note) {
+					c = c + `<tr><td><label class="noteRead" data-id="` + note.ID + `" href="/notes/id/` + note.ID + `"><i class="fa fa-circle text-info mr-2"></i>` + strLimit(note.Content, 70) + `</label></td></tr>`;
+				});
 				f = `</tbody></table>`;
 				$("#noteData").html(h + c + f);
- 			}
-			
+			}
+
 			$('#noteTab a[href="#notes"]').tab('show');
 			console.log(data);
 		}
-  });
+	});
 });
 
 
 
-function strLimit(string, length){
-	if (string.length>length){
+function strLimit(string, length) {
+	if (string.length > length) {
 		return string.substring(0, length) + "...";
 	}
 	return string;
 }
 
 
- 
-$(document).on("click", "#gu_addingdonwload", function(){
-  	ids = $(this).data("ids");
-  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/adding/download',
-		  xhrFields: {
+
+$(document).on("click", "#gu_addingdonwload", function() {
+	ids = $(this).data("ids");
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/adding/download',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {ids:ids},
+		method: 'post',
+		data: {
+			ids: ids
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
- 			console.log(data);
+		success: function(data) {
+			console.log(data);
 		}
-  });
+	});
 });
 
 
-$(document).on("click", "#openDirectory", function(){
-  	path = $(this).data("path");
-  	$.ajax({
-		url: 'http://127.0.0.1:'+launcherPort+'/open/directory',
-		  xhrFields: {
+$(document).on("click", "#openDirectory", function() {
+	path = $(this).data("path");
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/open/directory',
+		xhrFields: {
 			withCredentials: false
 		},
-		method: 'post',           
-		data: {path:path},
+		method: 'post',
+		data: {
+			path: path
+		},
 		dataType: 'json',
 		crossDomain: true,
 		contentType: 'application/x-www-form-urlencoded',
 		processData: true,
-		success: function(data){
- 			console.log(data);
+		success: function(data) {
+			console.log(data);
 		}
-  });
+	});
 });
 
+
+
+$(document).on("click", "#screensave", function() {
+	$.ajax({
+		url: 'http://127.0.0.1:' + launcherPort + '/gallery/save',
+		xhrFields: {
+			withCredentials: false
+		},
+		method: 'post',
+		dataType: 'json',
+		crossDomain: true,
+		contentType: 'application/x-www-form-urlencoded',
+		processData: true,
+		success: function(data) {
+			if (data.error) {
+				nError(data.error);
+			} else if (data.countScreens == 0) {
+				nInfo("Новые скриншоты не были обнаружены");
+			} else {
+				nSuccess("Новые скриншоты (" + data.countScreens + "шт.) были добавлены");
+				$.each(data.screens, function(id, value) {
+					$("#screens").prepend("<div class=\"col-md-6 col-lg-3 col-xl-3\">\
+						<a href=" + value + " data-fancybox=\"group2\">\
+							<img src=" + value + " alt=\"lightbox\" class=\"lightbox-thumb img-thumbnail\">\
+						</a>\
+					</div>");
+				});
+			}
+		}
+	});
+});

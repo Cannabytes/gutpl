@@ -1,5 +1,5 @@
-function round_default_noti(message){
-			Lobibox.notify('error', {
+function nInfo(message){
+			Lobibox.notify('info', {
 		    pauseDelayOnHover: true,
 		    size: 'mini',
 		    rounded: true,

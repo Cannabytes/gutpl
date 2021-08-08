@@ -29,10 +29,10 @@
               <div class="card-body"> 
                 <ul class="nav nav-pills nav-pills-dark nav-justified" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" data-toggle="pill" href="#piil-13"><i class="icon-home"></i> <span class="hidden-xs">Создание патч листа</span></a>
+                    <a class="nav-link active" data-toggle="pill" href="#piil-13"><i class="icon-home"></i> <span class="hidden-xs">{{ GetPhrase 70 }}</span></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" data-toggle="pill" href="#piil-14"><i class="icon-user"></i> <span class="hidden-xs">Регистрация в Лаунчере</span></a>
+                    <a class="nav-link" data-toggle="pill" href="#piil-14"><i class="icon-user"></i> <span class="hidden-xs">{{ GetPhrase 71 }}</span></a>
                   </li> 
                 </ul>
 
@@ -42,14 +42,10 @@
               
 		<div class="row">
               <div class="col-md-8 grid-margin stretch-card">
- 				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Описание создания патча</button>
+ 				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">{{ GetPhrase 72 }}</button>
 				<div class="collapse" id="collapseExample">
 				  <div class="card card-body">
-					  <p>В первом поле укажите папку где находится игровой клиент, который необходимо запатчить.</p>
-					 <p>В следующем поле укажите папку сохранения архивов.</p>
-					 <p>После завершения архивации, в папке сохрания появится файл patch.json, это файл с данными вашего патча.</p>
-					 <p>Файл patch.json и все файлы необходимо загрузить на ваш сервер.</p>
-					 <p>Далее, при регистрации вашего сервера в базе лаунчера, необходимо указать прямые ссылки на patch.json и архивы.</p>
+					{{ GetPhrase 73 }}
 				  </div>
 				</div>
  				<hr>
@@ -57,52 +53,52 @@
                       <div class="form-group">
 					   
                       <div class="form-group">
-                        <label for="savedirupdate" data-toggle="tooltip" title="Введите путь где расположен патч, все файлы в папке будут проиндексированы, заархивированы.">Файлы для обновления, которые будем патчить</label>
+                        <label for="savedirupdate" data-toggle="tooltip" title="{{ GetPhrase 74 }}">{{ GetPhrase 75 }}</label>
  							 <div class="input-group">
-								<input type="text" id="savedirupdate" class="form-control" placeholder="Укажите папку" aria-label="Укажите папку" aria-describedby="basic-addon2">
+								<input type="text" id="savedirupdate" class="form-control" placeholder="{{ GetPhrase 76 }}" aria-label="{{ GetPhrase 76 }}" aria-describedby="basic-addon2">
 								<div class="input-group-append">
-								  <button class="btn btn-sm btn-primary showDialog" data-input="savedirupdate" data-toggle="modal" data-target="#openDiaglog" type="button">Окно</button>
+								  <button class="btn btn-sm btn-primary showDialog" data-input="savedirupdate" data-toggle="modal" data-target="#openDiaglog" type="button">{{ GetPhrase 77 }}</button>
 								</div>
 						     </div> 
                       </div>
 					  
 					  <div class="form-group">
-                        <label for="savedirclientpath" data-toggle="tooltip" title="Вам необходимо указать папку для сохранения патча.">Где будут сохраняться архивы</label>
+                        <label for="savedirclientpath" data-toggle="tooltip" title="{{ GetPhrase 78 }}">{{ GetPhrase 79 }}</label>
  							 <div class="input-group">
-								<input type="text" id="savedirclientpath" class="form-control" placeholder="Укажите папку" aria-label="Укажите папку" aria-describedby="basic-addon2">
+								<input type="text" id="savedirclientpath" class="form-control" placeholder="{{ GetPhrase 76 }}" aria-label="{{ GetPhrase 76 }}" aria-describedby="basic-addon2">
 								<div class="input-group-append">
-	 							  <button class="btn btn-sm btn-primary showDialog" data-input="savedirclientpath" data-toggle="modal" data-target="#openDiaglog" type="button">Окно</button>
+	 							  <button class="btn btn-sm btn-primary showDialog" data-input="savedirclientpath" data-toggle="modal" data-target="#openDiaglog" type="button">{{ GetPhrase 77 }}</button>
 								</div>
 							 </div> 
                       </div>
 					  
                         </div> 
-                       <button id="createPatchServer" type="submit" class="btn btn-primary mr-2">Начать</button>
+                       <button id="createPatchServer" type="submit" class="btn btn-primary mr-2">{{ GetPhrase 80 }}</button>
                     </div>
                </div>
 			   
               <div class="col-md-4 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Обработка</h4>
+                    <h4 class="card-title">{{ GetPhrase 81 }}</h4>
                     <div class="table-responsive">
                       <table class="table table-dark">
                          <tbody>
                           <tr>
-                            <td> Файлов </td>
+                            <td> {{ GetPhrase 82 }} </td>
                             <td id="filesCreateData"> 0 / 0 </td>
                           </tr>
                           <tr>
-                            <td> Размер </td>
+                            <td> {{ GetPhrase 83 }} </td>
                             <td id="filesCreateDataSize"> 0B </td>
                           </tr>
                           <tr>
-                            <td> Время </td>
+                            <td> {{ GetPhrase 49 }} </td>
                             <td id="filesCreateDataTime"> 0 </td>
                           </tr>
                           <tr>
-                            <td> Статус </td>
-                            <td id="filesCreateDataStatus"> Ожидание </td>
+                            <td> {{ GetPhrase 84 }} </td>
+                            <td id="filesCreateDataStatus"> {{ GetPhrase 85 }} </td>
                           </tr>
                         </tbody>
                       </table>
@@ -114,25 +110,22 @@
 				</div>
 				
                <div id="piil-14" class="container tab-pane fade">
- 				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#descRegistrationLauncher" aria-expanded="false" aria-controls="collapseExample">Описание регистрации</button>
+ 				<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#descRegistrationLauncher" aria-expanded="false" aria-controls="collapseExample">{{ GetPhrase 86 }}</button>
 				<div class="collapse" id="descRegistrationLauncher">
 				  <div class="card card-body">
-					<p>Все сервера отображаемые в лаунчере, находится в общей базе, при регистрации, вы добавляете свой сервер в базу.</p>
-					<p>Вам необходимо заполнить данные необходмые для лаунчера.</p>
-					<p>После заполнения, вы получите код ваших настроек, его нужно передать <a href="https://t.me/Cannabytes">разработчику лаунчера<a/>.</p>
-					<p>После успешной проверки, ваш сервер появится в базах у всех пользователей лаунчера.</p>
+					{{ GetPhrase 87 }}
 				  </div>
 				</div>
 				<hr>
 				<div class="form-group row">
-				  <label for="Domain" class="col-sm-3 col-form-label">Сайт сервера</label>
+				  <label for="Domain" class="col-sm-3 col-form-label">{{ GetPhrase 88 }}</label>
 				  <div class="col-sm-9">
 					<input type="text" class="form-control" placeholder="https://example.com" data-sname="Domain" id="Domain">
 				  </div>
 				</div>
 			
 				<div class="form-group row">
-				  <label for="Chronicle" class="col-sm-3 col-form-label">Хроники</label>
+				  <label for="Chronicle" class="col-sm-3 col-form-label">{{ GetPhrase 50 }}</label>
 				   <div class="col-sm-9">
 						<select class="form-control " data-sname="Chronicle" id="Chronicle">
 						  {{ range $i, $chronicle := .ChronicleList }}
@@ -143,14 +136,14 @@
 				</div>
 				
 				<div class="form-group row">
-				  <label for="PatchDBLink" class="col-sm-3 col-form-label">Ссылка патч-лист (patch.json)</label>
+				  <label for="PatchDBLink" class="col-sm-3 col-form-label">{{ GetPhrase 89 }} (patch.json)</label>
 				  <div class="col-sm-9">
 					<input type="text" class="form-control" placeholder="https://files.example.com/patch.json" data-sname="PatchDBLink" id="PatchDBLink">
 				  </div>
 				</div>
 				
 				<div class="form-group row">
-				  <label for="FileArchivesLink" class="col-sm-3 col-form-label">Ссылка где храниться файлы</label>
+				  <label for="FileArchivesLink" class="col-sm-3 col-form-label">{{ GetPhrase 90 }}</label>
 				  <div class="col-sm-9">
 					<input type="text" class="form-control" placeholder="https://files.example.com" data-sname="FileArchivesLink" id="FileArchivesLink">
 				  </div>
@@ -158,14 +151,14 @@
 				<hr>
 				
 				<div class="form-group row">
-				  <label for="l2exeapp" class="col-sm-3 col-form-label">Приложение игры</label>
+				  <label for="l2exeapp" class="col-sm-3 col-form-label">{{ GetPhrase 91 }}</label>
 				  <div class="col-sm-9">
 					<input type="text" class="form-control " data-sname="l2exeapp" id="l2exeapp" placeholder="system/l2.exe">
 				  </div>
 				</div>
 				
 				<div class="form-group row">
-				  <label for="l2exeargs" class="col-sm-3 col-form-label">Аргументы</label>
+				  <label for="l2exeargs" class="col-sm-3 col-form-label">{{ GetPhrase 92 }}</label>
 				  <div class="col-sm-9">
 					<input type="text" class="form-control " data-sname="l2exeargs" id="l2exeargs">
 				  </div>
@@ -216,7 +209,7 @@
 				</div>
 				<hr>
 				<div class="form-group row">
-				  <label for="dateStart" class="col-sm-3 col-form-label">Дата старта</label>
+				  <label for="dateStart" class="col-sm-3 col-form-label">{{ GetPhrase 93 }}</label>
 				  
 				  <div class="col-sm-2">
 				    <input type="time" id="timeStart" autocomplete="off" data-date-format="hh.mm" class="form-control" data-sname="timeStart" required>
@@ -229,7 +222,7 @@
 				</div>
 				   
 				<div class="form-group row">
-				  <label for="TimeZone" class="col-sm-3 col-form-label">Часовой пояс</label>
+				  <label for="TimeZone" class="col-sm-3 col-form-label">{{ GetPhrase 94 }}</label>
 				  <div class="col-sm-9">
 						<select class="form-control " data-sname="TimeZone" id="TimeZone">
  								{{ range $i, $tz := .Timezone }}
@@ -240,7 +233,7 @@
 				</div>
 				
 				<div class="form-group row">
-				  <label for="ServerVersion" class="col-sm-3 col-form-label">Версия сервера</label>
+				  <label for="ServerVersion" class="col-sm-3 col-form-label">{{ GetPhrase 95 }}</label>
 				  <div class="col-sm-9">
 						<select class="form-control " data-sname="ServerVersion" id="ServerVersion">
  							<option value="1" >PvP</option>
@@ -256,14 +249,14 @@
 				
 					
 				<div class="form-group row">
-				  <label for="MaxEnchant" class="col-sm-3 col-form-label">Макс. заточка</label>
+				  <label for="MaxEnchant" class="col-sm-3 col-form-label">{{ GetPhrase 96 }}</label>
 				  <div class="col-sm-9">
 					<input type="number" placeholder="16" class="form-control " data-sname="MaxEnchant" id="MaxEnchant">
 				  </div>
 				</div>
 				
 				<div class="form-group row">
-				  <label for="SafeEnchant" class="col-sm-3 col-form-label">Безопастные заточка</label>
+				  <label for="SafeEnchant" class="col-sm-3 col-form-label">{{ GetPhrase 97 }}</label>
 				  <div class="col-sm-9">
 					<input type="number" placeholder="3" class="form-control " data-sname="SafeEnchant" id="SafeEnchant">
 				  </div>
@@ -277,7 +270,7 @@
 					<div class="col-sm-9">
 						<div class="icheck-material-primary">
 						<input type="checkbox" id="gmshop" checked=""/>
-						<label for="gmshop">Есть ли GM-Shop</label>
+						<label for="gmshop">{{ GetPhrase 98 }}</label>
 					  </div>
 				    </div>
  
@@ -285,7 +278,7 @@
 				  <div class="col-sm-9">
 						<div class="icheck-material-primary">
 						<input type="checkbox" id="buffer" checked=""/>
-						<label for="buffer">Есть ли баффер</label>
+						<label for="buffer">{{ GetPhrase 99 }}</label>
 					  </div>
 				    </div>
 				  
@@ -293,63 +286,59 @@
 				  <div class="col-sm-9">
 					<div class="icheck-material-primary">
 						<input type="checkbox" id="globalGK" checked=""/>
-						<label for="globalGK">Есть ли глобальный ГК</label>
+						<label for="globalGK">{{ GetPhrase 100 }}</label>
 					  </div>
 				  </div>
 				
 				  <div class="col-sm-9">
 					<div class="icheck-material-primary">
 						<input type="checkbox" id="offlineTrade" checked=""/>
-						<label for="offlineTrade">Есть ли офлайн торг</label>
+						<label for="offlineTrade">{{ GetPhrase 101 }}</label>
 					  </div>
 				  </div>
 				
 				  <div class="col-sm-9">
 					<div class="icheck-material-primary">
 						<input type="checkbox" id="soft" checked=""/>
-						<label for="soft">Разрешен бот</label>
+						<label for="soft">{{ GetPhrase 102 }}</label>
 					  </div>
 				  </div>
 				
 				  <div class="col-sm-9">
 					<div class="icheck-material-primary">
 						<input type="checkbox" id="macros" checked=""/>
-						<label for="macros">Есть ли баг макросов</label>
+						<label for="macros">{{ GetPhrase 103 }}</label>
 					  </div>
 				  </div>
 				
 				  <div class="col-sm-9">
 					<div class="icheck-material-primary">
 						<input type="checkbox" id="ss" checked=""/>
-						<label for="ss">Бесконечные ли Soushots</label>
+						<label for="ss">{{ GetPhrase 104 }}</label>
 					  </div>
 				  </div>
 				 
 				  <div class="col-sm-9">
 					<div class="icheck-material-primary">
 						<input type="checkbox" id="newbiehelp" checked=""/>
-						<label for="newbiehelp">Есть ли помощь новичкам</label>
+						<label for="newbiehelp">{{ GetPhrase 105 }}</label>
 					  </div>
 				  </div>
 				  
 				  <div class="col-sm-9">
 					<div class="icheck-material-primary">
 						<input type="checkbox" id="autoregistration" checked=""/>
-						<label for="autoregistration">Авторегистрация</label>
+						<label for="autoregistration">{{ GetPhrase 106 }}</label>
 					  </div>
 				  </div>
 				</div>
 			 
 			<hr>
-			Проверка владельца сайта.<br>
-			Для того чтоб ваш сервер попал в базу лаунчера, необходимо проверить, является сайт вашим.<br>
-			В корне вашего сайта, создайте пустой файл <strong id="code">{{ .CreateCode }}</strong><br>
-			Пример: https://example.com/{{ .CreateCode }}<br>
-			Если на момент проверки файла не будет, регистрация будет отклонена.
+			{{ GetPhrase 107 .CreateCode .CreateCode }}
 			<hr>
 				
 				 <div class="form-footer">
-                    <button type="submit" id="gu_patchCreateLink" class="btn btn-success"><i class="fa fa-check-square-o"></i> Сгенерировать конфигурацию</button>
+                    <button type="submit" id="gu_patchCreateLink" class="btn btn-success"><i class="fa fa-check-square-o"></i> {{ GetPhrase 108 }}</button>
                 </div>
 				
 				<hr>
@@ -357,7 +346,7 @@
 				 
 				
 				<div class="form-group row">
-				  <label for="gulink" class="col-sm-3 col-form-label">Конфигурация<br>Передайте её разработчику</label>
+				  <label for="gulink" class="col-sm-3 col-form-label">{{ GetPhrase 109 }}<br>{{ GetPhrase 110 }}</label>
 				  <div class="col-sm-9">
                     <textarea class="form-control" rows="5" id="gulink" readonly></textarea>
 				  </div>
@@ -373,7 +362,8 @@
         </div>
         </div>
 
-	 
+		{{ template "setTitle" . }}
+ 
 {{end}}
 
 

@@ -1,0 +1,86 @@
+{{define "pages/gallerylist"}}
+<!DOCTYPE html>
+<html lang="en">
+{{ template "head" }}
+<body>
+{{ template "pageloader" }}
+<div id="wrapper">
+    {{ template "sidebar" }}
+    {{ template "topbar" }}
+    <div class="clearfix"></div>
+    <div class="content-wrapper">
+        <div class="container-fluid">
+			{{ template "gallerylist_block" . }} 
+            <div class="overlay toggle-menu"></div>
+		</div>
+    </div>
+	{{ template "footer" }}
+</div>
+{{ template "scripts" }}
+</body>
+</html>
+{{end}}
+
+{{define "gallerylist_block"}}
+ 
+	<div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header text-uppercase">Without Image Caption</div>
+            <div class="card-body">
+              <div class="row">
+              
+                <div class="col-md-6 col-lg-3 col-xl-3">
+                  <a href="https://via.placeholder.com/1920x1080" data-fancybox="group2">
+                  <img src="https://via.placeholder.com/800x500" alt="lightbox" class="lightbox-thumb img-thumbnail">
+                </a>
+                </div>
+                
+                <div class="col-md-6 col-lg-3 col-xl-3">
+                <a href="https://via.placeholder.com/1920x1080" data-fancybox="group2">
+                 <img src="https://via.placeholder.com/800x500" alt="lightbox" class="lightbox-thumb img-thumbnail">
+                </a>
+                </div>
+                <div class="col-md-6 col-lg-3 col-xl-3">
+                <a href="https://via.placeholder.com/1920x1080" data-fancybox="group2">
+                  <img src="https://via.placeholder.com/800x500" alt="lightbox" class="lightbox-thumb img-thumbnail">
+                </a>
+                </div>
+                <div class="col-md-6 col-lg-3 col-xl-3">
+                <a href="https://via.placeholder.com/1920x1080" data-fancybox="group2">
+                  <img src="https://via.placeholder.com/800x500" alt="lightbox" class="lightbox-thumb img-thumbnail">
+                </a>
+                </div>
+                <div class="col-md-6 col-lg-3 col-xl-3">
+                <a href="https://via.placeholder.com/1920x1080" data-fancybox="group2">
+                 <img src="https://via.placeholder.com/800x500" alt="lightbox" class="lightbox-thumb img-thumbnail">
+                </a>
+                
+                </div>
+                <div class="col-md-6 col-lg-3 col-xl-3">
+                 <a href="https://via.placeholder.com/1920x1080" data-fancybox="group2">
+                  <img src="https://via.placeholder.com/800x500" alt="lightbox" class="lightbox-thumb img-thumbnail">
+                </a>
+                </div>
+                <div class="col-md-6 col-lg-3 col-xl-3">
+                <a href="https://via.placeholder.com/1920x1080" data-fancybox="group2">
+                 <img src="https://via.placeholder.com/800x500" alt="lightbox" class="lightbox-thumb img-thumbnail">
+                </a>
+                
+                </div>
+                <div class="col-md-6 col-lg-3 col-xl-3">
+                 <a href="https://via.placeholder.com/1920x1080" data-fancybox="group2">
+                  <img src="https://via.placeholder.com/800x500" alt="lightbox" class="lightbox-thumb img-thumbnail">
+                </a>
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!--End Row-->
+		{{ template "setTitle" . }}
+
+{{end}}
+
+

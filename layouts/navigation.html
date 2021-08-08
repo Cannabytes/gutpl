@@ -1,52 +1,38 @@
 {{define "navigation"}}  
 
 <ul class="sidebar-menu">
-	<li><a class="aj" id="favoriteMenu" href="/" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>Лаунчер</span></a></li>
+	<li><a class="aj" id="favoriteMenu" href="/" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>{{ GetPhrase 4 }}</span></a></li>
 	
       <li>
         <a href="javaScript:void();" class="waves-effect">
-          <i class="zmdi zmdi-share text-info"></i> <span>Сервер</span><i class="fa fa-angle-left pull-right"></i>
+          <i class="zmdi zmdi-share text-info"></i> <span>{{ GetPhrase 22 }}</span><i class="fa fa-angle-left pull-right"></i>
         </a>
 		<ul class="sidebar-submenu">
-		  <li><a href="/rating" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Рейтинги</a></li>
-		  <li><a href="/anons"  class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Анонсирование</a></li>
+		  <li><a href="/rating" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> {{ GetPhrase 23 }}</a></li>
+		  <li><a href="/anons"  class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> {{ GetPhrase 24 }}</a></li>
 		  <!-- <li><a href="#"  class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> История</a></li> -->
 		</ul>
       </li>
 	  
       <li>
         <a href="javaScript:void();" class="waves-effect">
-          <i class="zmdi zmdi-layers"></i> <span>Клиент</span> <i class="fa fa-angle-left pull-right"></i>
+          <i class="zmdi zmdi-layers"></i> <span>{{ GetPhrase 25 }}</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="sidebar-submenu">
-			<li><a href="/setting/games/set" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Месторасположения</a></li>
-			<li><a href="/setting/block/list" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Запрещенные файлы</a></li>
-			<li><a href="/setting/games/optimization" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Оптимизация</a></li>
+			<li><a href="/setting/games/set" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> {{ GetPhrase 26 }}</a></li>
+			<li><a href="/setting/block/list" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> {{ GetPhrase 27 }}</a></li>
+			<!-- <li><a href="/setting/games/optimization" class="aj"><i class="zmdi zmdi-dot-circle-alt"></i> Оптимизация</a></li> -->
          </ul>
       </li>
 	  
       <li>
         <a href="javaScript:void();" class="waves-effect">
           <i class="zmdi zmdi-card-travel"></i>
-          <span>Дополнения</span>
+          <span>{{ GetPhrase 28 }}</span>
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="sidebar-submenu">
-		  <li>
-		     <li>  
-				<a href="javaScript:void();" class="waves-effect">
-				  <i class="zmdi zmdi-card-travel"></i>
-				  <span>База Знаний</span>
-				  <i class="fa fa-angle-left pull-right"></i>
-				</a>
-				<ul class="sidebar-submenu">
-				  <li><a href="/db/hf" class="aj" ><i class="zmdi zmdi-dot-circle-alt"></i> High Five</a></li>
-				</ul>
-			  </li>
-		  </li>
-		  <li><a href="#" class="aj" ><i class="zmdi zmdi-dot-circle-alt"></i> Крафт калькулятор</a></li>
-		  <li><a href="#" class="aj" ><i class="zmdi zmdi-dot-circle-alt"></i> Эмулятор игры</a></li>
-
+		  <li><a href="/gallery" class="aj" ><i class="zmdi zmdi-dot-circle-alt"></i> {{ GetPhrase 29 }}</a></li>
         </ul>
       </li>
 	  
