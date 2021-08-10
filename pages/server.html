@@ -86,7 +86,7 @@
 			 <div class="col-12 col-lg-4 col-xl-8">
                     <div class="card" >
  
-                        <div class="card-header">{{ GetPhrase 118 }}
+                        <div class="card-header"><b id="processName">{{ GetPhrase 118 }}</b>
                             <div class="card-action">
                                 <div class="dropdown">
                                     <a href="#" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
@@ -133,7 +133,7 @@
                             <li class="list-group-item">{{ GetPhrase 123 }} : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
                             <li class="list-group-item">EXP : <span class="float-right">x{{ .ServerInfo.Exp }}</span></li>
                             <li class="list-group-item">{{ GetPhrase 95 }} : <span class="float-right">{{ .ServerInfo.Style | ServerStyle }}</span></li>
-                            <li class="list-group-item">{{ GetPhrase 93 }} : <span class="float-right">{{ TimeReconstruct .ServerInfo.Date  }} / {{ DayReconstruct .ServerInfo.Date }}</span></li>
+                            <li data-toggle="tooltip" data-placement="bottom" title="{{ .ServerInfo.Date  }} {{ .ServerInfo.TimeZone }}" class="list-group-item">{{ GetPhrase 93 }} : <span class="float-right">{{ TimeReconstruct .ServerInfo.Date  }} / {{ DayReconstruct .ServerInfo.Date }}</span></li>
 							{{ $timeOut := TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }}
 							{{ $AbstimeOut := Abs $timeOut }}
 							<li class="list-group-item">{{ if $AbstimeOut }} {{ GetPhrase 124 }} {{ else }} {{ GetPhrase 183 }} {{ end }} : <span class="float-right timeout" data-second="{{ TimeDiff .ServerInfo.Date .ServerInfo.TimeZone }}">{{ $timeOut }}</span></li>
@@ -263,11 +263,11 @@
 				{{ range $i, $way := .WaysChronicle }}
 						<option value="{{ $way.Path }}" {{ if eq $way.ID $wayID }}selected{{end}}  > {{ $way.Name }} [ {{ $way.Path }} ]</option>
 				{{ end }}
-			</select>
+				</select>
 			 
     
-		<button type="button" id="GU_patch" class="m-1 btn btn-sm btn-block btn-success waves-effect waves-light"> {{ GetPhrase 152 }} </button>
-		<button type="button" id="l2exe" data-serverid="{{ .ServerInfo.ID }}" data-exe="{{ .ServerInfo.L2Exe }}" data-args="{{ .ServerInfo.L2Args }}" class="m-1 btn btn-sm btn-block btn-danger waves-effect waves-light"> {{ GetPhrase 153 }} </button>
+		<button data-toggle="tooltip" data-placement="bottom" title="Проверка и обновление игры" type="button" id="GU_patch" class="m-1 btn btn-sm btn-block btn-success waves-effect waves-light"> {{ GetPhrase 152 }} </button>
+		<button data-toggle="tooltip" data-placement="bottom" title="Проверка, обновление и запуск игры" type="button" id="l2exe" data-serverid="{{ .ServerInfo.ID }}" data-exe="{{ .ServerInfo.L2Exe }}" data-args="{{ .ServerInfo.L2Args }}" class="m-1 btn btn-sm btn-block btn-danger waves-effect waves-light"> {{ GetPhrase 153 }} </button>
 	  
 	{{ end }}
 {{end}}

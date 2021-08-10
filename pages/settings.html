@@ -58,7 +58,7 @@
                 <div class="form-group row">
                   <label for="input-7" class="col-sm-4 col-form-label">{{ GetPhrase 175 }}</label>
                   <div class="col-sm-8">
-						<select class="form-control gu_settings" data-sname="delayedRemove" id="input-7" name="intersted" required>
+						<select class="form-control gu_settings" data-sname="DeleteImmediatelyZip" id="input-7" name="intersted" required>
 							<option value="true"  {{if .DelayedRemoveZip }}selected{{end}}>{{ GetPhrase 176 }}</option>
 							<option value="false" {{if not .DelayedRemoveZip }}selected{{end}}>{{ GetPhrase 177 }}</option>
 						</select>

@@ -87,20 +87,21 @@ console.log(lang[userLang][0], LauncherConfig.Status);
 
 /**
  Статусы лаунчера
- 0 - Ничего не происходит
- 1 - Идет обновление патча
- 2 - НЕ ИСПОЛЬЗУЕТСЯ
- 3 - НЕ ИСПОЛЬЗУЕТСЯ
- 4 - НЕ ИСПОЛЬЗУЕТСЯ
- 5 - Обновление патча завершено (ничего не происходит)
- 6 - Обновление клиента завершено (ничего не происходит) НЕ ИСПОЛЬЗУЕТСЯ
- 7 - Произошла ошибка
- 8 - Проверка соответствия файлов
- 9 - Загрузка отменена
+		0 - Ничего не происходит
+		1 - Идет обновление патча
+		2 - Загрузка данных патча
+		3 - Обработка данных патча
+		4 - Поиск патчей из архивов
+		5 -  НЕ ИСПОЛЬЗУЕТСЯ
+		6 -  НЕ ИСПОЛЬЗУЕТСЯ
+		7 - Произошла ошибка
+		8 - Проверка соответствия файлов
+		9 - Загрузка отменена
+
  */
+info();
 
 if (LauncherConfig.Status != 0 ) {
-    info();
 }
 
 /** Загрузка конфигурации */
@@ -117,6 +118,7 @@ function configLoad() {
         async: false,
         contentType: 'application/x-www-form-urlencoded',
         success: function (LConfig) {
+			console.log(LConfig);
             LauncherConfig = LConfig;
 			userLang = LauncherConfig.Config.Lang;
             for (var i = 1; i <= LauncherConfig.Config.User.Streams; i++) {
@@ -162,6 +164,7 @@ function info() {
                 contentType: 'application/x-www-form-urlencoded',
                 processData: true,
                 error: function (xhr, status, error) {
+					alert("ERROR");
                     clearInterval(timerRequest);
                 },
                 success: function (data) {
@@ -180,17 +183,17 @@ function info() {
                     GetInfoDownloadFile = data.GetInfoDownloadFile;
                     CountFilesDBUpdate = data.CountFilesDBUpdate;
                     GetDownloads = data.GetDownloads;
-
+					 
                     const hostname = new URL(window.location.href).hostname;
                     if (data.Config.GameServer.Domain == hostname) {
                         $("#GU_connector").remove();
                     }
-
+					
                     if (serverID != data.Config.GameServer.ID) {
                         clearInterval(timerRequest);
                         return;
                     }
-
+					 
                     var code = StatusButtonStartGame(data);
 					if (code==1){
 						clearInterval(timerRequest); 
@@ -203,26 +206,19 @@ function info() {
 
 /** Создание ярлыка */
 $(document).on("click", "#shortcut", function () {
-    shortcutlink = $("#shortcutlink").val();
-    shortcutname = $("#shortcutname").val();
-    $.ajax({
-        url: 'http://127.0.0.1:' + launcherPort + '/shortcut/save',
-        xhrFields: {
-            withCredentials: false
-        },
-        method: 'post',
-        data: {
-            shortcutlink: shortcutlink,
-            shortcutname: shortcutname
-        },
-        dataType: 'json',
-        crossDomain: true,
-        contentType: 'application/x-www-form-urlencoded',
-        processData: true,
-        success: function (data) {
-            console.log(data);
-        }
-    });
+	
+    let params = {
+        shortcutlink: $("#shortcutlink").val(),
+        shortcutname: $("#shortcutname").val()
+    };
+
+	ajq('/shortcut/save', params, function(data) {
+ 			if (data.error){
+				nError(data.error);
+			}
+	});
+	
+     
 });
 
 
@@ -236,19 +232,39 @@ $(document).on("click", "#GU_patch", function () {
         serverID: serverID,
         getClientPath: getClientPath
     };
-
-    ajq('/download', params, function(data){
-		$("#favoriteMenu").show();
-		if (data.ServerID == null || data.ServerID == 0) {
-			$("#favoriteMenu").data("href", "/launcher");
-			nError(lang[userLang][19]);
-		} else {
-			info();
-			$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(data.Domain).hostname);
-			$("#favoriteMenu").attr("href", "/server/id/" + data.ServerID);
+	$("#panelLoad").show();
+	
+	info();
+	
+	$.ajax({
+	url: launcherURL+'/download',        
+	xhrFields: {
+		withCredentials: false
+	},
+	method: 'post',            
+	dataType: 'json',
+	crossDomain: true,
+	contentType: 'application/x-www-form-urlencoded',
+    data: params,
+	success: function(data){
+		console.log(data);
+		if(data.Error){
+			nError(data.Error);
+		}else{
+			$("#favoriteMenu").show();
+			if (data.ServerID == null || data.ServerID == 0) {
+				$("#favoriteMenu").data("href", "/launcher");
+				nError(lang[userLang][19]);
+			} else {
+				$("#favoriteMenu").html('<i class="zmdi zmdi-dot-circle-alt"></i> ' + new URL(data.Domain).hostname);
+				$("#favoriteMenu").attr("href", "/server/id/" + data.ServerID);
+			}
 		}
-	});
+	}
+});
 
+
+ 
 });
 
 
@@ -266,7 +282,6 @@ function ajq(href, params, scs) {
         contentType: 'application/x-www-form-urlencoded',
 		success: scs 
     });
-
 }
 
 //Меняем текст кнопок обновления
@@ -276,6 +291,7 @@ function StatusButtonStartGame(data) {
         case 0:
 			return 1; 
         case 1:
+			$("#processName").text("Загрузка файлов");
             $("#GU_patch").text(lang[userLang][2]);
             $("#GU_patchEvent").text(data.LastMsg);
             if (data.CountFiles > 0) {
@@ -297,7 +313,10 @@ function StatusButtonStartGame(data) {
                 });
             }
             return; 
-        case 5:
+        case 2: $("#processName").text("Загрузка данных патча");return; 
+ 		case 3: $("#processName").text("Обработка данных патча");return; 
+		case 4: $("#processName").text("Поиск патчей из архивов");return; 
+		case 5:
         case 6:
             $("#GU_patch").text(lang[userLang][4]);
             document.title   =  lang[userLang][4];
@@ -701,6 +720,52 @@ $(document).on("click", "#allnote", function() {
 	}); 
 	
 });
+
+//Удаление заметки
+$(document).on("click", "#noteRemove", function() {
+
+	let params = {
+		id : $(this).data("id"),
+		domain : $(this).data("domain")
+	}
+
+	ajq('/note/remove', params, function(data) {
+					$("#note").empty();
+			$("#noteRemove").hide();
+
+			$("#noteDataCreate").html(`<div class="mt-0">
+						<div class="form-group">
+						 <textarea class="form-control" rows="9" id="note" placeholder="Сохраните заметки о сервере. Заметки отображаются только для данного сервера, вне зависимости от хроник, рейтов."></textarea>
+						</div>
+					  </div>
+					  
+					  <div class="text-right">
+						  <button type="button" id="noteSave" data-domain="` + $(this).data("domain") + `" class="btn btn-primary waves-effect waves-light mt-0"><i class="fa fa-send mr-1"></i> Сохранить</button>
+			 </div>`);
+
+			nSuccess("Заметка удалена");
+
+
+			if (data.note.length == 0) {
+				$("#noteData").html("<label>У Вас нет записей к данному серверу, но Вы можете создать</label>");
+			} else {
+				h = `<table class="table table-hover"><tbody>`;
+				c = ``;
+				$.each(data.note, function(i, note) {
+					c = c + `<tr><td><label class="noteRead" data-id="` + note.ID + `" href="/notes/id/` + note.ID + `"><i class="fa fa-circle text-info mr-2"></i>` + strLimit(note.Content, 70) + `</label></td></tr>`;
+				});
+				f = `</tbody></table>`;
+				$("#noteData").html(h + c + f);
+			}
+
+			$('#noteTab a[href="#notes"]').tab('show');
+			console.log(data);
+
+	}); 
+ 
+});
+
+
 
 function strLimit(string, length) {
 	if (string.length > length) {
