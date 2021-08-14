@@ -4,7 +4,7 @@ function nInfo(message){
 		    size: 'mini',
 		    rounded: true,
 		    delayIndicator: false,
-		    icon: 'fa fa-times-circle',
+		    icon: 'fa fa-info-circle',
             continueDelayOnInactiveTab: false,
 		    position: 'top right',
 		    msg: message

@@ -207,7 +207,7 @@
 					 {{ range $i, $day := .Expected }}
 						  <tr>
 						<td ><a {{ if $day.Sponsor }} class="text-warning aj"{{else}}class="aj"{{end}} href="/server/id/{{ $day.ID }}">{{ $day.Domain }}</a></td>
-							   <td>{{ TimeReconstruct $day.Date  }} / {{ TimeReconstruct $day.Date  }}</td>
+							   <td>{{ TimeReconstruct $day.Date  }} / {{ DayReconstruct $day.Date  }}</td>
 							   <td>
 								 <span class="badge-dot">
 								   <i class="bg-danger"></i> {{ $day.Chronicle | getChronicle }} x{{ $day.Exp }}

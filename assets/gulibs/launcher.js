@@ -213,12 +213,13 @@ $(document).on("click", "#shortcut", function () {
     };
 
 	ajq('/shortcut/save', params, function(data) {
- 			if (data.error){
+ 			if (data.error==null){
+				nSuccess("Ярлык на страницу успешно создан");
+			}else{
 				nError(data.error);
 			}
 	});
-	
-     
+	 
 });
 
 
@@ -263,32 +264,15 @@ $(document).on("click", "#GU_patch", function () {
 	}
 });
 
-
- 
 });
 
-
-function ajq(href, params, scs) {
-    $.ajax({
-        url: launcherURL + href,
-        xhrFields: {
-            withCredentials: false
-        },
-        method: 'post',
-        data: params,
-        dataType: 'json',
-        crossDomain: true,
-        processData: true,
-        contentType: 'application/x-www-form-urlencoded',
-		success: scs 
-    });
-}
 
 //Меняем текст кнопок обновления
 //Возращает 1 если цикл проверок нужно завершить
 function StatusButtonStartGame(data) {
     switch (data.Status) {
         case 0:
+			$("#processName").text("Загрузка файлов");
 			return 1; 
         case 1:
 			$("#processName").text("Загрузка файлов");
@@ -332,6 +316,7 @@ function StatusButtonStartGame(data) {
             $("#ProcentLoad").css('width', '100%');
             $("#GU_patchEvent").text(data.LastMsg);
             $("#l2exe").show();
+			$("#processName").text("Завершено");
 			return 1;
         case 7:
         case 9:
@@ -339,11 +324,31 @@ function StatusButtonStartGame(data) {
             $("#GU_patchEvent").text(data.LastMsg);
 			return 1;
         case 8: //Произошла ошибка (к примеру, память диска закончилась)
+			$("#processName").text("Ошибка обновления: "+data.LastMsg);
+			nError(data.LastMsg);
             $("#GU_patchEvent").text(lang[userLang][6]);
             document.title = lang[userLang][6];
             $("#GU_patchEvent").append("<br>Error: " + data.LastMsg);
 			return 1;
     }
+}
+
+
+
+function ajq(href, params, scs) {
+    $.ajax({
+        url: launcherURL + href,
+        xhrFields: {
+            withCredentials: false
+        },
+        method: 'post',
+        data: params,
+        dataType: 'json',
+        crossDomain: true,
+        processData: true,
+        contentType: 'application/x-www-form-urlencoded',
+		success: scs 
+    });
 }
 
 $(document).on("click", "#l2exe", function() {
@@ -434,7 +439,7 @@ function getCreatePathInfo() {
 
 function loadBlockHTMLServerSelect(serverID, elementid, linkblock) {
 		$.ajax({
-			url: 'http://127.0.0.1:' + launcherPort + '/html/load/' + linkblock,
+			url: launcherURL + '/html/load/' + linkblock,
 			xhrFields: {
 				withCredentials: false
 			},
@@ -809,3 +814,24 @@ $(document).on("click", "#screensave", function() {
 			}
 	});
 });
+
+$(document).on("click", ".copytext", function() {
+	var copyid = $(this).data("copyid");
+	
+	var copyText = document.getElementById(copyid);
+	
+	 /* Выделите текстовое поле */
+	copyText.select();
+	
+	 /* Скопируйте текст внутри текстового поля */
+	var status = document.execCommand('copy');
+	 
+	if(!status){
+		console.error("Cannot copy text");
+	}else{
+		nInfo("Текст был скопирован");
+	}
+	 
+});
+
+ 

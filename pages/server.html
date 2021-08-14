@@ -129,7 +129,7 @@
 
                         <div class="card-header">{{ GetPhrase 122 }}</div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">{{ GetPhrase 22 }} : <span class="float-right"><a href="/server/domain/{{ .ServerInfo.Domain | Hostname }}" class="aj">{{ .ServerInfo.Domain | Hostname }}</a> <a href="{{ .ServerInfo.Domain }}" target="_blank"><i aria-hidden="true" class="fa fa-external-link"></i></a></span></li>
+                            <li class="list-group-item">{{ GetPhrase 22 }} : <span data-toggle="tooltip" data-placement="bottom" title="Показать все сервера проекта" class="float-right"><a data-toggle="tooltip" data-placement="bottom" title="Показать все сервера проекта"  href="/server/domain/{{ .ServerInfo.Domain | Hostname }}" class="aj">{{ .ServerInfo.Domain | Hostname }}</a> <a data-toggle="tooltip" data-placement="bottom" title="Перейти на сайт сервера" href="{{ .ServerInfo.Domain }}" target="_blank"><i aria-hidden="true" class="fa fa-external-link"></i></a></span></li>
                             <li class="list-group-item">{{ GetPhrase 123 }} : <span class="float-right">{{ .ServerInfo.Chronicle | getChronicle }}</span></li>
                             <li class="list-group-item">EXP : <span class="float-right">x{{ .ServerInfo.Exp }}</span></li>
                             <li class="list-group-item">{{ GetPhrase 95 }} : <span class="float-right">{{ .ServerInfo.Style | ServerStyle }}</span></li>
