@@ -399,8 +399,7 @@ var timerRequestCrPath = null;
 //Узнаем о создании патч листа
 getCreatePathInfo(); 
 $(document).on('click', '#createPatchServer', function(e) {
-	timerRequestCrPath = setInterval(getCreatePathInfo, 300);
-	
+	getCreatePathInfo();
 	let params = {
 		savedirclientpath : $("#savedirclientpath").val(),
 		savedirupdate : $("#savedirupdate").val(),
@@ -413,28 +412,36 @@ $(document).on('click', '#createPatchServer', function(e) {
 });
 
 function getCreatePathInfo() {
-	let params = {};
-	ajq('/setting/patch/create/start/get', params, function(data) {
-			status = data.status;
-			allSize = data.allSize;
-			countFiles = data.countFiles;
-			countCreateFiles = data.countCreateFiles;
-			timeWork = data.timeWork;
-			if (status == 0) {
-				status = lang[userLang][7];
-			}
-			if (status == 1) {
-				status =  lang[userLang][8];
-			}
-			if (status == 2) {
-				status = lang[userLang][9];
-				clearInterval(timerRequestCrPath);
-			}
-			$("#filesCreateData").text(countCreateFiles + " / " + countFiles);
-			$("#filesCreateDataSize").text(allSize);
-			$("#filesCreateDataTime").text(timeWork);
-			$("#filesCreateDataStatus").text(status);
-	}); 
+	
+	timerRequestCrPath = setInterval(function(){
+		
+		let params = {};
+		ajq('/setting/patch/create/start/get', params, function(data) {
+				status = data.status;
+				allSize = data.allSize;
+				countFiles = data.countFiles;
+				countCreateFiles = data.countCreateFiles;
+				timeWork = data.timeWork;
+				if (status == 0) {
+					status = lang[userLang][7];
+					clearInterval(timerRequestCrPath);
+				}
+				if (status == 1) {
+					status =  lang[userLang][8];
+				}
+				if (status == 2) {
+					status = lang[userLang][9];
+					clearInterval(timerRequestCrPath);
+				}
+				$("#filesCreateData").text(countCreateFiles + " / " + countFiles);
+				$("#filesCreateDataSize").text(allSize);
+				$("#filesCreateDataTime").text(timeWork);
+				$("#filesCreateDataStatus").text(status);
+		}); 
+
+	}, 300);
+
+	
 }
 
 function loadBlockHTMLServerSelect(serverID, elementid, linkblock) {
